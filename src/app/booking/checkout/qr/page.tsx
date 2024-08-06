@@ -17,10 +17,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 const APIBASE = process.env.NEXT_PUBLIC_APIBASE;
 
-const router = useRouter();
-  const redirect = (path: string) => {
-    router.push(path);
-  };
+;
 
 
 function safeJsonParse(str: string | null): any | null {
@@ -34,6 +31,11 @@ function safeJsonParse(str: string | null): any | null {
 
 export default function QR() {
   const [result, setResult] = useState<any>();
+
+  const router = useRouter();
+  const redirect = (path: string) => {
+    router.push(path);
+  }
   useEffect(() => {
     const fetchInitialData = async () => {
       const form0 = safeJsonParse(localStorage.getItem("form0"));
