@@ -9,13 +9,18 @@ import download from "@/ui/icons/download.svg";
 import share from "@/ui/icons/share.svg";
 import { Ruda, Inter } from "next/font/google";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import Spinner from "@/components/Spinner";
+import { useRouter } from "next/navigation";
 
 const ruda = Ruda({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"] });
 
 const APIBASE = process.env.NEXT_PUBLIC_APIBASE;
+
+const router = useRouter();
+  const redirect = (path: string) => {
+    router.push(path);
+  };
 
 
 function safeJsonParse(str: string | null): any | null {
@@ -193,12 +198,12 @@ export default function QR() {
 
             {/* FIN DEL CONTAINER */}
             <div className="font-bold text-orange-500 text-[18px]">
-              <Link href="/booking/passengers" onClick={() => {
+              <Link href="/booking" onClick={() => {
                   console.log("clean");
                   localStorage.removeItem("form0");
                   localStorage.removeItem("form1");
                   localStorage.removeItem("form2");
-                  redirect("/booking/passengers")
+                  redirect("/booking")
                 }}>Continuar en el sitio</Link>
             </div>
 
