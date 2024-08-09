@@ -98,6 +98,9 @@ export default function TravelOptions() {
   const [travelTime, setTravelTime] = useState(0)
 
   const [seatsNeeded, setSeatsNeeded] = useState(0);
+  const [bigBagsNeeded, setBigBagsNeeded] = useState(0);
+  const [littleBagsNeeded, setLittleBagsNeeded] = useState(0);
+
   const [fulltime, setFulltime] = useState(false);
   const [initDate, setInitDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
@@ -117,6 +120,8 @@ export default function TravelOptions() {
         form0.passengers.baby +
         form0.passengers.pets.big,
       );
+      setBigBagsNeeded(form0.luggage.bag23)
+      setLittleBagsNeeded(form0.luggage.carryOn)
       setFulltime(form0.fullTime)
       setInitDate(new Date((form0.departure.date + "T"+ form0.departure.time + ":00")))
       setEndDate(new Date((form0.return.date + "T" + form0.return.time + ":00")))
@@ -140,7 +145,7 @@ export default function TravelOptions() {
       const dur = data
         .map(({ duration }: any) => duration.value)
         .reduce((a: number, b: number) => a + b);
-      console.log({ json }, dis, dur);
+      // console.log({ json }, dis, dur);
       setDistanciaIda(dis / 1000);
       setDistanciaVuelta(dis / 1000);
       setTravelTime(dur);
@@ -229,6 +234,10 @@ export default function TravelOptions() {
                     vehicle={vehicles[index]}
                     seatsNeeded={seatsNeeded}
                     setSeatsNeeded={setSeatsNeeded}
+                    bigBagsNeeded={bigBagsNeeded}
+                    setBigBagsNeeded={setBigBagsNeeded}
+                    littleBagsNeeded={littleBagsNeeded}
+                    setLittleBagsNeeded={setLittleBagsNeeded}
                     setVehicle={(newVehicle: any) => {
                       const newListVehicle = vehicles.map((vehicle) =>
                         vehicle.id === newVehicle.id ? newVehicle : vehicle,
@@ -284,19 +293,17 @@ export default function TravelOptions() {
                           ? <p>{result.form0.passengers.baby} Bebé</p> 
                           : null
                       }
-
-                      {/* {result.form0.passengers.baby &&
-                        result.form0.passengers.baby === 1 ? (
-                        <p>{result.form0.passengers.baby} bebé</p>
-                      ) : (
-                        <p>{result.form0.passengers.baby} bebés</p>
-                      )} */}
                     </div>
                   </div>
                 </div>
                 <div>
                   <div className="border-b-[1px] border-gray-300  mt-4 text-[#10004f]">
                     <h1 className="font-bold">Equipaje</h1>
+                  </div>
+                  <div>
+                    <p>{`Equipaje necesario:`}</p>
+                    <p>{`Valijas grandes restantes: ${bigBagsNeeded} `}</p>
+                    <p>{`Valijas chicas restantes: ${littleBagsNeeded}`}</p>
                   </div>
                   <div className="mt-5 ">
                     {result.form0.luggage.bag23 +

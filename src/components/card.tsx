@@ -86,6 +86,10 @@ export default function CardOption(props: {
   vehicle: Vehicle;
   seatsNeeded: number;
   setSeatsNeeded: Function;
+  bigBagsNeeded: number;
+  setBigBagsNeeded: Function;
+  littleBagsNeeded: number;
+  setLittleBagsNeeded: Function;
 }) {
   const [open, setOpen] = useState(false);
   const openAccordion = (e: any) => {
@@ -98,7 +102,11 @@ export default function CardOption(props: {
     setVehicle,
     vehicle,
     seatsNeeded,
-    setSeatsNeeded
+    setSeatsNeeded,
+    bigBagsNeeded,
+    setBigBagsNeeded,
+    littleBagsNeeded,
+    setLittleBagsNeeded,
   } = props;
 
   const {
@@ -157,6 +165,8 @@ export default function CardOption(props: {
                   quantity: vehicle.quantity > 0 ? vehicle.quantity - 1 : vehicle.quantity
                 })
                 setSeatsNeeded(seatsNeeded + vehicle.seats)
+                setBigBagsNeeded(bigBagsNeeded + vehicle.cant_bag)
+                setLittleBagsNeeded(littleBagsNeeded + vehicle.cant_littleBag)
               }}
               disabled={vehicle.quantity === 0}
             >-</button>
@@ -170,8 +180,10 @@ export default function CardOption(props: {
                   quantity: vehicle.quantity + 1
                 })
                 setSeatsNeeded(seatsNeeded - vehicle.seats)
+                setBigBagsNeeded(bigBagsNeeded - vehicle.cant_bag)
+                setLittleBagsNeeded(littleBagsNeeded - vehicle.cant_littleBag)
               }}
-              disabled={seatsNeeded <= 0}
+              disabled={ seatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0 }
             >+</button>
           </div>
         </div>
