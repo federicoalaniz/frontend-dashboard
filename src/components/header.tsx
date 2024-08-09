@@ -46,12 +46,12 @@ export function NavBar() {
             <Image src={logo} alt="logo" className="flex flex-row" />
           </li>
           <li>
-            <Link href="#" className="hover:text-orange-500">
+            <Link href="#" className="cursor-default text-gray-300">
               Home
             </Link>
           </li>
           <li className=" px-3">
-            <Link href="#" className="hover:text-orange-500">
+            <Link href="#" className="cursor-default text-gray-300">
               Pasajes a la costa
             </Link>
           </li>
@@ -61,17 +61,17 @@ export function NavBar() {
             </Link>
           </li>
           <li className=" px-3">
-            <Link href="#" className="hover:text-orange-500">
+            <Link href="#" className="cursor-default text-gray-300">
               Recitales
             </Link>
           </li>
           <li className=" px-3">
-            <Link href="#" className="hover:text-orange-500">
+            <Link href="#" className="cursor-default text-gray-300">
               Flota
             </Link>
           </li>
           <li className=" px-3">
-            <Link href="#" className="hover:text-orange-500">
+            <Link href="#" className="cursor-default text-gray-300">
               Contacto
             </Link>
           </li>
@@ -79,7 +79,7 @@ export function NavBar() {
             <p>|</p>
           </li>
           <li className=" px-3">
-            <button className="px-4 font-semibold">Iniciar sesión</button>
+            <button className="px-4 font-semibold" disabled>Iniciar sesión</button>
           </li>
         </ul>
       </nav>

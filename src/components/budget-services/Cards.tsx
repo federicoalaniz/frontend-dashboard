@@ -185,13 +185,13 @@ function PassengerCard ( {passenger, index}:{passenger: any, index:number}) {
                     <p>{`Dirección: ${passenger.contact.address.street} ${passenger.contact.address.number}, ${passenger.contact.address.city}`}</p>
                 </div>
             </div>
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center opacity-30">
                 <div className="flex flex-row items-center text-orange-500 gap-3">
-                    <EnvelopeIcon className="size-6 cursor-pointer hover:opacity-80 duration-200" />
+                    <EnvelopeIcon className="size-6 cursor-default duration-200" />
                     <span className="text-gray-300">|</span>
-                    <DocumentDuplicateIcon className="size-6 cursor-pointer hover:opacity-80 duration-200" />
+                    <DocumentDuplicateIcon className="size-6 cursor-default duration-200" />
                     <span className="text-gray-300">|</span>
-                    <PencilIcon className="size-6 cursor-pointer hover:opacity-80 duration-200" />
+                    <PencilIcon className="size-6 cursor-default duration-200" />
                 </div>
             </div>
         </div>

@@ -84,10 +84,10 @@ export default function AVForm() {
     if (resObj?.return?.address === "")
       newErrors.return.address = "Selecciona un destino";
 
-    if (resObj?.return?.date === "")
+    if (resObj?.tripType.roundTrip && resObj?.return?.date === "")
       newErrors.return.date = "Selecciona una fecha de regreso";
 
-    if (resObj?.return?.time === "")
+    if (resObj?.tripType.roundTrip && resObj?.return?.time === "")
       newErrors.return.time = "Selecciona una hora de regreso";
 
     if (resObj?.passengers?.adult === 0)
@@ -170,6 +170,8 @@ export default function AVForm() {
       ? redirect("/booking/passengers")
       : null;
     console.log(isValid(errors, errorsInitialState));
+    console.log('Errors:' ,errors)
+    console.log('errorsInitialState: ', errorsInitialState)
   };
 
   return (

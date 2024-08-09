@@ -64,10 +64,10 @@ function Budget() {
         <div className="flex flex-row items-center justify-between my-10">
           <h1 className="font-bold text-[36px]">Presupuestos y servicios</h1>
           <div className="flex flex-row items-center ">
-            <div className="flex">
+            <div className="flex opacity-30 ">
               <Link
                 href="#"
-                className="flex text-orange-500 text-[18px] font-semibold hover:text-orange-400 mx-8 my-auto"
+                className="flex text-orange-500 text-[18px] font-semibold hover:text-orange-400 mx-8 my-auto cursor-default"
               >
                 <span>
                   <MagnifyingGlassIcon className="size-6 mx-2" />
@@ -75,7 +75,7 @@ function Budget() {
                 Buscar
               </Link>
             </div>
-            <Select className="pr-10">
+            <Select className="pr-10" disabled>
               <option value="">Viajes exclusivos</option>
               <option value="">Otros</option>
             </Select>
@@ -84,41 +84,41 @@ function Budget() {
         <div className="flex flex-row items-center justify-between">
           <div>
             <ul className="flex font-bold items-center">
-              <li className="mr-5 hover:opacity-50 duration-300 cursor-pointer">
+              <li className="mr-5 duration-300 cursor-pointer">
                 <input type="checkbox" className="h-5 w-5 ml-4 flex" />
               </li>
-              <li className="mr-5 hover:opacity-50 duration-300 cursor-pointer" onClick={() => window.location.reload()}>
+              <li className="mr-5 duration-300 cursor-pointer" onClick={() => window.location.reload()}>
                 <Image src={reload} alt="partial-pay" className="mr-2" />
               </li>
-              <li className="mr-5 hover:opacity-50 duration-300 cursor-pointer">
+              <li className="mr-5 duration-300 cursor-default opacity-30">
                 <p>Ver todos</p>
               </li>
-              <li className="mr-5 hover:opacity-50 duration-300 cursor-pointer">
+              <li className="mr-5 duration-300 cursor-default opacity-30">
                 <p>Exportar todos</p>
               </li>
-              <li className="mr-5 hover:opacity-50 duration-300 cursor-pointer">
+              <li className="mr-5 duration-300 cursor-default opacity-30">
                 <p>Imprimir todos</p>
               </li>
               <li className="mr-5">
                 <p>|</p>
               </li>
-              <li className="mr-5 flex hover:opacity-50 duration-300 cursor-pointer">
+              <li className="mr-5 flex duration-300 cursor-default opacity-30">
                 <Image src={partiallyPay} alt="partial-pay" className="mr-2" />
                 Ha Señado
               </li>
-              <li className="mr-5 flex hover:opacity-50 duration-300 cursor-pointer">
+              <li className="mr-5 flex duration-300 cursor-default opacity-30">
                 <Image src={editPay} alt="partial-pay" className="mr-2" />
                 Editar Seña
               </li>
-              <li className="mr-5 flex hover:opacity-50 duration-300 cursor-pointer">
+              <li className="mr-5 flex duration-300 cursor-default opacity-30">
                 <Image src={totallyPaid} alt="partial-pay" className="mr-2" />
                 Ha Pagado
               </li>
-              <li className="mr-5 flex hover:opacity-50 duration-300 cursor-pointer">
+              <li className="mr-5 flex duration-300 cursor-default opacity-30">
                 <Image src={balance} alt="partial-pay" className="mr-2" />
                 Saldo Contado
               </li>
-              <li className="mr-5 flex hover:opacity-50 duration-300 cursor-pointer">
+              <li className="mr-5 flex hover:opacity-50 duration-300 cursor-default opacity-30">
                 <Image src={edit} alt="partial-pay" className="mr-2" />
                 Editar
               </li>
@@ -126,7 +126,8 @@ function Budget() {
           </div>
           <div>
             <button
-              className="flex items-center bg-orange-500 text-white px-4 py-3 rounded-md font-bold hover:bg-orange-400 duration-300 focus:ring ring-gray-200"
+              className="flex items-center bg-orange-500 text-white px-4 py-3 rounded-md font-bold duration-300 focus:ring ring-gray-200"
+              disabled
             >
               <PlusIcon className="size-6 mr-2" />
               Crear Servicio
@@ -228,7 +229,7 @@ function Budget() {
                         <Image
                           src={rowSettings}
                           alt="partial-pay"
-                          className="m-auto"
+                          className="m-auto opacity-30"
                         />
                       </td>
                     </tr>

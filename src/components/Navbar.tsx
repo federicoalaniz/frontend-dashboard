@@ -20,41 +20,41 @@ function PortalNavBar () {
                         <li className="px-3 hover:text-orange-500 duration-300">
                             <Link href="#">Servicios</Link>
                         </li>
-                        <li className="px-3 hover:text-orange-500 duration-300">
-                            <Link href="#">Tráfico</Link>
+                        <li className="px-3 opacity-30 duration-300">
+                            <Link href="#" className="cursor-default">Tráfico</Link>
                         </li>
-                        <li className="px-3 hover:text-orange-500 duration-300">
-                            <Link href="#">Flota</Link>
+                        <li className="px-3 opacity-30 duration-300">
+                            <Link href="#" className="cursor-default">Flota</Link>
                         </li>
-                        <li className="px-3 hover:text-orange-500 duration-300">
-                            <Link href="#">Choferes</Link>
+                        <li className="px-3 opacity-30 duration-300">
+                            <Link href="#" className="cursor-default">Choferes</Link>
                         </li>
-                        <li className="px-3 hover:text-orange-500 duration-300">
-                            <Link href="#">Clientes</Link>
+                        <li className="px-3 opacity-30 duration-300">
+                            <Link href="#" className="cursor-default">Clientes</Link>
                         </li>
-                        <li className="px-3 hover:text-orange-500 duration-300">
-                            <Link href="#">Contable</Link>
+                        <li className="px-3 opacity-30 duration-300">
+                            <Link href="#" className="cursor-default">Contable</Link>
                         </li>
-                        <li className="px-3 hover:text-orange-500 duration-300">
-                            <Link href="#">Staff</Link>
+                        <li className="px-3 opacity-30 duration-300">
+                            <Link href="#" className="cursor-default">Staff</Link>
                         </li>
                     </ul>
                 </div>
                 
                     <div className="border-l-[#39647C] border-l-2 px-5 py-2 border-r-white border-r-2"> {/* logo de settings*/}
                         <Cog6ToothIcon 
-                            className="size-5 text-white hover:text-orange-500 duration-300" 
+                            className="size-5 text-white opacity-30 duration-300" 
                         />
                     </div>
                     <div> {/* user*/}
-                        <div className="flex items-center ml-5 cursor-pointer">
+                        <div className="flex items-center ml-5 cursor-pointer opacity-30 cursor-default">
                             <Image 
                                 src={userLogo} 
                                 alt="user logo"
                                 width={50}
                             />
-                            <h1 className="text-orange-500 font-bold  hover:text-orange-400 duration-300  ">Mariano R.</h1>
-                            <span><ChevronDownIcon className="text-orange-500 size-8 hover:text-orange-300" /></span>
+                            <h1 className="text-orange-500 font-bold  duration-300  ">Mariano R.</h1>
+                            <span><ChevronDownIcon className="text-orange-500 size-8" /></span>
                         </div>
                     </div>
 
