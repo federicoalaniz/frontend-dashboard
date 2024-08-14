@@ -84,8 +84,8 @@ interface Vehicle {
 export default function CardOption(props: {
   setVehicle: Function;
   vehicle: Vehicle;
-  seatsNeeded: number;
-  setSeatsNeeded: Function;
+  totalSeatsNeeded: number;
+  setTotalSeatsNeeded: Function;
   bigBagsNeeded: number;
   setBigBagsNeeded: Function;
   littleBagsNeeded: number;
@@ -101,8 +101,8 @@ export default function CardOption(props: {
     
     setVehicle,
     vehicle,
-    seatsNeeded,
-    setSeatsNeeded,
+    totalSeatsNeeded,
+    setTotalSeatsNeeded,
     bigBagsNeeded,
     setBigBagsNeeded,
     littleBagsNeeded,
@@ -113,7 +113,6 @@ export default function CardOption(props: {
     id,
     name,
     car_img,
-    seats,
     cant_handBag,
     cant_bag,
     cant_littleBag,
@@ -132,7 +131,7 @@ export default function CardOption(props: {
                   {name} 
                 </h4>
                 <h4 className={`${ruda.className} font-semibold text-[16px]`}>
-                  {seats} asientos útiles + 1 chofer calificado*
+                  {vehicle.seats} asientos útiles + 1 chofer calificado*
                 </h4>
                 <div>
 
@@ -164,7 +163,7 @@ export default function CardOption(props: {
                   ...vehicle,
                   quantity: vehicle.quantity > 0 ? vehicle.quantity - 1 : vehicle.quantity
                 })
-                setSeatsNeeded(seatsNeeded + vehicle.seats)
+                setTotalSeatsNeeded(totalSeatsNeeded + vehicle.seats)
                 setBigBagsNeeded(bigBagsNeeded + vehicle.cant_bag)
                 setLittleBagsNeeded(littleBagsNeeded + vehicle.cant_littleBag)
               }}
@@ -179,11 +178,11 @@ export default function CardOption(props: {
                   ...vehicle,
                   quantity: vehicle.quantity + 1
                 })
-                setSeatsNeeded(seatsNeeded - vehicle.seats)
+                setTotalSeatsNeeded(totalSeatsNeeded - vehicle.seats )
                 setBigBagsNeeded(bigBagsNeeded - vehicle.cant_bag)
                 setLittleBagsNeeded(littleBagsNeeded - vehicle.cant_littleBag)
               }}
-              disabled={ seatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0 }
+              disabled={ totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0 }
             >+</button>
           </div>
         </div>
