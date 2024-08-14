@@ -5,7 +5,7 @@ import Separator from "@/components/separator";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { usePassengerData } from "@/state/booking/PassengerContext";
-import {  Passenger } from "@/state/Passenger.type";
+import { Passenger } from "@/state/Passenger.type";
 import { RedAlert } from "./alert";
 import { isError } from "./ErrorMessage";
 import { isValid } from "@/utils/basics";
@@ -51,10 +51,11 @@ export default function Passengers({
             email: "",
             address: {
               street: "",
-              number: "",
-              city: "",
-              neighborhood: "",
               other: "",
+              googlePlace: {
+                lat: "",
+                lng: "",
+              }
             },
           },
         }) as Passenger,
@@ -64,28 +65,29 @@ export default function Passengers({
     const passengersInitialErrorState = Array.from(
       { length: amountPassegengers },
       (_) =>
-        ({
-          firstName: "",
-          lastName: "",
-          gender: "",
-          age: "",
-          identification: {
-            type: "",
-            number: "",
-            country: "",
+      ({
+        firstName: "",
+        lastName: "",
+        gender: "",
+        age: "",
+        identification: {
+          type: "",
+          number: "",
+          country: "",
+        },
+        contact: {
+          phoneCode: "",
+          phoneNumber: "",
+          email: "",
+          address: {
+            street: "",
+            googlePlace: {
+              lat: "",
+              lng: "",
+            }
           },
-          contact: {
-            phoneCode: "",
-            phoneNumber: "",
-            email: "",
-            address: {
-              street: "",
-              number: "",
-              city: "",
-              neighborhood: "",
-            },
-          },
-        }) ,
+        },
+      }),
     );
     errorInitialState = {
       ...errorInitialState,
@@ -117,9 +119,10 @@ export default function Passengers({
         email: "",
         address: {
           street: "",
-          number: "",
-          city: "",
-          neighborhood: "",
+          googlePlace: {
+            lat: "",
+            lng: "",
+          }
         },
       },
     }));
@@ -202,30 +205,30 @@ export default function Passengers({
         },
       };
     }
-    if (passenger.contact.address.city === "") {
-      temporalError = {
-        ...temporalError,
-        contact: {
-          ...temporalError.contact,
-          address: {
-            ...temporalError.contact.address,
-            city: "Selecciona una ciudad",
-          },
-        },
-      };
-    }
-    if (passenger.contact.address.number === "") {
-      temporalError = {
-        ...temporalError,
-        contact: {
-          ...temporalError.contact,
-          address: {
-            ...temporalError.contact.address,
-            number: "Indica un número de calle",
-          },
-        },
-      };
-    }
+    // if (passenger.contact.address.city === "") {
+    //   temporalError = {
+    //     ...temporalError,
+    //     contact: {
+    //       ...temporalError.contact,
+    //       address: {
+    //         ...temporalError.contact.address,
+    //         city: "Selecciona una ciudad",
+    //       },
+    //     },
+    //   };
+    // }
+    // if (passenger.contact.address.number === "") {
+    //   temporalError = {
+    //     ...temporalError,
+    //     contact: {
+    //       ...temporalError.contact,
+    //       address: {
+    //         ...temporalError.contact.address,
+    //         number: "Indica un número de calle",
+    //       },
+    //     },
+    //   };
+    // }
     if (passenger.contact.address.street === "") {
       temporalError = {
         ...temporalError,
@@ -233,7 +236,7 @@ export default function Passengers({
           ...temporalError.contact,
           address: {
             ...temporalError.contact.address,
-            street: "Ingresa una calle",
+            street: "Ingresa una dirección",
           },
         },
       };
@@ -249,7 +252,7 @@ export default function Passengers({
 
 
   const errorHandler = () => {
-    
+
     const passengersErrors = errors.passengers.map((oldError, i) => {
       const passenger: Passenger = passengerData.passengers[i];
       const newError: any = errorPassengerHandler(oldError, passenger);
@@ -267,6 +270,9 @@ export default function Passengers({
     errorHandler();
     const persistedData = JSON.stringify(passengerData);
     window.localStorage.setItem("form1", persistedData);
+    console.log('passengerData', passengerData)
+    console.log('Pasa revision de errores: ', isValid(errors, errorInitialState))
+    console.log('Errors: ', errors)
     isValid(errors, errorInitialState) ? redirect("/booking/travel_options"): null;
   };
 
@@ -274,8 +280,8 @@ export default function Passengers({
     <form action="#" className="py-8 text-sm text-gray-500 font-bold w-10/12">
       {errors.globals.map(isError).reduce((x: boolean, y: boolean) => x || y)
         ? errors.globals.map((err: string, index: number) => (
-            <RedAlert key={index}>{err}</RedAlert>
-          ))
+          <RedAlert key={index}>{err}</RedAlert>
+        ))
         : null}
 
       {errors.passengers.length > 0 &&
@@ -294,13 +300,19 @@ export default function Passengers({
               }}
               key={index}
               passenger={passenger}
-              setPassenger={(newP) => {
-                const passengers = passengerData.passengers.map((oldP, i) =>
-                  index === i ? newP : oldP,
-                );
-                setPassengerData({
-                  ...passengerData,
-                  passengers,
+              setPassenger={(argP: Passenger | Function) => {
+                setPassengerData(passengerData => {
+                  let newP = (typeof argP === "function")
+                    ? argP(passengerData.passengers[index])
+                    : argP
+
+                  const passengers = passengerData.passengers.map((oldP, i) =>
+                    index === i ? newP : oldP,
+                  );
+                  return {
+                    ...passengerData,
+                    passengers,
+                  }
                 });
               }}
               index={index}
@@ -315,17 +327,17 @@ export default function Passengers({
                     focus:outline-none duration-500 hover:shadow-md "
           checked={passengerData.agreements.termsCondition}
           onChange={() => {
-              setPassengerData({
-                ...passengerData,
-                agreements: {
-                  ...passengerData.agreements,
-                  termsCondition: !passengerData.agreements.termsCondition,
-                },
-              })
-              setIsDisabled(passengerData.agreements.termsCondition) 
-              console.log('Disabled?:',isDisabled)
-              console.log('TyC?:',passengerData.agreements.termsCondition)
-            }
+            setPassengerData({
+              ...passengerData,
+              agreements: {
+                ...passengerData.agreements,
+                termsCondition: !passengerData.agreements.termsCondition,
+              },
+            })
+            setIsDisabled(passengerData.agreements.termsCondition)
+            console.log('Disabled?:', isDisabled)
+            console.log('TyC?:', passengerData.agreements.termsCondition)
+          }
           }
         />
         <label className="text-black p-2">
@@ -345,7 +357,7 @@ export default function Passengers({
           className="px-2 h-5 w-5 accent-orange-500 rounded-md border-1 border-orange-500
                     focus:outline-none duration-500 hover:shadow-md "
           checked={passengerData.agreements.newsletter}
-          onChange={() => 
+          onChange={() =>
             setPassengerData({
               ...passengerData,
               agreements: {
@@ -367,7 +379,7 @@ export default function Passengers({
                     duration-500 hover:shadow-md"
           disabled={isDisabled}
           onClick={submitHandler}
-          
+
         >
           Continuar
         </button>

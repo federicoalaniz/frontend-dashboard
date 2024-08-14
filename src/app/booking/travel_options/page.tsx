@@ -41,8 +41,8 @@ const options = [
   {
     id: "sprinter19",
     cant_handBag: 19,
-    cant_bag: 3,
-    cant_littleBag: 3,
+    cant_bag: 15,
+    cant_littleBag: 15,
     name: "Mercedes Benz Sprinter",
     seats: 19,
     car_img: "sprinter" as IconType,
@@ -318,11 +318,6 @@ export default function TravelOptions() {
                 <div>
                   <div className="border-b-[1px] border-gray-300  mt-4 text-[#10004f]">
                     <h1 className="font-bold">Equipaje</h1>
-                  </div>
-                  <div>
-                    <p>{`Equipaje necesario:`}</p>
-                    <p>{`Valijas grandes restantes: ${bigBagsNeeded} `}</p>
-                    <p>{`Valijas chicas restantes: ${littleBagsNeeded}`}</p>
                   </div>
                   <div className="mt-5 ">
                     <div>
