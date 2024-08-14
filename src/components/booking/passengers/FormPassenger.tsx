@@ -7,6 +7,7 @@ import { Passenger, Gender } from "@/state/Passenger.type";
 import { ErrorMessage, isError } from "@/components/ErrorMessage";
 import Select from "@/components/select";
 import Accordion from "@/components/Accordion";
+import SearchAddresses from "@/components/PlacesAutocomplete";
 
 export default function PassengerForm({
   errors,
@@ -18,7 +19,7 @@ export default function PassengerForm({
   errors: any;
   setError: (error: any) => void;
   passenger: Passenger;
-  setPassenger: (passenger: Passenger) => void;
+  setPassenger: Function;
   index: number;
 }) {
   const [sameAddress, setSameAddress] = useState(true);
@@ -27,6 +28,26 @@ export default function PassengerForm({
     setSameAddress(e.currentTarget.checked);
   };
 
+  const handleContactAddressSelected = (place: any): void => {
+    setPassenger((passenger: Passenger) => {
+      console.log('handlecontactaddress', {passenger})
+      return {
+        ...passenger,
+        contact: {
+          ...passenger.contact,
+          address: {
+            ...passenger.contact.address,
+            street: place?.formatted_address,
+            googlePlace: {
+              ...passenger.contact.address.googlePlace,
+              lat: place?.geometry.location.lat(),
+              lng: place?.geometry.location.lng(),
+            },
+          },
+        }
+      }
+    });
+  };
   const isResponsible = index === 0;
   return (
     <Accordion
@@ -73,7 +94,6 @@ export default function PassengerForm({
                   ...passenger,
                   lastName: e.target.value,
                 });
-
               }}
             />
           </div>
@@ -142,7 +162,7 @@ export default function PassengerForm({
                         number: e.target.value,
                       },
                     });
-                    
+
                   }}
                 />
               </div>
@@ -403,89 +423,13 @@ export default function PassengerForm({
             </>
           ) : null}
           <Separator title="Dirección (por donde pasaremos a buscarte)" />
-          <div className="flex flex-row ">
-            <div className="w-1/2">
-              <div className="flex justify-between">
-                <div className="w-1/2 mx-1">
-                  <LabelInput
-                    label=""
-                    type="text"
-                    placeholder="Ciudad"
-                    errorField={errors.contact.address.city}
-                    value={passenger.contact.address.city}
-                    onChange={(e: any) => {
-                      if (isError(errors.contact.address.city)) {
-                        setError({
-                          ...errors,
-                          contact: {
-                            ...errors.contact,
-                            address: {
-                              ...errors.contact.address,
-                              city: "",
-                            },
-                          },
-                        });
-                      }
-                      setPassenger({
-                        ...passenger,
-                        contact: {
-                          ...passenger.contact,
-                          address: {
-                            ...passenger.contact.address,
-                            city: e.target.value,
-                          },
-                        },
-                      });
-                    }}
-                  />
-                </div>
-                <div className="w-1/2 mx-1">
-                  <LabelInput
-                    label=""
-                    type="text"
-                    placeholder="Barrio"
-                    value={passenger.contact.address.neighborhood}
-                    errorField={errors.contact.address.neighborhood}
-                    onChange={(e: any) => {
-                      if (isError(errors.contact.address.neighborhood)) {
-                        setError({
-                          ...errors,
-                          contact: {
-                            ...errors.contact,
-                            address: {
-                              ...errors.contact.address,
-                              neighborhood: "",
-                            },
-                          },
-                        });
-                      }
-                      setPassenger({
-                        ...passenger,
-                        contact: {
-                          ...passenger.contact,
-                          address: {
-                            ...passenger.contact.address,
-                            neighborhood: e.target.value,
-                          },
-                        },
-                      });
-                    }}
-                    
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="w-1/2"></div>
-          </div>
           <div className="flex flex-row">
-            <div className="w-1/2 mr-2">
-              <LabelInput
-                label=""
-                placeholder="Calle"
-                type="text"
-                value={passenger.contact.address.street}
+            <div className="w-1/2 mx-1">
+              <SearchAddresses
+                label="Dirección"
                 errorField={errors.contact.address.street}
-                onChange={(e: any) => {
+                onPlaceSelected={handleContactAddressSelected}
+                onChange={() => {
                   if (isError(errors.contact.address.street)) {
                     setError({
                       ...errors,
@@ -498,87 +442,43 @@ export default function PassengerForm({
                       },
                     });
                   }
+                }}
+              />
+            </div>
+            <div className=" w-1/2 mx-1">
+              <LabelInput
+                label=""
+                type="text"
+                placeholder="Depto./Timbre/Otro"
+                value={passenger.contact.address.other}
+                errorField={errors.contact.address.other}
+                onChange={(e: any) => {
+                  if (isError(errors.contact.address.other)) {
+                    setError({
+                      ...errors,
+                      contact: {
+                        ...errors.contact,
+                        address: {
+                          ...errors.contact.address,
+                          other: "",
+                        },
+                      },
+                    });
+                  }
                   setPassenger({
                     ...passenger,
                     contact: {
                       ...passenger.contact,
                       address: {
                         ...passenger.contact.address,
-                        street: e.target.value,
+                        other: e.target.value,
                       },
                     },
                   });
                 }}
               />
             </div>
-            <div className="flex w-1/2 justify-between">
-              <div className="w-1/2 mx-1">
-                <LabelInput
-                  label=""
-                  type="text"
-                  placeholder="Número"
-                  value={passenger.contact.address.number}
-                  errorField={errors.contact.address.number}
-                  onChange={(e: any) => {
-                    if (isError(errors.contact.address.number)) {
-                      setError({
-                        ...errors,
-                        contact: {
-                          ...errors.contact,
-                          address: {
-                            ...errors.contact.address,
-                            number: "",
-                          },
-                        },
-                      });
-                    }
-                    setPassenger({
-                      ...passenger,
-                      contact: {
-                        ...passenger.contact,
-                        address: {
-                          ...passenger.contact.address,
-                          number: e.target.value,
-                        },
-                      },
-                    });
-                  }}
-                />
-              </div>
-              <div className=" w-1/2 mx-1">
-                <LabelInput
-                  label=""
-                  type="text"
-                  placeholder="Depto./Timbre/Otro"
-                  value={passenger.contact.address.other}
-                  errorField={errors.contact.address.other}
-                  onChange={(e: any) => {
-                    if (isError(errors.contact.address.other)) {
-                      setError({
-                        ...errors,
-                        contact: {
-                          ...errors.contact,
-                          address: {
-                            ...errors.contact.address,
-                            other: "",
-                          },
-                        },
-                      });
-                    }
-                    setPassenger({
-                      ...passenger,
-                      contact: {
-                        ...passenger.contact,
-                        address: {
-                          ...passenger.contact.address,
-                          other: e.target.value,
-                        },
-                      },
-                    });
-                  }}
-                />
-              </div>
-            </div>
+            {/* </div> */}
           </div>
 
           {isResponsible && <Important />}

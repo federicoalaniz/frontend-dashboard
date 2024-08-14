@@ -28,10 +28,14 @@ const PassengerDataProvider: React.FC<{ children: ReactNode }> = ({
           email: "",
           address: {
             street: "",
-            number: "",
-            city: "",
-            neighborhood: "",
+            // number: "",
+            // city: "",
+            // neighborhood: "",
             other: "",
+            googlePlace: {
+              lat: "",
+              lng: "",
+            }
           },
         },
       },
