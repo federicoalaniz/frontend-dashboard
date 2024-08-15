@@ -10,7 +10,7 @@ import doubleCheck from "@/ui/icons/doubleCheck.svg"
 import adultIcon from "@/ui/icons/adult.svg"
 import kidIcon from "@/ui/icons/child.svg"
 import babyIcon from "@/ui/icons/baby.svg"
-import { ageDetail, formatAddress, formatDate, idTypeDetail, sumarDuracion } from "@/utils/basics";
+import { ageDetail, calcularFechaLlegada, formatAddress, formatDate, idTypeDetail, sumarDuracion } from "@/utils/basics";
 import { TripDataForm1 } from "@/state/Trip.type";
 import { useState } from "react";
 
@@ -37,6 +37,18 @@ function TravelCard (
         const [departureDate, setDepatureDate] = useState(tripData.departure.date)
         const [departureTime, setDepatureTime] = useState(tripData.departure.time)
 
+        const fechaSalidaDeparture = departureDate
+        const horaSalidaDeparture = tripData.departure.time
+        const duracionViaje = travelDuration /60/60
+        const fechaSalidaReturn = tripData.tripType.roundTrip ? tripData.return.date : 'null'
+        const horaSalidaReturn = tripData.tripType.roundTrip ? tripData.return.time : 'null'
+        console.log({fechaSalidaDeparture}, {horaSalidaDeparture}, {duracionViaje})
+
+        const fechaLlegadaDeparture = calcularFechaLlegada(departureDate, departureTime, duracionViaje)
+        const fechaLlegadaReturn = calcularFechaLlegada(fechaSalidaReturn, horaSalidaReturn, duracionViaje)
+
+        console.log(formatDate(new Date(departureDate + 'T00:00:00')))
+        console.log({fechaSalidaDeparture}, {duracionViaje},{fechaLlegadaDeparture})
     return (
         <div className="flex flex-row mt-4 mb-4">
                     <div className="flex flex-col bg-[#2174A6] text-white items-center justify-center w-8">
@@ -58,7 +70,7 @@ function TravelCard (
                                     }
                                 </p>
                                 <p className="text-sm text-gray-500 font-semibold">
-                                    {departure ? formatDate(new Date(tripData.departure.date)) : formatDate(new Date(tripData.return.date))}
+                                    {departure ? formatDate(new Date(tripData.departure.date + 'T00:00:00')) : formatDate(new Date(tripData.return.date + 'T00:00:00'))}
                                 </p>
                             </div>
                             <span className="mx-3">-</span>
@@ -71,7 +83,11 @@ function TravelCard (
                                         : formatAddress(tripData.departure.address)
                                     }
                                 </p>
-                                <p className="text-sm text-gray-500 font-semibold">{"Vie, 18 FEB"}</p>
+                                <p className="text-sm text-gray-500 font-semibold">
+                                    { 
+                                        departure ? fechaLlegadaDeparture : fechaLlegadaReturn
+                                    }
+                                </p>
                             </div>
                         </div>
                         <div className="flex flex-row border-t-2 border-gray-300 mt-5 items-center justify-between">
