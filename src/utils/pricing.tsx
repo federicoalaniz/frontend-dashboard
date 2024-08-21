@@ -181,7 +181,6 @@ function pricingAll (
         const vehicle1 = ["sharan7", "sprinter19", "cronos4"]
         const vehicle2 = ["sprinter24", "bus45", "bus60"]
 
-        console.log(vehicle1.includes(vehicle), vehicle)
         if (vehicle1.includes(vehicle) && journey_km <= 600)
             return 1
         if (vehicle1.includes(vehicle) && journey_km > 600)

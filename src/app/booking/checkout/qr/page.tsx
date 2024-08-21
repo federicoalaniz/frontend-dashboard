@@ -43,7 +43,6 @@ export default function QR() {
       const posId = localStorage.getItem("posId");
 
       if (posId) {
-        console.log(posId);
         setIdAlreadyExists(true)
         return;
       } else if (form0 && form1) {
@@ -72,10 +71,7 @@ export default function QR() {
       <div>
         <p>El pago ya fuue realizado con anterioridad</p>
         <button onClick={() => {
-          localStorage.removeItem("posId");
-          localStorage.removeItem("form0");
-          localStorage.removeItem("form1");
-          localStorage.removeItem("form2");
+          localStorage.clear()
           redirect("/booking")
         }}>Reiniciar</button>
       </div>
@@ -195,30 +191,12 @@ export default function QR() {
                 </button>
               </div>
             </div>
-
             {/* FIN DEL CONTAINER */}
             <div className="font-bold text-orange-500 text-[18px]">
               <Link href="#" onClick={() => {
-                  console.log("clean");
-                  localStorage.removeItem("form0");
-                  localStorage.removeItem("form1");
-                  localStorage.removeItem("form2");
+                  localStorage.clear();
                   redirect("/booking")
                 }}>Continuar en el sitio</Link>
-            </div>
-
-            <div className="">
-              <pre>{JSON.stringify(result, null, 2)}</pre>
-              <button
-                onClick={() => {
-                  console.log("clean");
-                  localStorage.removeItem("form0");
-                  localStorage.removeItem("form1");
-                  localStorage.removeItem("form2");
-                }}
-              >
-                Limpiar Codigo
-              </button>
             </div>
           </div>
         </div>

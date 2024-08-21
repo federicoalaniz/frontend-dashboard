@@ -262,8 +262,6 @@ function Accordion(props: any) {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(props);
-    console.log;
     localStorage.setItem("form2", JSON.stringify(props));
     redirect("/booking/checkout");
   };

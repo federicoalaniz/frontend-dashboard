@@ -167,7 +167,6 @@ export default function TravelOptions() {
       const dur = data
         .map(({ duration }: any) => duration.value)
         .reduce((a: number, b: number) => a + b);
-      // console.log({ json }, dis, dur);
       setDistanciaIda(dis / 1000);
       setDistanciaVuelta(dis / 1000);
       setTravelTime(dur);

@@ -19,7 +19,6 @@ export default function Test() {
     }
 
     const fechaLlegada = calcularFechaLlegada('2024-08-14', '10:00', 18)
-    console.log(fechaLlegada)
 
     return (
         <div className="container items-center justify-between w-1/2 m-auto">

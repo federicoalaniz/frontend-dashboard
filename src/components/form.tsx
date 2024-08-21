@@ -14,7 +14,7 @@ import LabelInput from "./input";
 import { RedAlert } from "./alert";
 import { isError } from "./ErrorMessage";
 import TextArea from "./textArea";
-import { isValid } from "@/utils/basics";
+import { isValid, updateLocalStorage } from "@/utils/basics";
 import { loadGoogleMaps } from "@/utils/loadGoogleMaps";
 import SearchAddresses from "./PlacesAutocomplete";
 import Spinner from "./Spinner";
@@ -115,7 +115,6 @@ export default function AVForm() {
     try {
       const form0Data = window.localStorage.getItem("form0");
       initialData = form0Data ? JSON.parse(form0Data) : trip;
-      console.log(initialData);
     } catch (error) {
       console.log(error);
     }
@@ -165,13 +164,10 @@ export default function AVForm() {
     e.preventDefault();
     errorChecker(trip);
     const persistedData = JSON.stringify(trip);
-    window.localStorage.setItem("form0", persistedData);
+    updateLocalStorage("form0", persistedData);
     isValid(errors, errorsInitialState)
       ? redirect("/booking/passengers")
       : null;
-    console.log(isValid(errors, errorsInitialState));
-    console.log('Errors:' ,errors)
-    console.log('errorsInitialState: ', errorsInitialState)
   };
 
   return (
@@ -718,7 +714,7 @@ function FullTimeMessage() {
         </p>
 
         <div className="border border-[#4658DF] rounded-lg bg-[#D9DDF8] mt-4 p-2 flex flex-row">
-          <Image src={exclamation} alt="exclamation" className="m-2" />
+          <Image src={exclamation || ""} alt="exclamation" className="m-2" />
           <p>
             Si las necesidades del viaje excedieran este tope emitiremos una
             factura posterior con este detalle. El valor del km extra es de $300

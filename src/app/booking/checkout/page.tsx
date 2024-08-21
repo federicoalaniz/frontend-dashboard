@@ -12,7 +12,6 @@ import Spinner from "@/components/Spinner";
 const MP_SERVER = process.env.NEXT_PUBLIC_MP_SERVER;
 
 const ruda = Ruda({ subsets: ["latin"] });
-const inter = Inter({ subsets: ["latin"] });
 
 export default function PartialPay() {
   const router = useRouter();
@@ -30,7 +29,6 @@ export default function PartialPay() {
 
   const [result, setResult] = useState<any>();
   const [preferenceId, setPreferenceId] = useState(null);
-  const [enableButton, setEnableButton] = useState(false);
 
   useEffect(() => {
     const form0 = JSON.parse(localStorage.getItem("form0") || "");
@@ -67,10 +65,14 @@ export default function PartialPay() {
   };
 
   const handleBuy = async () => {
-    const id = await createPreference();
+    if ( !localStorage.getItem('form0') ) {
+      redirect('/booking')
+    } else {
+      const id = await createPreference();
 
-    if (id) {
-      setPreferenceId(id);
+      if (id) {
+        setPreferenceId(id);
+      }
     }
   };
 
@@ -190,10 +192,6 @@ export default function PartialPay() {
                   <button
                     className="outline-none bg-orange-500 text-[18px] font-bold text-white w-1/2 my-4 mr-2 h-12 disabled:bg-gray-300 disabled:text-gray-500"
                     onClick={handleBuy}
-                    // {() => {
-                    //   localStorage.setItem("form3", JSON.stringify(checkout));
-                    //   redirect("/booking/checkout/payment-method");
-                    // }}
                   >
                     Continuar
                   </button>

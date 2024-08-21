@@ -38,7 +38,6 @@ function Budget() {
   const [data, setData] = useState<any>();
   useEffect(() => {
     const fetchData = async () => {
-      console.log(APIBASE);
       const result = await fetch(`${APIBASE}/api/products`, {
         headers: {
           "Content-type": "application/json",
@@ -46,7 +45,6 @@ function Budget() {
         },
       });
       const json = await result.json();
-      console.log(json);
       setData(json.data.reverse().filter((x: any) => x.form0));
     };
 
