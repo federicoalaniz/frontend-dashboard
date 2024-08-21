@@ -42,13 +42,10 @@ function TravelCard (
         const duracionViaje = travelDuration /60/60
         const fechaSalidaReturn = tripData.tripType.roundTrip ? tripData.return.date : 'null'
         const horaSalidaReturn = tripData.tripType.roundTrip ? tripData.return.time : 'null'
-        console.log({fechaSalidaDeparture}, {horaSalidaDeparture}, {duracionViaje})
 
         const fechaLlegadaDeparture = calcularFechaLlegada(departureDate, departureTime, duracionViaje)
         const fechaLlegadaReturn = calcularFechaLlegada(fechaSalidaReturn, horaSalidaReturn, duracionViaje)
 
-        console.log(formatDate(new Date(departureDate + 'T00:00:00')))
-        console.log({fechaSalidaDeparture}, {duracionViaje},{fechaLlegadaDeparture})
     return (
         <div className="flex flex-row mt-4 mb-4">
                     <div className="flex flex-col bg-[#2174A6] text-white items-center justify-center w-8">

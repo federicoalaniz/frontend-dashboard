@@ -6,7 +6,6 @@ import Image from "next/image"
 export default function Separator ( {title}:{title:string}) {
     return (
         <>
-            <Image src="" alt="" />
             <h5 className="text-[18px] mt-8 font-semibold">{title}</h5>
             <span className="inline-block w-full h-[1px] bg-gray-400 mb-2"></span>
         </>
@@ -18,7 +17,7 @@ export function SeparatorPersona ( {title}:{title:string}) {
         <>
             <div className="flex flex-row items-center mt-12">
 
-                <Image src={pax} alt="paxbold" className="flex" />
+                <Image src={pax || ""} alt="paxbold" className="flex" />
                 <h4 className="text-[22px] font-bold text-blue-900">{title}</h4>
             </div>
             <span className="inline-block w-full h-[1px] bg-blue-900 mb-2"></span>
@@ -31,7 +30,7 @@ export function SeparatorResponsible ( {title}:{title:string}) {
         <>
             <div className="flex flex-row items-center mt-12">
 
-                <Image src={responsible} alt="paxbold" />
+                <Image src={responsible || ""} alt="paxbold" />
                 <h4 className="text-[22px] font-bold text-blue-900">{title}</h4>
             </div>
             <span className="inline-block w-full h-[1px] bg-blue-900 mb-2"></span>

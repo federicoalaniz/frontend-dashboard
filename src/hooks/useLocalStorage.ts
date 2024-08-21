@@ -1,3 +1,4 @@
+import { updateLocalStorage } from "@/utils/basics";
 import { useState } from "react";
 export const useLocalStorage = (key: string, initialValue: any) => {
   const [storedValue, setStoredValue] = useState(() => {
@@ -15,7 +16,7 @@ export const useLocalStorage = (key: string, initialValue: any) => {
       const valueToStore =
         value instanceof Function ? value(storedValue) : value;
       setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      updateLocalStorage(key, JSON.stringify(valueToStore));
     } catch (error) {
       console.log(error);
     }

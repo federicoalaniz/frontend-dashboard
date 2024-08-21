@@ -45,7 +45,6 @@ function DetailsContent() {
         return <Spinner />;
     }
 
-    console.log(data);
     const tripData = data?.form0;
     const passengersData = data?.form1?.passengers;
     const totalCost = data.form2.totalCost;
@@ -107,7 +106,7 @@ function DetailsContent() {
                         </>
                     }
                     <div className="flex flex-row mt-10 gap-4 items-center">
-                        <Image src={logo} alt="" className="h-8 w-[100px]" />
+                        <Image src={logo || ""} alt="" className="h-8 w-[100px]" />
                         <p>Cta. Cte.: Web</p>
                     </div>
                     <div className="flex flex-row items-center justify-between">
@@ -122,7 +121,7 @@ function DetailsContent() {
                     <div className="flex flex-row gap-3 text-[#10004F]">
                         <div className="flex flex-col">
                             <div className="flex font-bold">
-                                <Image src={adultIcon} alt="" />
+                                <Image src={adultIcon || ""} alt="" />
                             </div>
 
                         </div>

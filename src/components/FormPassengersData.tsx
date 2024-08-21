@@ -8,7 +8,7 @@ import { usePassengerData } from "@/state/booking/PassengerContext";
 import { Passenger } from "@/state/Passenger.type";
 import { RedAlert } from "./alert";
 import { isError } from "./ErrorMessage";
-import { isValid } from "@/utils/basics";
+import { isValid, updateLocalStorage } from "@/utils/basics";
 
 let errorInitialState = {
   passengers: [] as any[],
@@ -267,13 +267,14 @@ export default function Passengers({
 
   const submitHandler = (e: any) => {
     e.preventDefault();
-    errorHandler();
-    const persistedData = JSON.stringify(passengerData);
-    window.localStorage.setItem("form1", persistedData);
-    console.log('passengerData', passengerData)
-    console.log('Pasa revision de errores: ', isValid(errors, errorInitialState))
-    console.log('Errors: ', errors)
-    isValid(errors, errorInitialState) ? redirect("/booking/travel_options"): null;
+    if(!localStorage.getItem('form0'))
+      redirect('/booking')
+    else {
+      errorHandler();
+      const persistedData = JSON.stringify(passengerData);
+      updateLocalStorage("form1", persistedData);
+      isValid(errors, errorInitialState) ? redirect("/booking/travel_options"): null;
+    }
   };
 
   return (
@@ -335,8 +336,6 @@ export default function Passengers({
               },
             })
             setIsDisabled(passengerData.agreements.termsCondition)
-            console.log('Disabled?:', isDisabled)
-            console.log('TyC?:', passengerData.agreements.termsCondition)
           }
           }
         />

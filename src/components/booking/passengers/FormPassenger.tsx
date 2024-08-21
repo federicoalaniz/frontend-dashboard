@@ -30,7 +30,6 @@ export default function PassengerForm({
 
   const handleContactAddressSelected = (place: any): void => {
     setPassenger((passenger: Passenger) => {
-      console.log('handlecontactaddress', {passenger})
       return {
         ...passenger,
         contact: {
@@ -347,7 +346,6 @@ export default function PassengerForm({
                               phoneCode: e.target.value,
                             },
                           });
-                          console.log(passenger.contact)
                         }}
                       >
                         <option disabled defaultValue=""></option>
