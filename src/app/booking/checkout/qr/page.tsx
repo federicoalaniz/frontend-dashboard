@@ -40,13 +40,14 @@ export default function QR() {
       const form0 = safeJsonParse(localStorage.getItem("form0"));
       const form1 = safeJsonParse(localStorage.getItem("form1"));
       const form2 = safeJsonParse(localStorage.getItem("form2"));
+      const form3 = safeJsonParse(localStorage.getItem("form3"));
       const posId = localStorage.getItem("posId");
 
       if (posId) {
         setIdAlreadyExists(true)
         return;
       } else if (form0 && form1) {
-        const data = { form0, form1, form2 }
+        const data = { form0, form1, form2, form3 }
         const result = await fetch(`${APIBASE}/api/products`, {
           headers: {
             "Content-type": "application/json",
