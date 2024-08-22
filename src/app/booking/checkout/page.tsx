@@ -68,6 +68,7 @@ export default function PartialPay() {
     if ( !localStorage.getItem('form0') ) {
       redirect('/booking')
     } else {
+      localStorage.setItem('form3', JSON.stringify( checkout ))
       const id = await createPreference();
 
       if (id) {
