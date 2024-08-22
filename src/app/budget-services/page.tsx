@@ -86,7 +86,7 @@ function Budget() {
                 <input type="checkbox" className="h-5 w-5 ml-4 flex" />
               </li>
               <li className="mr-5 duration-300 cursor-pointer" onClick={() => window.location.reload()}>
-                <Image src={reload} alt="partial-pay" className="mr-2" />
+                <Image src={reload || ""} alt="partial-pay" className="mr-2" />
               </li>
               <li className="mr-5 duration-300 cursor-default opacity-30">
                 <p>Ver todos</p>
@@ -101,23 +101,23 @@ function Budget() {
                 <p>|</p>
               </li>
               <li className="mr-5 flex duration-300 cursor-default opacity-30">
-                <Image src={partiallyPay} alt="partial-pay" className="mr-2" />
+                <Image src={partiallyPay || ""} alt="partial-pay" className="mr-2" />
                 Ha Señado
               </li>
               <li className="mr-5 flex duration-300 cursor-default opacity-30">
-                <Image src={editPay} alt="partial-pay" className="mr-2" />
+                <Image src={editPay || ""} alt="partial-pay" className="mr-2" />
                 Editar Seña
               </li>
               <li className="mr-5 flex duration-300 cursor-default opacity-30">
-                <Image src={totallyPaid} alt="partial-pay" className="mr-2" />
+                <Image src={totallyPaid || ""} alt="partial-pay" className="mr-2" />
                 Ha Pagado
               </li>
               <li className="mr-5 flex duration-300 cursor-default opacity-30">
-                <Image src={balance} alt="partial-pay" className="mr-2" />
+                <Image src={balance || ""} alt="partial-pay" className="mr-2" />
                 Saldo Contado
               </li>
               <li className="mr-5 flex hover:opacity-50 duration-300 cursor-default opacity-30">
-                <Image src={edit} alt="partial-pay" className="mr-2" />
+                <Image src={edit || ""} alt="partial-pay" className="mr-2" />
                 Editar
               </li>
             </ul>
@@ -157,104 +157,110 @@ function Budget() {
                 return (
                   <>
                     <tr className="bg-inherit text-black text-[16px] font-thin hover:opacity-90 duration-300">
-                      <td rowSpan={2}>
+                      <td rowSpan={2} className={`border-b-gray-400 ${parseInt(sale?.form3?.percentage) === 100 ? 'bg-[#1784A7] text-white' : 'bg-[#79CEFF]'}`}>
                         <input
                           type="checkbox"
                           className="accent-orange-500 h-5 w-5 m-auto"
                         />
                       </td>
-                      <td className="text-center" rowSpan={2}>
+                      <td className={`text-center border-b-gray-400 ${parseInt(sale?.form3?.percentage) === 100 ? 'bg-[#1784A7] text-white' : 'bg-[#79CEFF]'}`} rowSpan={2}>
                         <Link href={{pathname:`/budget-services/details`, query: {id: sale._id} }}>{`VE${sale._id.substring(0,6)}`}</Link>
                         <div className="flex justify-center">
                           {
                             sale?.form0.fullTime && 
-                            <Image src={fullTimeIcon} alt="round-trip" />
+                            <Image src={fullTimeIcon || ""} alt="round-trip" />
                           }
                           {
                             (sale?.form0.tripType.roundTrip && !sale?.form0.fullTime) && 
-                            <Image src={roundTrip} alt="round-trip" />
+                            <Image src={roundTrip || ""} alt="round-trip" />
                           }
                           {
                             !sale?.form0.tripType.roundTrip && 
-                            <Image src={soloIda} alt="round-trip" />
+                            <Image src={soloIda || ""} alt="round-trip" />
                           }
                         </div>
                       </td>
-                      <td rowSpan={2}>Seña {"50"}%</td>
-                      {/* <td rowSpan={2}>Seña {"sale.form3.percentage"}%</td> */}
-                      <td rowSpan={2}>ME</td>
-                      <td rowSpan={2}>56</td>
+                      <td rowSpan={2} 
+                      className={`text-center border-b-gray-400 ${parseInt(sale?.form3?.percentage) === 100 ? 'bg-[#1784A7] text-white' : 'bg-[#79CEFF]'}`}>{parseInt(sale?.form3?.percentage) === 100 ? 'Pagado' : `Seña ${sale?.form3.percentage}%`}</td>
+                      <td rowSpan={2} className="border-b-gray-400">ME</td>
+                      <td rowSpan={2} className="border-b-gray-400">{sale.form0.passengers.adult + sale.form0.passengers.kid + sale.form0.passengers.baby}</td>
                       { 
                         !sale?.form0.tripType.roundTrip 
-                        ? <td rowSpan={2}>IDA</td>
+                        ? <td rowSpan={2} className="border-b-gray-400">IDA</td>
                         : <td>IDA</td>
                         
                       }
-                      <td>-</td>
+                      {
+                        !sale?.form0.tripType.roundTrip
+                        ? <td rowSpan={2} className="border-b-gray-400">-</td>
+                        : <td>-</td>
+                      }
+                      
                       {
                         !sale?.form0.tripType.roundTrip 
-                        ? <td rowSpan={2}>{formatDateDDMMYYY(sale.form0.departure.date)}</td>
-                        : <td>{formatDateDDMMYYY(sale.form0.departure.date)}</td>
+                        ? <td rowSpan={2} className="border-b-gray-400">{formatDateDDMMYYY(new Date(sale.form0.departure.date+'T'+ sale.form0.departure.time))}</td>
+                        : <td>{formatDateDDMMYYY(new Date(sale.form0.departure.date+'T'+ sale.form0.departure.time))}</td>
                       }
-                      <td className="">
+                      {
+                        !sale?.form0.tripType.roundTrip
+                        ?
+                        <td rowSpan={2} className="border-b-gray-400">
                         <span className="underline">
                         {`
                           ${formatAddress(sale?.form0.departure.address)} -
                           ${formatAddress(sale?.form0.return.address)}
                         `}
                         </span>
-                        {/* <span className="bg-yellow-200 px-2 rounded">
-                          5 par
-                        </span> */}
                       </td>
-                      <td rowSpan={2}>
+                        :
+                        <td>
+                        <span className="underline">
+                        {`
+                          ${formatAddress(sale?.form0.departure.address)} -
+                          ${formatAddress(sale?.form0.return.address)}
+                        `}
+                        </span>
+                      </td>
+                      }
+                      <td rowSpan={2} className="border-b-gray-400">
                         {sale.form1.passengers[0].firstName}{" "}
                         {sale.form1.passengers[0].lastName}
                       </td>
-                      <td rowSpan={2}>Cta Cte 1</td>
-                      <td className="text-gray-400 text-right" rowSpan={2}>
-                        {(sale.form2.totalCost/2).toLocaleString("es-AR", {
+                      <td rowSpan={2} className="border-b-gray-400">Cta Cte 1</td>
+                      <td className="text-gray-400 text-right border-b-gray-400" rowSpan={2}>
+                        {(sale?.form3.amount).toLocaleString("es-AR", {
                       style: "currency",
                       currency: "ARS",
                     })}
-                        {/* ${"sale.form3.amount"} */}
                       </td>
-                      <td rowSpan={2} className="text-right">{sale.form2.totalCost.toLocaleString("es-AR", {
+                      <td rowSpan={2} className="text-right border-b-gray-400">{sale.form2.totalCost.toLocaleString("es-AR", {
                       style: "currency",
                       currency: "ARS",
                     })}</td>
-                      <td rowSpan={2}>
+                      <td rowSpan={2} className="border-b-gray-400">
                         <Image
-                          src={rowSettings}
+                          src={rowSettings || ""}
                           alt="partial-pay"
                           className="m-auto opacity-30"
                         />
                       </td>
                     </tr>
                     <tr className="bg-inherit text-black text-[16px] font-thin hover:opacity-90 duration-300">
-                      {/* {
-                        !sale?.form0.tripType.roundTrip &&
-                        <>
-                          <td>VUELTA</td>
-                          <td>-</td>
-                          <td>{sale.form0.return.date}</td>
-                        </>
-                      } */}
                       {
                         sale?.form0.tripType.roundTrip
-                        && <td>VUELTA</td>
+                        && <td className="bg-gray-100 border-b-gray-400">VUELTA</td>
                       }
                       {
                         sale?.form0.tripType.roundTrip
-                        && <td>-</td>
+                        && <td className="bg-gray-100 border-b-gray-400">-</td>
                       }
                       {
                         sale?.form0.tripType.roundTrip
-                        && <td>{formatDateDDMMYYY(sale.form0.return.date)}</td>
+                        && <td className="bg-gray-100 border-b-gray-400">{formatDateDDMMYYY(sale.form0.return.date)}</td>
                       }
                       {
                         sale?.form0.tripType.roundTrip &&
-                        <td >
+                        <td className="bg-gray-100 border-b-gray-400" >
                         <span className="underline text-left">
                           {`${formatAddress(sale?.form0.return.address)} -
                           ${formatAddress(sale?.form0.departure.address)}`}

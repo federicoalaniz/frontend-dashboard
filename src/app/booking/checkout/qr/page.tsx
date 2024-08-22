@@ -11,6 +11,7 @@ import { Ruda, Inter } from "next/font/google";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner";
+import { formatAddress, formatDate } from "@/utils/basics";
 
 const ruda = Ruda({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"] });
@@ -140,8 +141,7 @@ export default function QR() {
                       Origen / Destino:
                     </p>
                     <p className="text-[28px] font-semibold text-[#10004f]">
-                      {departure.address.split(",")[0]} /{" "}
-                      {destiny.address.split(",")[0]}
+                      {`${formatAddress(departure.address)} / ${formatAddress(destiny.address)}`}
                     </p>
                   </div>
                   <div className="mb-6">
@@ -151,7 +151,7 @@ export default function QR() {
                       Salida:
                     </p>
                     <p className="text-[32px] font-semibold text-[#10004f]">
-                      {departure.date} / {departure.time}
+                      {`${formatDate(new Date(departure.date))} / ${departure.time} `}
                     </p>
                   </div>
                   <div className="mb-6">
@@ -161,7 +161,7 @@ export default function QR() {
                       Desde:
                     </p>
                     <p className="text-[22px] font-semibold text-[#10004f]">
-                      {departure.address}
+                      {formatAddress(departure.address)}
                     </p>
                   </div>
                   <div className="mb-6">
@@ -174,9 +174,9 @@ export default function QR() {
                       {responsable.firstName} {responsable.lastName}
                     </p>
                     <p className="text-[18px] font-semibold text-[#8B8B8B]">
-                      {passengers.adult - 1} acompañante(s) {passengers.baby}{" "}
-                      bebe(s) {passengers.pets.small + passengers.pets.big}{" "}
-                      mascota(s)
+                      { passengers.adult > 1 ? `${passengers.adult - 1} acompañante(s) ` : null }
+                      { passengers.baby > 0 ? `${passengers.baby} bebé(s)` : null }
+                      { passengers.pets.small + passengers.pets.big > 0 ? `${passengers.pets.small + passengers.pets.big} mascota(s)` : null }
                     </p>
                   </div>
                 </div>

@@ -183,7 +183,6 @@ function createTimeCheck(): void {
         const currentTime = Date.now();
         const difference = currentTime - parseInt(lastTime, 10);
         
-        console.log(`Tiempo restante para limpieza de LocalStorage: ${minutes * 60 * 1000 - difference }`)
         // 5 minutos = 5 * 60 * 1000 milisegundos = 1200000 ms
         if (difference >= minutes * 60 * 1000) {
           console.log(`Han pasado ${minutes} minutos. Limpiando localStorage...`);
