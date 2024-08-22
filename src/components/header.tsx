@@ -4,6 +4,7 @@ import logo from "@/ui/img/Logo.png";
 import facebook from "@/ui/img/FACEBOOK.png";
 import twitter from "@/ui/img/TWITTER.png";
 import skype from "@/ui/img/SKYPE.png";
+import { formatAddress, formatDate } from "@/utils/basics";
 
 export default function HeaderAV() {
   return (
@@ -92,21 +93,25 @@ export function OptionHeader({ departure, destiny, passengers, luggage }: any) {
     <>
       <div
         className="booking_header 
-          flex flex-row py-4 items-center justify-between bg-white
-          text-[14px] font-bold text-[#10004f] border-t-2 border-gray-300"
+          flex flex-row py-1 items-center justify-between bg-white
+          text-xs font-bold text-[#10004f] border-t border-gray-300"
       >
-        <div className="px-5 text-center border-r-2 border-gray-300 w-full ">
-          {departure.address.split(",")[0]} - {destiny.address.split(",")[0]}
+        <div className="px-5 text-center border-r border-gray-300 w-full ">
+          {formatAddress(departure.address)} - {formatAddress(destiny.address)}
         </div>
-        <div className="px-5 text-center border-r-2 border-gray-300 w-full ">
-          {departure.date} / {destiny.date}
+        <div className="px-5 text-center border-r border-gray-300 w-full ">
+          { destiny.date ? `${formatDate(new Date(departure.date))} - ${formatDate(new Date(destiny.date))}` : `${formatDate(new Date(departure.date))}`}
         </div>
-        <div className="px-5 text-center border-r-2 border-gray-300 w-full ">
-          {passengers.adult} Adultos / {passengers.baby} Bebes /{" "}
-          {passengers.pets.small + passengers.pets.big} Mascotas
+        <div className="px-5 text-center border-r border-gray-300 w-full ">
+          { passengers.adult > 0 ? `${passengers.adult} Adultos` : null }
+          { passengers.kid > 0 ? ` | ${passengers.kid} Niños` : null }
+          { passengers.baby > 0 ? ` | ${passengers.baby} Bebés` : null }
+          { passengers.pets.small + passengers.pets.big > 0 ? ` | ${passengers.pets.small} + ${passengers.pets.big} Mascotas` : null } 
         </div>
-        <div className="px-5 text-center border-r-2 border-gray-300 w-full ">
-          {luggage.bag23} Maletas
+        <div className="px-5 text-center border-gray-300 w-full ">
+          {luggage.bag23 > 0 ? `${luggage.bag23} Valijas Grandes` : null } 
+          {(luggage.carryOn > 0 && luggage.bag23 > 0)  ? ` - ${luggage.carryOn} Valijas Chicas` : null } 
+          {(luggage.carryOn > 0 && luggage.bag23 === 0)  ? `${luggage.carryOn} Valijas Chicas` : null } 
         </div>
       </div>
     </>

@@ -23,16 +23,24 @@ function RenderAdults(
     }: {
         total: number,
         asignado: number
+    }) {
+        // Dividimos el array en subarrays de máximo 5 elementos
+        const groupedBags = Array.from({ length: Math.ceil(total / 5) }, (_, i) =>
+            Array.from({ length: 5 }, (_, j) => i * 5 + j).filter(index => index < total)
+        );
+    
+        return (
+            <div className="flex flex-col gap-2 my-5">
+                {groupedBags.map((group, i) => (
+                    <div className="flex gap-2" key={i}>
+                        {group.map(index => (
+                            <AdultIcon asigned={index < asignado ? true : false} key={index} />
+                        ))}
+                    </div>
+                ))}
+            </div>
+        );
     }
-) {
-    return (
-        <div className="flex gap-2 my-2">
-            {Array.from({ length: total }, (_, index) => (
-                <AdultIcon asigned={index < asignado ? true : false} key={index} />
-            ))}
-        </div>
-    );
-}
 
 // ========================= EQUIPAJE =================================
 
@@ -45,31 +53,48 @@ function RenderBigBags(
         asignado: number
     }
 ) {
+    const groupedBags = Array.from({ length: Math.ceil(total / 5) }, (_, i) =>
+        Array.from({ length: 5 }, (_, j) => i * 5 + j).filter(index => index < total)
+    );
     return (
-        <div className="flex gap-2 my-2">
-            {Array.from({ length: total }, (_, index) => (
-                <BigBagICON asigned={index < asignado ? true : false} key={index} />
+        <div className="flex flex-col gap-2 my-5">
+            {groupedBags.map((group, i) => (
+                <div className="flex gap-2" key={i}>
+                    {group.map(index => (
+                        <BigBagICON asigned={index < asignado ? true : false} key={index} />
+                    ))}
+                </div>
             ))}
         </div>
     );
 }
+
 function RenderLittleBags(
-    {
-        total,
-        asignado
-    }: {
-        total: number,
-        asignado: number
-    }
-) {
+{
+    total,
+    asignado
+}: {
+    total: number,
+    asignado: number
+}) {
+    // Dividimos el array en subarrays de máximo 5 elementos
+    const groupedBags = Array.from({ length: Math.ceil(total / 5) }, (_, i) =>
+        Array.from({ length: 5 }, (_, j) => i * 5 + j).filter(index => index < total)
+    );
+
     return (
-        <div className="flex gap-2 my-2">
-            {Array.from({ length: total }, (_, index) => (
-                <LittleBagICON asigned={index < asignado ? true : false} key={index} />
+        <div className="flex flex-col gap-2 my-5">
+            {groupedBags.map((group, i) => (
+                <div className="flex gap-2" key={i}>
+                    {group.map(index => (
+                        <LittleBagICON asigned={index < asignado ? true : false} key={index} />
+                    ))}
+                </div>
             ))}
         </div>
     );
 }
+
 function RenderSpecialLuggage(
     {
         total,
@@ -77,16 +102,24 @@ function RenderSpecialLuggage(
     }: {
         total: number,
         asignado: number
+    }) {
+        // Dividimos el array en subarrays de máximo 5 elementos
+        const groupedBags = Array.from({ length: Math.ceil(total / 5) }, (_, i) =>
+            Array.from({ length: 5 }, (_, j) => i * 5 + j).filter(index => index < total)
+        );
+    
+        return (
+            <div className="flex flex-col gap-2 my-5">
+                {groupedBags.map((group, i) => (
+                    <div className="flex gap-2" key={i}>
+                        {group.map(index => (
+                            <SpecialICON asigned={index < asignado ? true : false} key={index} />
+                        ))}
+                    </div>
+                ))}
+            </div>
+        );
     }
-) {
-    return (
-        <div className="flex gap-2 my-2">
-            {Array.from({ length: total }, (_, index) => (
-                <SpecialICON asigned={index < asignado ? true : false} key={index} />
-            ))}
-        </div>
-    );
-}
 
 // ========================= ICONOS ==================
 function AdultIcon({ asigned }: { asigned:boolean }) {
