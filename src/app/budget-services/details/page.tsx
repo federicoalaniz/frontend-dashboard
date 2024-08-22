@@ -48,7 +48,7 @@ function DetailsContent() {
     const tripData = data?.form0;
     const passengersData = data?.form1?.passengers;
     const totalCost = data.form2.totalCost;
-    const partiallyPaid = 86000;
+    const partiallyPaid = data?.form3.amount;
     return (
         <>
             <PortalNavBar />
@@ -86,7 +86,7 @@ function DetailsContent() {
                             <p><span>RECURRENTE - </span> Lunes a viernes</p>
                         </div>
                         <div>
-                            <p>Fecha inicio: {formatDateDDMMYYY(new Date(tripData.departure.date))}   {data.form0.tripType.roundTrip && `|  Fecha término: ${formatDateDDMMYYY(new Date(tripData.return.date))}`} </p>
+                            <p>Fecha inicio: {formatDateDDMMYYY(new Date(tripData.departure.date + 'T' + tripData.departure.time))}   {data.form0.tripType.roundTrip && `|  Fecha término: ${formatDateDDMMYYY(new Date(tripData.return.date + 'T' + tripData.return.time))}`} </p>
                         </div>
                     </div>
                     <div className="flex flex-row justify-between text-gray-500 text-sm mt-2 mb-10">
@@ -111,8 +111,8 @@ function DetailsContent() {
                     </div>
                     <div className="flex flex-row items-center justify-between">
                         <div className="flex">
-                            <p>{`${"Mercado Pago"} - ${"Tarjeta de crédito"} ${"**** **** **** 5678"} | `}</p>
-                            <Link href={"#"} className="font-semibold ml-2 cursor-pointer underline text-orange-500">Factura A 12812323</Link>
+                            <p>{`${"Mercado Pago"} - ${"Tarjeta de crédito"} ${"**** **** **** 5678"}`}</p>
+                            {/* <Link href={"#"} className="font-semibold ml-2 cursor-pointer underline text-orange-500">Factura A 12812323</Link> */}
                         </div>
                         <div className="flex text-3xl font-semibold">
                             <p>{`${partiallyPaid.toLocaleString("es-AR", { style: "currency", currency: "ARS", })} / `}<span className="text-gray-400">{totalCost.toLocaleString("es-AR", { style: "currency", currency: "ARS", })}</span></p>
