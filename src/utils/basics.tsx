@@ -171,6 +171,8 @@ function clearLocalStorageIfInactive(minutes: number) {
 function createTimeCheck(): void {
   
   let checkInterval: number | null | any;
+  const minutes: number = parseInt(process.env.NEXT_PUBLIC_TIME_AFTER_LAST_RECORD!)
+
 
   const timeCheck = (): void => {
 
@@ -180,10 +182,11 @@ function createTimeCheck(): void {
       if (lastTime) {
         const currentTime = Date.now();
         const difference = currentTime - parseInt(lastTime, 10);
-
+        
+        console.log(`Tiempo restante para limpieza de LocalStorage: ${minutes * 60 * 1000 - difference }`)
         // 5 minutos = 5 * 60 * 1000 milisegundos = 1200000 ms
-        if (difference >= 5 * 60 * 1000) {
-          console.log("Han pasado 5 minutos. Limpiando localStorage...");
+        if (difference >= minutes * 60 * 1000) {
+          console.log(`Han pasado ${minutes} minutos. Limpiando localStorage...`);
           localStorage.clear();
           // Detener más verificaciones cancelando la referencia a la función
           checkInterval = null;

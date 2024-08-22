@@ -4,7 +4,7 @@ import { formatDate } from "@/utils/basics";
 export default function Test() {
     const cantAdultos = 4
     const cantVG = 2
-    const cantVC = 4
+    const cantVC = 13
 
     function calcularFechaLlegada(fechaSalida: string, horaSalida: string, duracionHoras: number): string  {
         // Combinar la fecha y la hora de salida en un solo objeto Date
@@ -29,7 +29,7 @@ export default function Test() {
             </div>
             <h1 className="font-bold">Equipaje</h1>
             <RenderBigBags total={cantVG} asignado={2} />
-            <RenderLittleBags total={cantVC} asignado={3} />
+            <RenderLittleBags total={cantVC} asignado={11} />
         </div>
     )
 }

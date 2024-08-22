@@ -6,6 +6,7 @@ import { driverPrice, driverQuantitys, foodExpenses, lodgingExpenses } from "@/u
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner";
 import { RenderAdults, RenderBigBags, RenderLittleBags, RenderSpecialLuggage } from "@/components/RenderPaxLuggage";
+import { formatAddress } from "@/utils/basics";
 
 const options = [
   {
@@ -125,6 +126,8 @@ export default function TravelOptions() {
   const [initDate, setInitDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
+  const [disabled, setDisabled] = useState(false);
+
 
   const FOOD_PRICE = 10000
   const LODGING_PRICE = 30000
@@ -206,6 +209,13 @@ export default function TravelOptions() {
   );
 
   const totalCost = vehiclesCost.concat(driversCost).reduce((a, b) => a + b);
+
+  const handleDisableButton = ():boolean | undefined => {
+    if (totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0) {
+      return true
+    }
+    return false
+  }
 
   const vehicleTravelDuration = travelTime;
   return (
@@ -367,11 +377,10 @@ export default function TravelOptions() {
                   </div>
                   <div className="mt-1 mb-5">
                     <p className=" ">
-                      {result.form0.departure.address.split(",")[0]} -{" "}
-                      {result.form0.return.address.split(",")[0]}
+                      {`${formatAddress(result.form0.departure.address)} - ${formatAddress(result.form0.return.address)}`}
                     </p>
                   </div>
-                  <div className=" ">
+                  <div>
                     <p>{distanciaIda} Km tramo de ida</p>
                     {result.form0.tripType.roundTrip ? (
                       <p>{distanciaVuelta} Km tramo vuelta</p>
@@ -470,6 +479,8 @@ export default function TravelOptions() {
                       );
                       redirect("/booking/checkout");
                     }}
+                    disabled = { !(totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0) }
+
                   >
                     Continuar
                   </button>
