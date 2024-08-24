@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import HeaderAV, { OptionHeader } from "@/components/header";
-import { Ruda, Inter } from "next/font/google";
+import { Ruda } from "next/font/google";
 import Select from "@/components/select";
 
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
@@ -200,7 +200,6 @@ export default function PartialPay() {
                     <div className="w-1/2 ml-2">
                       {" "}
                       <Wallet
-                        // onClick={() => console.log("hola")}
                         initialization={{ preferenceId: preferenceId! }}
                       />{" "}
                     </div>

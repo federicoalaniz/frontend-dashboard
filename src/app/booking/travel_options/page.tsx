@@ -8,7 +8,7 @@ import Spinner from "@/components/Spinner";
 import { RenderAdults, RenderBigBags, RenderLittleBags, RenderSpecialLuggage } from "@/components/RenderPaxLuggage";
 import { formatAddress } from "@/utils/basics";
 
-const options = [
+let options = [
   {
     id: "cronos4",
     cant_handBag: 4,
@@ -20,9 +20,6 @@ const options = [
     price: 340,
     driverFee: 10,
     quantity: 0,
-    cant_adults: 3,
-    cant_kid: 3,
-    cant_babies: 3,
   },
   {
     id: "sharan7",
@@ -35,9 +32,6 @@ const options = [
     price: 360,
     driverFee: 12,
     quantity: 0,
-    cant_adults: 6,
-    cant_kid: 6,
-    cant_babies: 6,
   },
   {
     id: "sprinter19",
@@ -50,9 +44,6 @@ const options = [
     price: 500,
     driverFee: 20,
     quantity: 0,
-    cant_adults: 19,
-    cant_kid: 19,
-    cant_babies: 19,
   },
   {
     id: "iveco24",
@@ -65,9 +56,6 @@ const options = [
     price: 520,
     driverFee: 22,
     quantity: 0,
-    cant_adults: 24,
-    cant_kid: 24,
-    cant_babies: 24,
   },
   {
     id: "bus45",
@@ -80,9 +68,6 @@ const options = [
     price: 620,
     driverFee: 30,
     quantity: 0,
-    cant_adults: 45,
-    cant_kid: 45,
-    cant_babies: 45,
   },
   {
     id: "bus60",
@@ -95,9 +80,6 @@ const options = [
     price: 680,
     driverFee: 35,
     quantity: 0,
-    cant_adults: 60,
-    cant_kid: 60,
-    cant_babies: 60,
   },
 ];
 
@@ -116,9 +98,6 @@ export default function TravelOptions() {
   const [travelTime, setTravelTime] = useState(0)
 
   const [totalSeatsNeeded, setTotalSeatsNeeded] = useState(0);
-  const [adultsSeatsNeeded, setAdultsSeatsNeeded] = useState(0);
-  const [kidsSeatsNeeded, setKidsSeatsNeeded] = useState(0);
-  const [babiesSeatsNeeded, setBabiesSeatsNeeded] = useState(0);
   const [bigBagsNeeded, setBigBagsNeeded] = useState(0);
   const [littleBagsNeeded, setLittleBagsNeeded] = useState(0);
 
@@ -129,29 +108,29 @@ export default function TravelOptions() {
   const [disabled, setDisabled] = useState(false);
 
 
+
   const FOOD_PRICE = 10000
   const LODGING_PRICE = 30000
 
 
   useEffect(() => {
+    console.log('pre_options', options[0]);
+  
     const form0 = JSON.parse(localStorage.getItem("form0") || "");
     if (form0) {
       setResult({ form0 });
       setTotalSeatsNeeded(
         form0.passengers.adult +
         form0.passengers.kid +
-        form0.passengers.pets.big,
+        form0.passengers.pets.big
       );
-      setAdultsSeatsNeeded(form0.passengers.adult)
-      setKidsSeatsNeeded(form0.passengers.kid)
-      setBabiesSeatsNeeded(form0.passengers.baby)
-      setBigBagsNeeded(form0.luggage.bag23)
-      setLittleBagsNeeded(form0.luggage.carryOn)
-      setFulltime(form0.fullTime)
-      setInitDate(new Date((form0.departure.date + "T" + form0.departure.time + ":00")))
-      setEndDate(new Date((form0.return.date + "T" + form0.return.time + ":00")))
+      setBigBagsNeeded(form0.luggage.bag23);
+      setLittleBagsNeeded(form0.luggage.carryOn);
+      setFulltime(form0.fullTime);
+      setInitDate(new Date((form0.departure.date + "T" + form0.departure.time + ":00")));
+      setEndDate(new Date((form0.return.date + "T" + form0.return.time + ":00")));
     }
-
+  
     const fetchDistance = async () => {
       const result = await fetch(`${APIBASE}/gmaps/distance`, {
         headers: {
@@ -176,6 +155,29 @@ export default function TravelOptions() {
     };
     fetchDistance().catch(console.log);
   }, []);
+  
+  const [hasExecuted, setHasExecuted] = useState(false);
+  
+  useEffect(() => {
+    if (totalSeatsNeeded !== undefined && !hasExecuted) {
+      options.map((option) => {
+        if (option.seats > totalSeatsNeeded) {
+          const asientosSobrantes = option.seats - totalSeatsNeeded;
+  
+          option.seats -= totalSeatsNeeded;  // Reducir los asientos necesarios
+          option.cant_bag += asientosSobrantes;  // Sumar los asientos sobrantes a las bolsas grandes
+          option.cant_littleBag += asientosSobrantes * 2;  // Sumar los asientos sobrantes multiplicados por 2 a las bolsas pequeñas
+        }
+      });
+  
+      setHasExecuted(true); // Marcar que ya se ha ejecutado
+      console.log('asientos sobrantes', options[0].seats);
+      console.log('valijas grandes', options[0].cant_bag);
+      console.log('valijas chicas', Math.floor(options[0].cant_littleBag));
+    }
+  }, [totalSeatsNeeded, options, hasExecuted]);
+  
+  
 
 
   if (!result) {
@@ -210,7 +212,7 @@ export default function TravelOptions() {
 
   const totalCost = vehiclesCost.concat(driversCost).reduce((a, b) => a + b);
 
-  const handleDisableButton = ():boolean | undefined => {
+  const handleDisableButton = (): boolean | undefined => {
     if (totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0) {
       return true
     }
@@ -479,7 +481,7 @@ export default function TravelOptions() {
                       );
                       redirect("/booking/checkout");
                     }}
-                    disabled = { !(totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0) }
+                    disabled={!(totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0)}
 
                   >
                     Continuar
