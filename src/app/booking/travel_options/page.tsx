@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import CardOption, { IconType } from "@/components/card";
 import HeaderAV, { OptionHeader } from "@/components/header";
 import { driverPrice, driverQuantitys, foodExpenses, lodgingExpenses } from "@/utils/pricing";
@@ -105,7 +105,8 @@ export default function TravelOptions() {
   const [initDate, setInitDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
-  const [disabled, setDisabled] = useState(false);
+  // const [hasExecuted, setHasExecuted] = useState(false);
+  const hasExecutedRef = useRef(false);
 
 
 
@@ -115,7 +116,7 @@ export default function TravelOptions() {
 
   useEffect(() => {
     console.log('pre_options', options[0]);
-  
+
     const form0 = JSON.parse(localStorage.getItem("form0") || "");
     if (form0) {
       setResult({ form0 });
@@ -130,7 +131,7 @@ export default function TravelOptions() {
       setInitDate(new Date((form0.departure.date + "T" + form0.departure.time + ":00")));
       setEndDate(new Date((form0.return.date + "T" + form0.return.time + ":00")));
     }
-  
+
     const fetchDistance = async () => {
       const result = await fetch(`${APIBASE}/gmaps/distance`, {
         headers: {
@@ -154,30 +155,54 @@ export default function TravelOptions() {
       setTravelTime(dur);
     };
     fetchDistance().catch(console.log);
-  }, []);
-  
-  const [hasExecuted, setHasExecuted] = useState(false);
-  
-  useEffect(() => {
-    if (totalSeatsNeeded !== undefined && !hasExecuted) {
+
+    const asientosNecesarios = form0.passengers.adult + form0.passengers.kid + form0.passengers.pets.big
+    if (!hasExecutedRef.current) {
+      console.log("Ejecutando la lógica...")
       options.map((option) => {
-        if (option.seats > totalSeatsNeeded) {
-          const asientosSobrantes = option.seats - totalSeatsNeeded;
-  
-          option.seats -= totalSeatsNeeded;  // Reducir los asientos necesarios
+        if (option.seats > asientosNecesarios) {
+          const asientosSobrantes = option.seats - asientosNecesarios;
+          console.log({asientosNecesarios})
+          console.log({asientosSobrantes})
+
+          option.seats -= asientosNecesarios;  // Reducir los asientos necesarios
           option.cant_bag += asientosSobrantes;  // Sumar los asientos sobrantes a las bolsas grandes
           option.cant_littleBag += asientosSobrantes * 2;  // Sumar los asientos sobrantes multiplicados por 2 a las bolsas pequeñas
         }
       });
-  
-      setHasExecuted(true); // Marcar que ya se ha ejecutado
-      console.log('asientos sobrantes', options[0].seats);
-      console.log('valijas grandes', options[0].cant_bag);
-      console.log('valijas chicas', Math.floor(options[0].cant_littleBag));
+
+      hasExecutedRef.current = true;
+      console.log({ hasExecuted: hasExecutedRef.current })
     }
-  }, [totalSeatsNeeded, options, hasExecuted]);
-  
-  
+
+  }, []);
+
+
+
+  // useEffect(() => {
+  //   if (totalSeatsNeeded !== undefined && !hasExecuted) {
+  //     // const asientosNecesarios =
+  //     options.map((option) => {
+  //       if (option.seats > totalSeatsNeeded) {
+  //         const asientosSobrantes = option.seats - totalSeatsNeeded;
+
+  //         option.seats -= totalSeatsNeeded;  // Reducir los asientos necesarios
+  //         option.cant_bag += asientosSobrantes;  // Sumar los asientos sobrantes a las bolsas grandes
+  //         option.cant_littleBag += asientosSobrantes * 2;  // Sumar los asientos sobrantes multiplicados por 2 a las bolsas pequeñas
+  //       }
+  //     });
+
+  //     setHasExecuted(true); // Marcar que ya se ha ejecutado
+  //     console.log(hasExecuted)
+  //     // console.log('asientos', options[0].seats);
+  //     console.log('asientos necesarios', totalSeatsNeeded);
+  //     // console.log('asientos sobrantes', options[0].seats - totalSeatsNeeded);
+  //     // console.log('valijas grandes', options[0].cant_bag);
+  //     // console.log('valijas chicas', Math.floor(options[0].cant_littleBag));
+  //   }
+  // }, [totalSeatsNeeded, options, hasExecuted]);
+
+
 
 
   if (!result) {
