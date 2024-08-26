@@ -105,7 +105,6 @@ export default function TravelOptions() {
   const [initDate, setInitDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
-  // const [hasExecuted, setHasExecuted] = useState(false);
   const hasExecutedRef = useRef(false);
 
 
@@ -162,8 +161,8 @@ export default function TravelOptions() {
       options.map((option) => {
         if (option.seats > asientosNecesarios) {
           const asientosSobrantes = option.seats - asientosNecesarios;
-          console.log({asientosNecesarios})
-          console.log({asientosSobrantes})
+          // console.log({asientosNecesarios})
+          // console.log({asientosSobrantes})
 
           option.seats -= asientosNecesarios;  // Reducir los asientos necesarios
           option.cant_bag += asientosSobrantes;  // Sumar los asientos sobrantes a las bolsas grandes
@@ -179,28 +178,7 @@ export default function TravelOptions() {
 
 
 
-  // useEffect(() => {
-  //   if (totalSeatsNeeded !== undefined && !hasExecuted) {
-  //     // const asientosNecesarios =
-  //     options.map((option) => {
-  //       if (option.seats > totalSeatsNeeded) {
-  //         const asientosSobrantes = option.seats - totalSeatsNeeded;
 
-  //         option.seats -= totalSeatsNeeded;  // Reducir los asientos necesarios
-  //         option.cant_bag += asientosSobrantes;  // Sumar los asientos sobrantes a las bolsas grandes
-  //         option.cant_littleBag += asientosSobrantes * 2;  // Sumar los asientos sobrantes multiplicados por 2 a las bolsas pequeñas
-  //       }
-  //     });
-
-  //     setHasExecuted(true); // Marcar que ya se ha ejecutado
-  //     console.log(hasExecuted)
-  //     // console.log('asientos', options[0].seats);
-  //     console.log('asientos necesarios', totalSeatsNeeded);
-  //     // console.log('asientos sobrantes', options[0].seats - totalSeatsNeeded);
-  //     // console.log('valijas grandes', options[0].cant_bag);
-  //     // console.log('valijas chicas', Math.floor(options[0].cant_littleBag));
-  //   }
-  // }, [totalSeatsNeeded, options, hasExecuted]);
 
 
 

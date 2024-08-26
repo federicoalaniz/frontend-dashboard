@@ -194,10 +194,13 @@ export default function QR() {
             </div>
             {/* FIN DEL CONTAINER */}
             <div className="font-bold text-orange-500 text-[18px]">
-              <Link href="#" onClick={() => {
-                  localStorage.clear();
-                  redirect("/booking")
-                }}>Continuar en el sitio</Link>
+                <button
+                  onClick={() => {
+                    localStorage.clear();
+                    redirect("/booking")
+                  }}
+                  className="bg-inherit shadow-none text-orange-500 focus:ring-transparent"
+                >Continuar en el sitio</button>
             </div>
           </div>
         </div>
