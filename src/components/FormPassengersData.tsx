@@ -11,7 +11,19 @@ import { isError } from "./ErrorMessage";
 import { isValid, updateLocalStorage } from "@/utils/basics";
 
 let errorInitialState = {
-  passengers: [] as any[],
+  passengers: [{
+    firstName: '',
+    lastName: '',
+    gender: '',
+    identification: { type: '', number: '', country: '' },
+    age: '',
+    contact: {
+      phoneCode: '',
+      phoneNumber: '',
+      email: '',
+      address: { street: '', googlePlace: { lat: '', lng: '' }, other: '' }
+    }
+  }] as any[],
   termsCondition: "",
   newsletter: "",
   globals: [""],

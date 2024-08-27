@@ -114,8 +114,6 @@ export default function TravelOptions() {
 
 
   useEffect(() => {
-    console.log('pre_options', options[0]);
-
     const form0 = JSON.parse(localStorage.getItem("form0") || "");
     if (form0) {
       setResult({ form0 });
@@ -157,7 +155,6 @@ export default function TravelOptions() {
 
     const asientosNecesarios = form0.passengers.adult + form0.passengers.kid + form0.passengers.pets.big
     if (!hasExecutedRef.current) {
-      console.log("Ejecutando la lógica...")
       options.map((option) => {
         if (option.seats > asientosNecesarios) {
           const asientosSobrantes = option.seats - asientosNecesarios;
@@ -171,7 +168,6 @@ export default function TravelOptions() {
       });
 
       hasExecutedRef.current = true;
-      console.log({ hasExecuted: hasExecutedRef.current })
     }
 
   }, []);
