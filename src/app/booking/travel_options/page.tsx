@@ -15,6 +15,7 @@ let options = [
     cant_handBag: 4,
     cant_bag: 2,
     cant_littleBag: 3,
+    cant_special: 1,
     name: "Fiat Cronos",
     seats: 3,
     car_img: "cronos" as IconType,
@@ -39,6 +40,7 @@ let options = [
     cant_handBag: 7,
     cant_bag: 3,
     cant_littleBag: 6,
+    cant_special: 1,
     name: "Volkswagen Sharan",
     seats: 6,
     car_img: "sharan" as IconType,
@@ -63,6 +65,7 @@ let options = [
     cant_handBag: 19,
     cant_bag: 15,
     cant_littleBag: 15,
+    cant_special: 1,
     name: "Mercedes Benz Sprinter",
     seats: 19,
     car_img: "sprinter" as IconType,
@@ -87,6 +90,7 @@ let options = [
     cant_handBag: 24,
     cant_bag: 15,
     cant_littleBag: 24,
+    cant_special: 1,
     name: "Iveco",
     seats: 24,
     car_img: "iveco24" as IconType,
@@ -111,6 +115,7 @@ let options = [
     cant_handBag: 45,
     cant_bag: 45,
     cant_littleBag: 90,
+    cant_special: 1,
     name: "Bus 45",
     seats: 45,
     car_img: "bus45" as IconType,
@@ -135,6 +140,7 @@ let options = [
     cant_handBag: 60,
     cant_bag: 60,
     cant_littleBag: 120,
+    cant_special: 1,
     name: "Bus 60",
     seats: 60,
     car_img: "bus60" as IconType,
@@ -174,6 +180,7 @@ export default function TravelOptions() {
   const [totalSeatsNeeded, setTotalSeatsNeeded] = useState(0);
   const [bigBagsNeeded, setBigBagsNeeded] = useState(0);
   const [littleBagsNeeded, setLittleBagsNeeded] = useState(0);
+  const [specialLuggageNeeded, setSpecialLuggageNeeded] = useState(0);
 
   const [fulltime, setFulltime] = useState(false);
   const [initDate, setInitDate] = useState<Date>();
@@ -188,7 +195,8 @@ export default function TravelOptions() {
 
   let initialSeatsNeeded = 0;
   let initialBigBagsNeeded = 0;
-  let initialLittleBagsNeeded = 0
+  let initialLittleBagsNeeded = 0;
+  let initialSpecialLugagggeNeeded = 0;
 
   useEffect(() => {
     const form0 = JSON.parse(localStorage.getItem("form0") || "");
@@ -201,6 +209,7 @@ export default function TravelOptions() {
       );
       setBigBagsNeeded(form0.luggage.bag23);
       setLittleBagsNeeded(form0.luggage.carryOn);
+      setSpecialLuggageNeeded(form0.luggage.special.quantity);
       setFulltime(form0.fullTime);
       setInitDate(new Date((form0.departure.date + "T" + form0.departure.time + ":00")));
       setEndDate(new Date((form0.return.date + "T" + form0.return.time + ":00")));
@@ -237,9 +246,11 @@ export default function TravelOptions() {
         if (option.seats > asientosNecesarios) {
           const asientosSobrantes = option.seats - asientosNecesarios;
 
-          option.seats -= asientosNecesarios;  // Reducir los asientos necesarios
+          option.seats -= asientosSobrantes;  // Reducir los asientos necesarios
           option.cant_bag += asientosSobrantes;  // Sumar los asientos sobrantes a las bolsas grandes
           option.cant_littleBag += asientosSobrantes * 2;  // Sumar los asientos sobrantes multiplicados por 2 a las bolsas pequeñas
+          asientosSobrantes % 2 === 0 ? option.cant_special += asientosSobrantes / 2 : null // Cada equipaje especial requiere de 2 asientos libres
+          
         }
       });
 
@@ -250,7 +261,6 @@ export default function TravelOptions() {
     vehicles.map((vehicle) => {
       quantityVehicles += vehicle.quantity
     })
-    console.log(quantityVehicles)
   }, []);
 
   if (!result) {
@@ -260,6 +270,7 @@ export default function TravelOptions() {
   initialSeatsNeeded = result.form0.passengers.adult + result.form0.passengers.kid + result.form0.passengers.pets.big
   initialBigBagsNeeded = result.form0.luggage.bag23
   initialLittleBagsNeeded = result.form0.luggage.carryOn
+  initialSpecialLugagggeNeeded = result.form0.luggage.special.quantity
   const distanciaTotal = distanciaIda + distanciaVuelta;
 
   const vehiclesCost = vehicles.map(
@@ -306,9 +317,9 @@ export default function TravelOptions() {
               <h1 className="text-[36px] text-black">
                 <strong>Selecciona tipo</strong> y <strong>cantidad</strong>
               </h1>
-              { (totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0) 
+              { (totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0 && specialLuggageNeeded <= 0) 
                   ? null
-                  : (totalSeatsNeeded === initialSeatsNeeded  && bigBagsNeeded === initialBigBagsNeeded && littleBagsNeeded === initialLittleBagsNeeded)
+                  : (totalSeatsNeeded === initialSeatsNeeded  && bigBagsNeeded === initialBigBagsNeeded && littleBagsNeeded === initialLittleBagsNeeded && specialLuggageNeeded === initialSpecialLugagggeNeeded)
                   ? null
                   :
                   <RedAlert className="mt-5">
@@ -327,6 +338,8 @@ export default function TravelOptions() {
                     setBigBagsNeeded={setBigBagsNeeded}
                     littleBagsNeeded={littleBagsNeeded}
                     setLittleBagsNeeded={setLittleBagsNeeded}
+                    specialLuggageNeeded={specialLuggageNeeded}
+                    setSpecialLuggageNeeded={setSpecialLuggageNeeded}
                     setVehicle={(newVehicle: any) => {
                       const newListVehicle = vehicles.map((vehicle) =>
                         vehicle.id === newVehicle.id ? newVehicle : vehicle,
@@ -342,8 +355,8 @@ export default function TravelOptions() {
               <h1 className="text-[36px] text-black">Resumen</h1>
               <div className={`flex flex-col bg-white text-gray-500 font-medium justify-end rounded-t-md mt-5 px-5 pb-5 shadow-lg text-xs 
               ${(totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0) 
-                ? 'bg-[#D3F2DE] border-green-500 border' 
-                : (totalSeatsNeeded === initialSeatsNeeded  && bigBagsNeeded === initialBigBagsNeeded && littleBagsNeeded === initialLittleBagsNeeded) 
+                ? 'bg-green-200 border-green-500 border' 
+                : (totalSeatsNeeded === initialSeatsNeeded  && bigBagsNeeded === initialBigBagsNeeded && littleBagsNeeded === initialLittleBagsNeeded && specialLuggageNeeded === initialSpecialLugagggeNeeded) 
                 ? ''
                 : 'bg-yellow-100 border-orange-400 border'}`}>
                 <div>
@@ -417,9 +430,18 @@ export default function TravelOptions() {
                   </div>
                   <div className="mt-5 font-semibold text-gray-600">
                     <div>
-                      <RenderBigBags total={result.form0.luggage.bag23} asignado={result.form0.luggage.bag23 - bigBagsNeeded} />
-                      <RenderLittleBags total={result.form0.luggage.carryOn} asignado={result.form0.luggage.carryOn - littleBagsNeeded} />
-                      <RenderSpecialLuggage total={result.form0.luggage.special.quantity} asignado={0} />
+                      { 
+                        result.form0.luggage.bag23 > 0 
+                        && <RenderBigBags total={result.form0.luggage.bag23} asignado={result.form0.luggage.bag23 - bigBagsNeeded} />
+                      }
+                      {
+                        result.form0.luggage.carryOn > 0
+                        && <RenderLittleBags total={result.form0.luggage.carryOn} asignado={result.form0.luggage.carryOn - littleBagsNeeded} />
+                      }
+                      {
+                        result.form0.luggage.special.quantity > 0
+                        && <RenderSpecialLuggage total={result.form0.luggage.special.quantity} asignado={result.form0.luggage.special.quantity - specialLuggageNeeded} />
+                      }
                     </div>
                     {result.form0.luggage.bag23 +
                       result.form0.luggage.carryOn +
@@ -519,7 +541,7 @@ export default function TravelOptions() {
                               key={index}
                             >
                               <p>
-                                {`${vehicle.quantity * driverQuantitys(vehicle.id, distanciaTotal)} Choferes calificados`}
+                                {vehicle.quantity * driverQuantitys(vehicle.id, distanciaTotal) === 1 ? `${vehicle.quantity * driverQuantitys(vehicle.id, distanciaTotal)} Chofer calificado (${vehicle.name})` : `${vehicle.quantity * driverQuantitys(vehicle.id, distanciaTotal)} Choferes calificados (${vehicle.name})`}
                               </p>
                               <span className="font-semibold">
                                 {driversCost[index].toLocaleString('es-AR', { style: 'currency', currency: "ARS" })}
@@ -567,7 +589,7 @@ export default function TravelOptions() {
                       );
                       redirect("/booking/checkout");
                     }}
-                    disabled={!(totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0)}
+                    disabled={!(totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0 && specialLuggageNeeded <= 0)}
                   >
                     Continuar
                   </button>

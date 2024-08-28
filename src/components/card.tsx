@@ -14,7 +14,6 @@ import vehicles from "@/ui/img/vehicles/index";
 import logos from "@/ui/icons/index";
 import { Ruda } from "next/font/google";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { ExclamationCircleIcon } from "@heroicons/react/16/solid";
 
 import { Tooltip } from 'react-tooltip';
@@ -80,6 +79,7 @@ interface Vehicle {
   cant_handBag: number
   cant_bag: number
   cant_littleBag: number
+  cant_special: number
   quantity: number
   price: number
   nominal_data: any
@@ -94,6 +94,8 @@ export default function CardOption(props: {
   setBigBagsNeeded: Function;
   littleBagsNeeded: number;
   setLittleBagsNeeded: Function;
+  specialLuggageNeeded: number;
+  setSpecialLuggageNeeded: Function;
 }) {
   const [open, setOpen] = useState(false);
   const openAccordion = (e: any) => {
@@ -111,6 +113,8 @@ export default function CardOption(props: {
     setBigBagsNeeded,
     littleBagsNeeded,
     setLittleBagsNeeded,
+    specialLuggageNeeded,
+    setSpecialLuggageNeeded,
   } = props;
 
   const {
@@ -169,6 +173,7 @@ export default function CardOption(props: {
                 setTotalSeatsNeeded(totalSeatsNeeded + vehicle.seats)
                 setBigBagsNeeded(bigBagsNeeded + vehicle.cant_bag)
                 setLittleBagsNeeded(littleBagsNeeded + vehicle.cant_littleBag)
+                setSpecialLuggageNeeded(specialLuggageNeeded + vehicle.cant_special)
               }}
               disabled={vehicle.quantity === 0}
             >-</button>
@@ -184,8 +189,9 @@ export default function CardOption(props: {
                 setTotalSeatsNeeded(totalSeatsNeeded - vehicle.seats )
                 setBigBagsNeeded(bigBagsNeeded - vehicle.cant_bag)
                 setLittleBagsNeeded(littleBagsNeeded - vehicle.cant_littleBag)
+                setSpecialLuggageNeeded(specialLuggageNeeded - vehicle.cant_special)
               }}
-              disabled={ totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0 }
+              disabled={ totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0 && specialLuggageNeeded <= 0 }
             >+</button>
           </div>
           <div className="text-gray-500 text-xs flex mr-10">
