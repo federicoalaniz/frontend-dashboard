@@ -22,6 +22,7 @@
     "react-google-location": "^1.2.2",
     "react-places-autocomplete": "^7.3.0",
     "react-select": "^5.8.0",
+    "react-tooltip": "^5.28.0",
     "tailwind-merge": "^2.3.0"
   },
   "devDependencies": {

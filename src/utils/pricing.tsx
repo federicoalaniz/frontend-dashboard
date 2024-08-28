@@ -108,13 +108,11 @@ function journeyPrice(
 }
 
 const driverQuantitys = (vehicle: string, journey_km: number) => {
-    const vehicle1 = ["sharan7", "sprinter19", "cronos4"]
-    const vehicle2 = ["iveco24", "bus45", "bus60"]
+    const vehicle1 = ["sharan7", "cronos4"]
+    const vehicle2 = ["sprinter19", "iveco24", "bus45", "bus60"]
 
-    if (vehicle1.includes(vehicle) && journey_km <= 600)
+    if (vehicle1.includes(vehicle))
         return 1
-    if (vehicle1.includes(vehicle) && journey_km > 600)
-        return 2
     if (vehicle2.includes(vehicle) && journey_km <= 100)
         return 1
     if (vehicle2.includes(vehicle) && journey_km > 100)

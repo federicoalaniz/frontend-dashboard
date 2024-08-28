@@ -261,7 +261,7 @@ export default function AVForm() {
                 <div className="flex">
                   <RadioButtonComponent
                     name="disp"
-                    label="Solo durante la ida/vuelta"
+                    label="Solo durante los tramos de ida y/o vuelta"
                     value="false"
                     checked={!trip.fullTime}
                     onChange={() => {
@@ -273,7 +273,7 @@ export default function AVForm() {
                   />
                   <RadioButtonComponent
                     name="disp"
-                    label="100% del tiempo"
+                    label="Quiero disponer del vehículo el 100% del tiempo (incluso durante mi estadía)"
                     value="true"
                     checked={trip.fullTime}
                     onChange={() => {
@@ -536,7 +536,7 @@ export default function AVForm() {
           <div className="w-1/3 mx-2">
             <AVCounter
               icon={"puppyBig" as IconType}
-              title="Mas de 8kg"
+              title="Más de 8kg"
               subtitle="Mascota en asiento"
               value={trip.passengers.pets.big}
               errorField={errors.passengers.pets.big}

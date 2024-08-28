@@ -61,15 +61,17 @@ export default function AVCounter(
       <div className="flex flex-col w-[35%]">
         <div className="flex flex-row items-center justify-center">
           <button
-            className="m-2 w-7 h-7 rounded-full border border-orange-500 text-[20px] shadow-md bg-transparent text-gray-500"
+            className="w-7 h-7 rounded-full border border-orange-500 text-[20px] shadow-md bg-transparent text-gray-500"
             onClick={(e) => {
               e.preventDefault();
               decrement();
             }}
           > - </button>
-          <span className="w-3 text-center text-[20px]">{value}</span>
+          <span className="w-[40px] text-center text-[20px]">  
+            {value}
+          </span>
           <button
-            className="m-2 w-7 h-7 rounded-full border border-orange-500 text-[20px] shadow-md bg-transparent text-gray-500"
+            className=" w-7 h-7 rounded-full border border-orange-500 text-[20px] shadow-md bg-transparent text-gray-500"
             onClick={(e) => {
               e.preventDefault();
               increment();
