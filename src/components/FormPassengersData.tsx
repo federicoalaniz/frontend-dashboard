@@ -10,24 +10,12 @@ import { RedAlert } from "./alert";
 import { isError } from "./ErrorMessage";
 import { isValid, updateLocalStorage } from "@/utils/basics";
 
-let errorInitialState = {
-  passengers: [{
-    firstName: '',
-    lastName: '',
-    gender: '',
-    identification: { type: '', number: '', country: '' },
-    age: '',
-    contact: {
-      phoneCode: '',
-      phoneNumber: '',
-      email: '',
-      address: { street: '', googlePlace: { lat: '', lng: '' }, other: '' }
-    }
-  }] as any[],
-  termsCondition: "",
-  newsletter: "",
-  globals: [""],
-};
+// let errorInitialState = {
+//   passengers: [] as any[],
+//   termsCondition: "",
+//   newsletter: "",
+//   globals: [""],
+// };
 
 
 export default function Passengers({
@@ -35,6 +23,42 @@ export default function Passengers({
 }: {
   passengers: number;
 }) {
+
+  const passengersInitialErrorState = Array.from(
+    { length: amountPassegengers },
+    (_) =>
+    ({
+      firstName: "",
+      lastName: "",
+      gender: "",
+      age: "",
+      identification: {
+        type: "",
+        number: "",
+        country: "",
+      },
+      contact: {
+        phoneCode: "",
+        phoneNumber: "",
+        email: "",
+        address: {
+          street: "",
+          googlePlace: {
+            lat: "",
+            lng: "",
+          }
+        },
+      },
+    }),
+  );
+
+  let errorInitialState = {
+    // passengers: [] as any[],
+    passengers: passengersInitialErrorState,
+    termsCondition: "",
+    newsletter: "",
+    globals: [""],
+  };
   const { passengerData, setPassengerData } = usePassengerData();
   const [errors, setError] = useState(errorInitialState);
   const [isDisabled, setIsDisabled] = useState(!passengerData.agreements.termsCondition)
@@ -74,33 +98,8 @@ export default function Passengers({
     );
     let initialData = { ...passengerData, passengers };
 
-    const passengersInitialErrorState = Array.from(
-      { length: amountPassegengers },
-      (_) =>
-      ({
-        firstName: "",
-        lastName: "",
-        gender: "",
-        age: "",
-        identification: {
-          type: "",
-          number: "",
-          country: "",
-        },
-        contact: {
-          phoneCode: "",
-          phoneNumber: "",
-          email: "",
-          address: {
-            street: "",
-            googlePlace: {
-              lat: "",
-              lng: "",
-            }
-          },
-        },
-      }),
-    );
+    
+
     errorInitialState = {
       ...errorInitialState,
       passengers: passengersInitialErrorState
@@ -139,13 +138,14 @@ export default function Passengers({
       },
     }));
 
-
+    // const errorPassengers = passengers
+    console.log({errorPassengers})
 
     const initialErrorData = {
       ...errorInitialState,
       passengers: errorPassengers,
     };
-
+    
     setError(initialErrorData as any);
   }, []);
 
@@ -285,6 +285,8 @@ export default function Passengers({
       errorHandler();
       const persistedData = JSON.stringify(passengerData);
       updateLocalStorage("form1", persistedData);
+      console.log(isValid(errors, errorInitialState))
+      console.log({errors}, {errorInitialState})
       isValid(errors, errorInitialState) ? redirect("/booking/travel_options"): null;
     }
   };

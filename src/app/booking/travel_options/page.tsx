@@ -205,7 +205,6 @@ export default function TravelOptions() {
       setInitDate(new Date((form0.departure.date + "T" + form0.departure.time + ":00")));
       setEndDate(new Date((form0.return.date + "T" + form0.return.time + ":00")));
       
-      console.log({initialSeatsNeeded})
     }
 
     const fetchDistance = async () => {
@@ -291,7 +290,6 @@ export default function TravelOptions() {
 
   const vehicleTravelDuration = travelTime;
 
-  console.log({initialSeatsNeeded}, {totalSeatsNeeded})
   return (
     <>
       <div className="flex min-h-screen flex-col items-center bg-gray-300 h-full">
@@ -344,7 +342,7 @@ export default function TravelOptions() {
               <h1 className="text-[36px] text-black">Resumen</h1>
               <div className={`flex flex-col bg-white text-gray-500 font-medium justify-end rounded-t-md mt-5 px-5 pb-5 shadow-lg text-xs 
               ${(totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0) 
-                ? 'bg-green-200 border-green-500 border' 
+                ? 'bg-[#D3F2DE] border-green-500 border' 
                 : (totalSeatsNeeded === initialSeatsNeeded  && bigBagsNeeded === initialBigBagsNeeded && littleBagsNeeded === initialLittleBagsNeeded) 
                 ? ''
                 : 'bg-yellow-100 border-orange-400 border'}`}>
@@ -357,7 +355,7 @@ export default function TravelOptions() {
                         ${result.form0.passengers.adult +
                           result.form0.passengers.kid +
                           result.form0.passengers.baby} 
-                        pasajeros / ${result.form0.passengers.adult +
+                        pasajeros | ${result.form0.passengers.adult +
                           result.form0.passengers.kid +
                           result.form0.passengers.pets.big} asientos
                         `}

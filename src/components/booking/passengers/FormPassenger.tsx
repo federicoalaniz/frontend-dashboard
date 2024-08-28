@@ -451,18 +451,18 @@ export default function PassengerForm({
                 value={passenger.contact.address.other}
                 errorField={errors.contact.address.other}
                 onChange={(e: any) => {
-                  if (isError(errors.contact.address.other)) {
-                    setError({
-                      ...errors,
-                      contact: {
-                        ...errors.contact,
-                        address: {
-                          ...errors.contact.address,
-                          other: "",
-                        },
-                      },
-                    });
-                  }
+                  // if (isError(errors.contact.address.other)) {
+                  //   setError({
+                  //     ...errors,
+                  //     contact: {
+                  //       ...errors.contact,
+                  //       address: {
+                  //         ...errors.contact.address,
+                  //         other: "",
+                  //       },
+                  //     },
+                  //   });
+                  // }
                   setPassenger({
                     ...passenger,
                     contact: {
@@ -476,10 +476,7 @@ export default function PassengerForm({
                 }}
               />
             </div>
-            {/* </div> */}
           </div>
-
-          {/* {isResponsible && <Important />} */}
         </div>
       )}
     </Accordion>
