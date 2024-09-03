@@ -49,6 +49,7 @@ function DetailsContent() {
     const passengersData = data?.form1?.passengers;
     const totalCost = data.form2.totalCost;
     const partiallyPaid = data?.form3.amount;
+    console.log(data)
     return (
         <>
             <PortalNavBar />
@@ -65,7 +66,7 @@ function DetailsContent() {
                             <ArrowLeftIcon className="size-4 mr-2" /> <p>Volver</p>
                         </div>
                         <div className="flex text-3xl">
-                            <p className="font-bold">SERVICIO {`VE${data._id.substring(0, 6)}`} <span className="font-light">| {formatDateDDMMYYY(new Date(tripData.departure.date + 'T' + tripData.departure.time))}</span> </p>
+                            <p className="font-bold">SERVICIO {`VE${data._id.substring(0, 6)}`} <span className="font-light">| {formatDateDDMMYYY(new Date(data.createdAt))}</span> </p>
                         </div>
                         <QrCodeIcon className="flex mx-2 size-8 items-center" />
                     </div>

@@ -7,16 +7,16 @@ import Image from "next/image";
 import minibus from "@/ui/icons/minibus.svg";
 import download from "@/ui/icons/download.svg";
 import share from "@/ui/icons/share.svg";
-import { Ruda, Inter } from "next/font/google";
-import Link from "next/link";
+import { Ruda } from "next/font/google";
 import { useRouter } from "next/navigation";
 import Spinner from "@/components/Spinner";
 import { formatAddress, formatDate } from "@/utils/basics";
 
 const ruda = Ruda({ subsets: ["latin"] });
-const inter = Inter({ subsets: ["latin"] });
 
 const APIBASE = process.env.NEXT_PUBLIC_APIBASE;
+
+const MENSAJE_SALDO = "Recuerda cancelar el saldo del servicio antes de comenzar el viaje. Podrás hacerlo ingresando mediante el código QR."
 
 
 function safeJsonParse(str: string | null): any | null {
@@ -59,10 +59,8 @@ export default function QR() {
         });
         const json = await result.json();
 
-        if (json.data) {
-          localStorage.setItem("posId", json.data.insertedId);
-          setResult({ ...data, posId: json.data.insertedId });
-        }
+        localStorage.setItem("posId", json.insertedId);
+        setResult({ ...data, posId: json.insertedId });
       }
     }
     fetchInitialData().catch(error => console.log(error))
@@ -109,8 +107,7 @@ export default function QR() {
             <div className="w-[813px] h-auto bg-white my-6 rounded-lg shadow-lg">
               <div className="flex flex-row-w-full bg-[#3198A5] rounded-t-lg py-6 px-10">
                 <p className="font-semibold text-white text-[24px] text-justify">
-                  Recuerda cancelar el saldo del servicio antes de comenzar el
-                  viaje. Podrás hacerlo ingresando mediante el código QR.
+                  {MENSAJE_SALDO}
                 </p>
               </div>
               <div className="flex flex-row">
