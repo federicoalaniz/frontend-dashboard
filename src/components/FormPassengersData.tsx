@@ -10,12 +10,12 @@ import { RedAlert } from "./alert";
 import { isError } from "./ErrorMessage";
 import { isValid, updateLocalStorage } from "@/utils/basics";
 
-// let errorInitialState = {
-//   passengers: [] as any[],
-//   termsCondition: "",
-//   newsletter: "",
-//   globals: [""],
-// };
+let errorInitialState = {
+  passengers: [] as any[],
+  termsCondition: "",
+  newsletter: "",
+  globals: [""],
+};
 
 
 export default function Passengers({
@@ -52,15 +52,15 @@ export default function Passengers({
     }),
   );
 
-  let errorInitialState = {
-    // passengers: [] as any[],
-    passengers: passengersInitialErrorState,
-    termsCondition: "",
-    newsletter: "",
-    globals: [""],
-  };
+  // let errorInitialState = {
+  //   // passengers: [] as any[],
+  //   passengers: passengersInitialErrorState,
+  //   termsCondition: "",
+  //   newsletter: "",
+  //   globals: [""],
+  // };
   const { passengerData, setPassengerData } = usePassengerData();
-  const [errors, setError] = useState(errorInitialState);
+  const [errors, setErrors] = useState(errorInitialState);
   const [isDisabled, setIsDisabled] = useState(!passengerData.agreements.termsCondition)
 
   const router = useRouter();
@@ -138,6 +138,37 @@ export default function Passengers({
       },
     }));
 
+    errorInitialState = {
+      ...errorInitialState,
+      passengers: Array.from(
+        { length: amountPassegengers },
+        (_) =>
+          ({
+            firstName: "",
+            lastName: "",
+            age: "",
+            gender:"",
+            identification: {
+              type: "",
+              number: "",
+              country: "",
+            },
+            contact: {
+              phoneCode: "",
+              phoneNumber: "",
+              email: "",
+              address: {
+                street: "",
+                googlePlace: {
+                  lat: "",
+                  lng: "",
+                }
+              },
+            },
+          }),
+      ),
+    };
+
     // const errorPassengers = passengers
     console.log({errorPassengers})
 
@@ -146,9 +177,9 @@ export default function Passengers({
       passengers: errorPassengers,
     };
     
-    setError(initialErrorData as any);
+    setErrors(initialErrorData as any);
   }, []);
-
+  
   const errorPassengerHandler = (errors: any, passenger: Passenger): any => {
     let temporalError = { ...errors };
     if (passenger.firstName === "") {
@@ -172,6 +203,7 @@ export default function Passengers({
         },
       };
     }
+    console.log(passenger.identification.number)
     if (passenger.identification.number === "") {
       temporalError = {
         ...temporalError,
@@ -270,7 +302,7 @@ export default function Passengers({
       const newError: any = errorPassengerHandler(oldError, passenger);
       return newError;
     });
-    setError({
+    setErrors({
       ...errors,
       passengers: passengersErrors,
     });
@@ -285,9 +317,10 @@ export default function Passengers({
       errorHandler();
       const persistedData = JSON.stringify(passengerData);
       updateLocalStorage("form1", persistedData);
+      
       console.log(isValid(errors, errorInitialState))
       console.log({errors}, {errorInitialState})
-      isValid(errors, errorInitialState) ? redirect("/booking/travel_options"): null;
+      // isValid(errors, errorInitialState) ? redirect("/booking/travel_options"): null;
     }
   };
 
@@ -308,7 +341,7 @@ export default function Passengers({
                 const passengers: any = errors.passengers.map((oldError, i) =>
                   index === i ? newError : oldError,
                 );
-                setError({
+                setErrors({
                   ...errors,
                   passengers,
                 });

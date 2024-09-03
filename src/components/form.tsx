@@ -90,6 +90,9 @@ export default function AVForm() {
     if (resObj?.tripType.roundTrip && resObj?.return?.time === "")
       newErrors.return.time = "Selecciona una hora de regreso";
 
+    if (resObj?.tripType.roundTrip && resObj?.return?.date < resObj?.departure?.date)
+      newErrors.return.date = "La fecha de regreso debe ser posterior a la de salida";
+    
     if (resObj?.passengers?.adult === 0)
       newErrors.passengers.adult = "Debe haber al menos 1 pasajero adulto";
 

@@ -65,7 +65,7 @@ function DetailsContent() {
                             <ArrowLeftIcon className="size-4 mr-2" /> <p>Volver</p>
                         </div>
                         <div className="flex text-3xl">
-                            <p className="font-bold">SERVICIO {`VE${data._id.substring(0, 6)}`} <span className="font-light">| {"15/02/2024"}</span> </p>
+                            <p className="font-bold">SERVICIO {`VE${data._id.substring(0, 6)}`} <span className="font-light">| {formatDateDDMMYYY(new Date(tripData.departure.date + 'T' + tripData.departure.time))}</span> </p>
                         </div>
                         <QrCodeIcon className="flex mx-2 size-8 items-center" />
                     </div>
