@@ -51,7 +51,7 @@ function Budget() {
       const json = await result.json();
       totalPages=json.pagination.total
       console.log(totalPages)
-      setData(json.data.reverse().filter((x: any) => x.form0));
+      setData(json.data.filter((x: any) => x.form0));
     };
 
     fetchData().catch(console.log);
@@ -310,7 +310,7 @@ const PaginationButtons = ({ total, setData, data, actualPage, setActualPage }: 
       },
     });
     const json = await result.json();
-    setData(json.data.reverse().filter((x: any) => x.form0));
+    setData(json.data.filter((x: any) => x.form0));
     setActualPage(page)
   };
 
