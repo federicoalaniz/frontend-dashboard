@@ -169,8 +169,7 @@ export default function Passengers({
       ),
     };
 
-    // const errorPassengers = passengers
-    console.log({errorPassengers})
+    // console.log({errorPassengers})
 
     const initialErrorData = {
       ...errorInitialState,
@@ -318,9 +317,9 @@ export default function Passengers({
       const persistedData = JSON.stringify(passengerData);
       updateLocalStorage("form1", persistedData);
       
-      console.log(isValid(errors, errorInitialState))
-      console.log({errors}, {errorInitialState})
-      // isValid(errors, errorInitialState) ? redirect("/booking/travel_options"): null;
+      // console.log(isValid(errors, errorInitialState))
+      // console.log({errors}, {errorInitialState})
+      isValid(errors, errorInitialState) ? redirect("/booking/travel_options"): null;
     }
   };
 

@@ -244,6 +244,10 @@ export default function PassengerForm({
                   name={`gender${index}`}
                   checked={passenger.gender === Gender.Male}
                   onChange={() => {
+                    setError({
+                      ...errors,
+                      gender:""
+                    })
                     setPassenger({
                       ...passenger,
                       gender: Gender.Male,
@@ -259,6 +263,10 @@ export default function PassengerForm({
                   name={`gender${index}`}
                   checked={passenger.gender === Gender.Female}
                   onChange={() => {
+                    setError({
+                      ...errors,
+                      gender:""
+                    })
                     setPassenger({
                       ...passenger,
                       gender: Gender.Female,
@@ -272,6 +280,10 @@ export default function PassengerForm({
                   name={`gender${index}`}
                   checked={passenger.gender === Gender.Other}
                   onChange={() => {
+                    setError({
+                      ...errors,
+                      gender:""
+                    })
                     setPassenger({
                       ...passenger,
                       gender: Gender.Other,
