@@ -442,6 +442,7 @@ export default function PassengerForm({
                 label="Dirección"
                 errorField={errors.contact.address.street}
                 onPlaceSelected={handleContactAddressSelected}
+                value={passenger.contact.address.street}
                 onChange={() => {
                   if (isError(errors.contact.address.street)) {
                     setError({

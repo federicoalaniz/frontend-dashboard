@@ -8,7 +8,7 @@ import { usePassengerData } from "@/state/booking/PassengerContext";
 import { Passenger } from "@/state/Passenger.type";
 import { RedAlert } from "./alert";
 import { isError } from "./ErrorMessage";
-import { isValid, updateLocalStorage } from "@/utils/basics";
+import { isValid, isValidEmail, updateLocalStorage } from "@/utils/basics";
 
 let errorInitialState = {
   passengers: [] as any[],
@@ -213,12 +213,13 @@ export default function Passengers({
         },
       };
     }
-    if (passenger.contact.email === "") {
+    console.log('el email is valido',isValidEmail(passenger.contact.email))
+    if ( !isValidEmail(passenger.contact.email) ) {
       temporalError = {
         ...temporalError,
         contact: {
           ...temporalError.contact,
-          email: "Ingresa un e-mail",
+          email: "Ingresa un e-mail válido",
         },
       };
     }
