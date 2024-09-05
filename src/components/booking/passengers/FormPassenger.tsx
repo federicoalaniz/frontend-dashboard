@@ -2,7 +2,6 @@
 import Separator from "@/components/separator";
 import LabelInput from "@/components/input";
 import React, { useState } from "react";
-import Important from "@/components/important";
 import { Passenger, Gender } from "@/state/Passenger.type";
 import { ErrorMessage, isError } from "@/components/ErrorMessage";
 import Select from "@/components/select";
@@ -145,6 +144,8 @@ export default function PassengerForm({
                   value={passenger.identification.number}
                   errorField={errors.identification.number}
                   onChange={(e: any) => {
+                    const value = e.target.value;
+                    const numericValue = value.replace(/\D/g, ''); // Elimina cualquier caracter que no sea numérico
                     if (isError(errors.identification.number)) {
                       setError({
                         ...errors,
@@ -158,7 +159,7 @@ export default function PassengerForm({
                       ...passenger,
                       identification: {
                         ...passenger.identification,
-                        number: e.target.value,
+                        number: numericValue,
                       },
                     });
 
@@ -360,7 +361,7 @@ export default function PassengerForm({
                           });
                         }}
                       >
-                        <option disabled defaultValue=""></option>
+                        <option defaultValue=""></option>
                         <option value="+54">(+54) ARG</option>
                         <option value="+55">(+55) BRA</option>
                         <option value="+56">(+56) CHI</option>
@@ -381,6 +382,8 @@ export default function PassengerForm({
                         value={passenger.contact.phoneNumber}
                         errorField={errors.contact.phoneNumber}
                         onChange={(e: any) => {
+                          const value = e.target.value;
+                          const numericValue = value.replace(/\D/g, ''); 
                           if (isError(errors.contact.phoneNumber)) {
                             setError({
                               ...errors,
@@ -394,7 +397,7 @@ export default function PassengerForm({
                             ...passenger,
                             contact: {
                               ...passenger.contact,
-                              phoneNumber: e.target.value,
+                              phoneNumber: numericValue,
                             },
                           });
                         }}
@@ -439,6 +442,7 @@ export default function PassengerForm({
                 label="Dirección"
                 errorField={errors.contact.address.street}
                 onPlaceSelected={handleContactAddressSelected}
+                value={passenger.contact.address.street}
                 onChange={() => {
                   if (isError(errors.contact.address.street)) {
                     setError({
@@ -494,3 +498,4 @@ export default function PassengerForm({
     </Accordion>
   );
 }
+

@@ -206,6 +206,12 @@ function createTimeCheck(): void {
   timeCheck();
 }
 
+const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+function isValidEmail(email: string): boolean {
+  return emailRegex.test(email);
+}
+
 
 export {
   isValid,
@@ -221,4 +227,5 @@ export {
   clearLocalStorageIfInactive,
   updateLocalStorage,
   createTimeCheck,
+  isValidEmail
 };

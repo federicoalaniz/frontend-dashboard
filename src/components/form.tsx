@@ -298,6 +298,7 @@ export default function AVForm() {
           <div className="w-1/2 ml-2">
             <SearchAddresses
               label="Dirección"
+              value={trip.departure.address}
               errorField={errors.departure.address}
               onPlaceSelected={handleDepartureAddressSelected}
               onChange={(e: any) => {
@@ -373,6 +374,7 @@ export default function AVForm() {
           <div className="w-1/2 ml-2">
             <SearchAddresses
               label="Dirección"
+              value={trip.return.address}
               errorField={errors.return.address}
               onPlaceSelected={handleReturnAddressSelected}
               onChange={(e: any) => {
