@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ErrorMessage, isError } from "./ErrorMessage";
 import ReactGoogleAutocomplete, {
     ReactGoogleAutocompleteProps,
@@ -75,10 +75,15 @@ interface SearchAddressesProps extends React.InputHTMLAttributes<HTMLInputElemen
 //         </div>
 //     );
 // };
-const SearchAddresses: React.FC<SearchAddressesProps> = ({ label, errorField, onPlaceSelected, value, ...searchProps }) => {
-    const [address, setAddress] = useState(value || "");
+const SearchAddresses: React.FC<SearchAddressesProps> = ({ label, errorField, onPlaceSelected, value = "", ...searchProps }) => {
+    const [initialAddress, setInitialAddress] = useState(value); // Solo para manejar el valor inicial
 
     const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_PLACES_API_KEY;
+
+    // Actualiza el estado cuando cambia el valor inicial (por ejemplo, al recargar la página)
+    useEffect(() => {
+        setInitialAddress(value);
+    }, [value]);
 
     return (
         <div className="relative">
@@ -86,13 +91,14 @@ const SearchAddresses: React.FC<SearchAddressesProps> = ({ label, errorField, on
                 <ReactGoogleAutocomplete
                     apiKey={API_KEY}
                     onPlaceSelected={(place, ref, details) => {
-                        setAddress(place.formatted_address);
+                        const formattedAddress = place.formatted_address || "";
+                        setInitialAddress(formattedAddress); // Actualizar el estado con la dirección seleccionada
                         if (onPlaceSelected) {
-                            onPlaceSelected(place, ref, details);  // Llamar a la función con los tres argumentos
+                            onPlaceSelected(place, ref, details);  // Llamar a la función proporcionada con los argumentos necesarios
                         }
                     }}
-                    value={address}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setAddress(e.target.value)}
+                    defaultValue={initialAddress} // Solo usar el valor inicial como default
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInitialAddress(e.target.value)}  // Permitir la escritura sin bloquear el input
                     className={`peer placeholder-transparent ${isError(errorField) ? "border-red-500" : ""}`}
                     options={{
                         types: ['address'],
@@ -107,6 +113,11 @@ const SearchAddresses: React.FC<SearchAddressesProps> = ({ label, errorField, on
         </div>
     );
 };
+
+
+
+
+
 
 
 
