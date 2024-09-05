@@ -52,13 +52,6 @@ export default function Passengers({
     }),
   );
 
-  // let errorInitialState = {
-  //   // passengers: [] as any[],
-  //   passengers: passengersInitialErrorState,
-  //   termsCondition: "",
-  //   newsletter: "",
-  //   globals: [""],
-  // };
   const { passengerData, setPassengerData } = usePassengerData();
   const [errors, setErrors] = useState(errorInitialState);
   const [isDisabled, setIsDisabled] = useState(!passengerData.agreements.termsCondition)
@@ -202,7 +195,6 @@ export default function Passengers({
         },
       };
     }
-    console.log(passenger.identification.number)
     if (passenger.identification.number === "") {
       temporalError = {
         ...temporalError,
@@ -248,30 +240,6 @@ export default function Passengers({
         },
       };
     }
-    // if (passenger.contact.address.city === "") {
-    //   temporalError = {
-    //     ...temporalError,
-    //     contact: {
-    //       ...temporalError.contact,
-    //       address: {
-    //         ...temporalError.contact.address,
-    //         city: "Selecciona una ciudad",
-    //       },
-    //     },
-    //   };
-    // }
-    // if (passenger.contact.address.number === "") {
-    //   temporalError = {
-    //     ...temporalError,
-    //     contact: {
-    //       ...temporalError.contact,
-    //       address: {
-    //         ...temporalError.contact.address,
-    //         number: "Indica un número de calle",
-    //       },
-    //     },
-    //   };
-    // }
     if (passenger.contact.address.street === "") {
       temporalError = {
         ...temporalError,
@@ -290,39 +258,67 @@ export default function Passengers({
         gender: "Selecciona un género",
       };
     }
+    console.log({temporalError})
     return temporalError;
   };
 
 
-  const errorHandler = () => {
+  // const errorHandler = () => {
 
-    const passengersErrors = errors.passengers.map((oldError, i) => {
-      const passenger: Passenger = passengerData.passengers[i];
-      const newError: any = errorPassengerHandler(oldError, passenger);
-      return newError;
-    });
+  //   const passengersErrors = errors.passengers.map((oldError, i) => {
+  //     const passenger: Passenger = passengerData.passengers[i];
+  //     const newError: any = errorPassengerHandler(oldError, passenger);
+  //     return newError;
+  //   });
+  //   setErrors({
+  //     ...errors,
+  //     passengers: passengersErrors,
+  //   });
+
+  // };
+  const errorHandler = async () => {
+    const passengersErrors = await Promise.all(
+      errors.passengers.map(async (oldError, i) => {
+        const passenger: Passenger = passengerData.passengers[i];
+        const newError: any = await errorPassengerHandler(oldError, passenger);
+        return newError;
+      })
+    );
+  
     setErrors({
       ...errors,
       passengers: passengersErrors,
     });
-
   };
 
-  const submitHandler = (e: any) => {
+  const submitHandler = async (e: any) => {
     e.preventDefault();
-    if(!localStorage.getItem('form0'))
-      redirect('/booking')
-    else {
-      errorHandler();
-      const persistedData = JSON.stringify(passengerData);
-      updateLocalStorage("form1", persistedData);
+    
+    if (!localStorage.getItem('form0')) {
+      redirect('/booking');
+    } else {
+      await errorHandler(); // Espera a que errorHandler() termine
       
-      // console.log(isValid(errors, errorInitialState))
-      // console.log({errors}, {errorInitialState})
-      isValid(errors, errorInitialState) ? redirect("/booking/travel_options"): null;
+      // Usa una función en setErrors para asegurarte de que el estado se ha actualizado correctamente antes de validar
+      setErrors(prevErrors => {
+        const persistedData = JSON.stringify(passengerData);
+        updateLocalStorage("form1", persistedData);
+  
+        console.log('validacion', isValid(prevErrors, errorInitialState));
+        console.log({ prevErrors }, { errorInitialState });
+  
+        // Ahora realiza la validación final con el estado actualizado
+        if (isValid(prevErrors, errorInitialState)) {
+          redirect("/booking/travel_options");
+        }
+  
+        return prevErrors; // Devuelve el estado sin cambios
+      });
     }
   };
-
+  
+  
+  
   return (
     <form action="#" className="py-8 text-sm text-gray-500 font-bold w-10/12">
       {errors.globals.map(isError).reduce((x: boolean, y: boolean) => x || y)

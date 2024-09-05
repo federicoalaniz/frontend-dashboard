@@ -49,7 +49,6 @@ function DetailsContent() {
     const passengersData = data?.form1?.passengers;
     const totalCost = data.form2.totalCost;
     const partiallyPaid = data?.form3.amount;
-    console.log(data)
     return (
         <>
             <PortalNavBar />
