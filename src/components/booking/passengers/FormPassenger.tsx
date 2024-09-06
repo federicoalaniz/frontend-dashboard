@@ -14,18 +14,38 @@ export default function PassengerForm({
   passenger,
   setPassenger,
   index,
+  responsiblePassenger,
 }: {
   errors: any;
   setError: (error: any) => void;
   passenger: Passenger;
   setPassenger: Function;
   index: number;
+  responsiblePassenger: Passenger;
 }) {
   const [sameAddress, setSameAddress] = useState(true);
 
   const handleSameAddress = (e: any) => {
-    setSameAddress(e.currentTarget.checked);
+    const isChecked = e.currentTarget.checked;
+    setSameAddress(isChecked);
+
+    // Si está marcado y no es el responsable, copiar la dirección
+    if (isChecked && responsiblePassenger) {
+      setPassenger((passenger: Passenger) => {
+        return {
+          ...passenger,
+          contact: {
+            ...passenger.contact,
+            email: "notresponsible@mail.com",
+            phoneCode: "phoneCode",
+            phoneNumber: "phoneNumber",
+            address: { ...responsiblePassenger.contact.address }, // Copiar la dirección completa
+          },
+        };
+      });
+    }
   };
+
 
   const handleContactAddressSelected = (place: any): void => {
     setPassenger((passenger: Passenger) => {
@@ -467,18 +487,6 @@ export default function PassengerForm({
                 value={passenger.contact.address.other}
                 errorField={errors.contact.address.other}
                 onChange={(e: any) => {
-                  // if (isError(errors.contact.address.other)) {
-                  //   setError({
-                  //     ...errors,
-                  //     contact: {
-                  //       ...errors.contact,
-                  //       address: {
-                  //         ...errors.contact.address,
-                  //         other: "",
-                  //       },
-                  //     },
-                  //   });
-                  // }
                   setPassenger({
                     ...passenger,
                     contact: {
