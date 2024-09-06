@@ -162,8 +162,6 @@ export default function Passengers({
       ),
     };
 
-    // console.log({errorPassengers})
-
     const initialErrorData = {
       ...errorInitialState,
       passengers: errorPassengers,
@@ -360,6 +358,7 @@ export default function Passengers({
                 });
               }}
               index={index}
+              responsiblePassenger={passengerData.passengers[0]}
             />
           );
         })}

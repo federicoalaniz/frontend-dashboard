@@ -83,6 +83,9 @@ export default function AVForm() {
 
     if (resObj?.return?.address === "")
       newErrors.return.address = "Selecciona un destino";
+    
+    if (resObj?.return?.address && resObj?.return?.address === resObj?.departure?.address)
+      newErrors.return.address = "La dirección de destino no puede ser igual a la de salida";
 
     if (resObj?.tripType.roundTrip && resObj?.return?.date === "")
       newErrors.return.date = "Selecciona una fecha de regreso";
