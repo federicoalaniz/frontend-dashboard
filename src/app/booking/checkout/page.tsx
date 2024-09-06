@@ -159,7 +159,7 @@ export default function PartialPay() {
                         name="percentage_pay"
                         id="percentage_pay"
                         className="w-3/4"
-                        onChange={(e) => {
+                        onChange={(e:any) => {
                           setCheckout({
                             ...checkout,
                             amount:
