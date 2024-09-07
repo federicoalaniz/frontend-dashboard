@@ -143,6 +143,13 @@ export default function AVForm() {
         },
       },
     }));
+    setErrors((errors: any) => ({
+      ...errors,
+      departure: {
+        ...errors.departure,
+        address: "",
+      },
+    }))
   };
   const handleReturnAddressSelected = (
     place: any,
@@ -160,6 +167,13 @@ export default function AVForm() {
         },
       },
     }));
+    setErrors((errors: any) => ({
+      ...errors,
+      return: {
+        ...errors.return,
+        address: "",
+      },
+    }))
   };
 
   if (!mapsLoaded) {
@@ -171,6 +185,8 @@ export default function AVForm() {
     errorChecker(trip);
     const persistedData = JSON.stringify(trip);
     updateLocalStorage("form0", persistedData);
+    console.log('form valido', isValid(errors, errorsInitialState))
+    console.log({errors}, {errorsInitialState})
     isValid(errors, errorsInitialState)
       ? redirect("/booking/passengers")
       : null;
