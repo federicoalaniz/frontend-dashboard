@@ -303,8 +303,8 @@ export default function Passengers({
         const persistedData = JSON.stringify(passengerData);
         updateLocalStorage("form1", persistedData);
   
-        console.log('validacion', isValid(prevErrors, errorInitialState));
-        console.log({ prevErrors }, { errorInitialState });
+        // console.log('validacion', isValid(prevErrors, errorInitialState));
+        // console.log({ prevErrors }, { errorInitialState });
   
         // Ahora realiza la validación final con el estado actualizado
         if (isValid(prevErrors, errorInitialState)) {
@@ -316,7 +316,9 @@ export default function Passengers({
     }
   };
   
-  
+  useEffect(() => {
+    setIsDisabled(!passengerData.agreements.termsCondition);
+  }, [passengerData.agreements.termsCondition]);
   
   return (
     <form action="#" className="py-8 text-sm text-gray-500 font-bold w-10/12">
@@ -377,9 +379,7 @@ export default function Passengers({
                 termsCondition: !passengerData.agreements.termsCondition,
               },
             })
-            setIsDisabled(passengerData.agreements.termsCondition)
-          }
-          }
+          }}
         />
         <label className="text-black p-2">
           Al continuar con la cotización acepta los{" "}

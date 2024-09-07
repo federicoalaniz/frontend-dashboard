@@ -1,7 +1,7 @@
 "use client";
 import Separator from "@/components/separator";
 import LabelInput from "@/components/input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Passenger, Gender } from "@/state/Passenger.type";
 import { ErrorMessage, isError } from "@/components/ErrorMessage";
 import Select from "@/components/select";
@@ -45,7 +45,7 @@ export default function PassengerForm({
       });
     }
   };
-
+  
 
   const handleContactAddressSelected = (place: any): void => {
     setPassenger((passenger: Passenger) => {
@@ -67,6 +67,22 @@ export default function PassengerForm({
     });
   };
   const isResponsible = index === 0;
+  
+  useEffect(() => {
+    // Si el checkbox está marcado y no es el pasajero responsable, copiar la dirección
+    if (sameAddress && responsiblePassenger && !isResponsible) {
+      setPassenger((passenger: Passenger) => ({
+        ...passenger,
+        contact: {
+          ...passenger.contact,
+          email: "notresponsible@mail.com",
+          phoneCode: "phoneCode",
+          phoneNumber: "phoneNumber",
+          address: { ...responsiblePassenger.contact.address }, // Copiar la dirección completa
+        },
+      }));
+    }
+  }, [sameAddress, responsiblePassenger, isResponsible]);
   return (
     <Accordion
       title={isResponsible ? "Responsable del viaje" : `Pasajero ${index + 1}`}
