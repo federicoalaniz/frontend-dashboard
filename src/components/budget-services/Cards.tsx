@@ -173,6 +173,9 @@ function TravelCard (
 
 
 function PassengerCard ( {passenger, index}:{passenger: any, index:number}) {
+    console.log('firstname',typeof(passenger.firstName))
+    console.log('lastname',typeof(passenger.lastName))
+
 
     return (
         <div className="flex flex-row border-t w-full border-gray-300 py-4 justify-between opacity-80 hover:opacity-100 bg-gray-100 hover:bg-white duration-200">
@@ -180,7 +183,7 @@ function PassengerCard ( {passenger, index}:{passenger: any, index:number}) {
                 <div className="flex flex-col w-[150px]">
                     <div className="flex font-bold">
                         { 
-                            passenger.age?.includes("adult") 
+                            passenger.age?.includes("adult") || !passenger.age
                             ? 
                             <Image src={adultIcon} alt="" />
                             : passenger.age.includes("child") 
@@ -188,13 +191,17 @@ function PassengerCard ( {passenger, index}:{passenger: any, index:number}) {
                                 : <Image src={babyIcon} alt="" />
                                 
                         }
-                    <p>{`${ageDetail(passenger.age)} ${index+1}`}</p>
+                    <p>{passenger.age ? `${ageDetail(passenger.age)} ${index+1}`: `Pasajero ${index+1}`}</p>
                     </div>
 
                 </div>
                 <div className="flex flex-col">
-                    <p className="font-bold">{`${passenger.firstName} ${passenger.lastName}`}</p>
-                    <p>{`${idTypeDetail(passenger.identification.type)}: ${Number(passenger.identification.number).toLocaleString('es-AR')}`} {index === 0 && `| ${passenger.contact.phoneCode} ${passenger.contact.phoneNumber} | `} {index === 0 && <span className="font-bold">{passenger.contact.email}</span>}</p>
+                    <p className="font-bold">{(passenger.firstName && passenger.lastName) && `${passenger.firstName} ${passenger.lastName}`}</p>
+
+                    <p>
+                        {passenger.identification.type && `${idTypeDetail(passenger.identification.type)}: ${Number(passenger.identification.number).toLocaleString('es-AR')}`} 
+                        {(passenger.contact.phoneCode && passenger.contact.phoneNumber) && `| ${passenger.contact.phoneCode} ${passenger.contact.phoneNumber} | `} {passenger.contact.email && <span className="font-bold">{passenger.contact.email}</span>}
+                    </p>
                     <p>{`Dirección: ${passenger.contact.address.street}`}</p>
                 </div>
             </div>
