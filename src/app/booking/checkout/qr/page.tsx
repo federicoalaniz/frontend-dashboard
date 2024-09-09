@@ -33,8 +33,23 @@ function QRContent() {
 
   const searchParams = useSearchParams();
   const paymentStatus = searchParams.get('status');
-  console.log({ paymentStatus });
+  // collection_id=87068613265&collection_status=approved&payment_id=87068613265&status=approved&external_reference=null&payment_type=account_money&merchant_order_id=22633527338&preference_id=1902332853-7b548575-1dc0-446a-b5c3-022144063bcc&site_id=MLA&processing_mode=aggregator&merchant_account_id=null
 
+  const paymentData = {
+    status: searchParams.get('status'),
+    type: searchParams.get('payment_type'),
+    payment_id: searchParams.get('payment_id'),
+    site_id: searchParams.get('site_id'),
+    collection_id: searchParams.get('collection_id'),
+    collection_status: searchParams.get('collection_status'),
+    external_reference: searchParams.get('external_reference'),
+    merchant_order_id: searchParams.get('merchant_order_id'),
+    preference_id: searchParams.get('preference_id'),
+    processing_mode: searchParams.get('processing_mode'),
+    merchant_account_id: searchParams.get('merchant_account_id'),
+  }
+
+  console.log({paymentData});
   const router = useRouter();
   const redirect = (path: string) => {
     router.push(path);
@@ -64,7 +79,8 @@ function QRContent() {
         const json = await result.json();
 
         localStorage.setItem("posId", json.insertedId);
-        setResult({ ...data, posId: json.insertedId });
+        // localStorage.setItem("paymentData", json.paymentData);
+        setResult({ ...data, posId: json.insertedId, paymentData: json.paymentData });
       }
     };
 
