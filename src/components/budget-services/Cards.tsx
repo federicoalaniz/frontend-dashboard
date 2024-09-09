@@ -194,7 +194,7 @@ function PassengerCard ( {passenger, index}:{passenger: any, index:number}) {
                 </div>
                 <div className="flex flex-col">
                     <p className="font-bold">{`${passenger.firstName} ${passenger.lastName}`}</p>
-                    <p>{`${idTypeDetail(passenger.identification.type)}: ${Number(passenger.identification.number).toLocaleString('es-AR')} | ${passenger.contact.phoneCode} ${passenger.contact.phoneNumber} | `}<span className="font-bold">{passenger.contact.email}</span></p>
+                    <p>{`${idTypeDetail(passenger.identification.type)}: ${Number(passenger.identification.number).toLocaleString('es-AR')}`} {index === 0 && `| ${passenger.contact.phoneCode} ${passenger.contact.phoneNumber} | `} {index === 0 && <span className="font-bold">{passenger.contact.email}</span>}</p>
                     <p>{`Dirección: ${passenger.contact.address.street}`}</p>
                 </div>
             </div>
