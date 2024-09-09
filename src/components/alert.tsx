@@ -18,6 +18,18 @@ export default function Alert() {
     );
 }
 
+export function AlertPassengers() {
+    return (
+        <div
+        className={`${inter.className} border-1 border-[#4658DF] bg-[#D9DDF8] rounded-lg text-[18px] font-normal px-10 py-4 my-5`}
+        >
+        <p>
+            Puedes completar los datos de los demás pasajeros más tarde. Tenga en cuenta que dichos datos deberán estar completos 48 hs. antes del viaje
+        </p>
+        </div>
+    );
+}
+
 export function RedAlert({ children, className }: { children: ReactNode, className?: string }): any {
     return (
         <>

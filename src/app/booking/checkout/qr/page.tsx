@@ -66,7 +66,7 @@ function QRContent() {
       if (posId) {
         setIdAlreadyExists(true);
         return;
-      } else if (form0 && form1 && paymentStatus === "approved") {
+      } else if (form0 && form1 && paymentData.status === "approved") {
         const data = { form0, form1, form2, form3 };
         const result = await fetch(`${APIBASE}/api/products`, {
           headers: {
@@ -79,7 +79,7 @@ function QRContent() {
         const json = await result.json();
 
         localStorage.setItem("posId", json.insertedId);
-        // localStorage.setItem("paymentData", json.paymentData);
+        localStorage.setItem("paymentData", json.paymentData);
         setResult({ ...data, posId: json.insertedId, paymentData: json.paymentData });
       }
     };
