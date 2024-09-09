@@ -65,7 +65,18 @@ export default function PassengerForm({
         }
       }
     });
+    setError({
+      ...errors,
+      contact: {
+        ...errors.contact,
+        address: {
+          ...errors.contact.address,
+          street: "",
+        },
+      },
+    });
   };
+  
   const isResponsible = index === 0;
   
   useEffect(() => {
