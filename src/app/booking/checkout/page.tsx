@@ -25,7 +25,6 @@ export default function PartialPay() {
     percentage: "50",
     amount: 0,
   });
-  const currency = new Intl.NumberFormat();
 
   const [result, setResult] = useState<any>();
   const [preferenceId, setPreferenceId] = useState(null);

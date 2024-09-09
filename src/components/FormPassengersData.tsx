@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { usePassengerData } from "@/state/booking/PassengerContext";
 import { Passenger } from "@/state/Passenger.type";
-import { RedAlert } from "./alert";
+import { AlertPassengers, RedAlert } from "./alert";
 import { isError } from "./ErrorMessage";
 import { isValid, isValidEmail, updateLocalStorage } from "@/utils/basics";
 
@@ -275,12 +275,30 @@ export default function Passengers({
   //   });
 
   // };
+  // const errorHandler = async () => {
+  //   const passengersErrors = await Promise.all(
+  //     errors.passengers.map(async (oldError, i) => {
+  //       const passenger: Passenger = passengerData.passengers[i];
+  //       const newError: any = await errorPassengerHandler(oldError, passenger);
+  //       return newError;
+  //     })
+  //   );
+  
+  //   setErrors({
+  //     ...errors,
+  //     passengers: passengersErrors,
+  //   });
+  // };
+
   const errorHandler = async () => {
     const passengersErrors = await Promise.all(
       errors.passengers.map(async (oldError, i) => {
-        const passenger: Passenger = passengerData.passengers[i];
-        const newError: any = await errorPassengerHandler(oldError, passenger);
-        return newError;
+        if (i === 0) { // Solo controla el primer pasajero
+          const passenger: Passenger = passengerData.passengers[i];
+          const newError: any = await errorPassengerHandler(oldError, passenger);
+          return newError;
+        }
+        return oldError; // Devolver los errores antiguos para otros pasajeros
       })
     );
   
@@ -331,37 +349,41 @@ export default function Passengers({
       {errors.passengers.length > 0 &&
         passengerData.passengers.map((passenger, index: number) => {
           return (
-            <FormPassenger
-              errors={errors.passengers[index]}
-              setError={(newError: any) => {
-                const passengers: any = errors.passengers.map((oldError, i) =>
-                  index === i ? newError : oldError,
-                );
-                setErrors({
-                  ...errors,
-                  passengers,
-                });
-              }}
-              key={index}
-              passenger={passenger}
-              setPassenger={(argP: Passenger | Function) => {
-                setPassengerData(passengerData => {
-                  let newP = (typeof argP === "function")
-                    ? argP(passengerData.passengers[index])
-                    : argP
-
-                  const passengers = passengerData.passengers.map((oldP, i) =>
-                    index === i ? newP : oldP,
+            <div key={index}>
+              <FormPassenger
+                errors={errors.passengers[index]}
+                setError={(newError: any) => {
+                  const passengers: any = errors.passengers.map((oldError, i) =>
+                    index === i ? newError : oldError,
                   );
-                  return {
-                    ...passengerData,
+                  setErrors({
+                    ...errors,
                     passengers,
-                  }
-                });
-              }}
-              index={index}
-              responsiblePassenger={passengerData.passengers[0]}
-            />
+                  });
+                }}
+                key={index}
+                passenger={passenger}
+                setPassenger={(argP: Passenger | Function) => {
+                  setPassengerData(passengerData => {
+                    let newP = (typeof argP === "function")
+                      ? argP(passengerData.passengers[index])
+                      : argP
+
+                    const passengers = passengerData.passengers.map((oldP, i) =>
+                      index === i ? newP : oldP,
+                    );
+                    return {
+                      ...passengerData,
+                      passengers,
+                    }
+                  });
+                }}
+                index={index}
+                responsiblePassenger={passengerData.passengers[0]}
+              />
+              {errors.passengers.length > 1 && index === 0 ? <AlertPassengers /> : null}
+            </div>
+
           );
         })}
       <Separator title="Otros" />

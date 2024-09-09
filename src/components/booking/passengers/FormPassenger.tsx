@@ -7,6 +7,7 @@ import { ErrorMessage, isError } from "@/components/ErrorMessage";
 import Select from "@/components/select";
 import Accordion from "@/components/Accordion";
 import SearchAddresses from "@/components/PlacesAutocomplete";
+import { AlertPassengers } from "@/components/alert";
 
 export default function PassengerForm({
   errors,
@@ -36,9 +37,6 @@ export default function PassengerForm({
           ...passenger,
           contact: {
             ...passenger.contact,
-            email: "notresponsible@mail.com",
-            phoneCode: "phoneCode",
-            phoneNumber: "phoneNumber",
             address: { ...responsiblePassenger.contact.address }, // Copiar la dirección completa
           },
         };
@@ -86,9 +84,6 @@ export default function PassengerForm({
         ...passenger,
         contact: {
           ...passenger.contact,
-          email: "notresponsible@mail.com",
-          phoneCode: "phoneCode",
-          phoneNumber: "phoneNumber",
           address: { ...responsiblePassenger.contact.address }, // Copiar la dirección completa
         },
       }));
@@ -107,7 +102,7 @@ export default function PassengerForm({
               value={passenger.firstName}
               errorField={errors.firstName}
               onChange={(e: any) => {
-                if (isError(errors.firstName)) {
+                if (isError(errors.firstName) && index === 0) {
                   setError({
                     ...errors,
                     firstName: "",
@@ -352,29 +347,7 @@ export default function PassengerForm({
             )}
           </div>
         </div>
-      </>
-      {!isResponsible ? (
-        <>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              className="px-2 h-5 w-5 accent-orange-500 rounded-md border-1 border-orange-500
-                      focus:outline-none duration-500 hover:shadow-md "
-              checked={sameAddress}
-              onChange={handleSameAddress}
-            />
-            <label className="text-black p-2">
-              Es la misma dirección que la anterior
-            </label>
-          </div>
-        </>
-      ) : null}
-
-      {(isResponsible || !sameAddress) && (
         <div>
-          {isResponsible ? (
-            <>
-              <div>
                 <Separator title="Datos de contacto" />
               </div>
               <div className="flex flex-row">
@@ -480,8 +453,27 @@ export default function PassengerForm({
                   />
                 </div>
               </div>
-            </>
-          ) : null}
+      </>
+      {!isResponsible ? (
+        <>
+          <div className="flex items-center mt-5">
+            <input
+              type="checkbox"
+              className="px-2 h-5 w-5 accent-orange-500 rounded-md border-1 border-orange-500
+              focus:outline-none duration-500 hover:shadow-md "
+              checked={sameAddress}
+              onChange={handleSameAddress}
+            />
+            <label className="text-black p-2">
+              Es la dirección cargada para la salida
+            </label>
+          </div>
+              
+        </>
+      ) : null}
+
+      {(isResponsible || !sameAddress) && (
+        <div>
           <Separator title="Dirección (por donde pasaremos a buscarte)" />
           <div className="flex flex-row">
             <div className="w-1/2 mx-1">
@@ -528,6 +520,9 @@ export default function PassengerForm({
               />
             </div>
           </div>
+          {/* <div className="flex flex-row mt-5">
+            <AlertPassengers />
+          </div> */}
         </div>
       )}
     </Accordion>

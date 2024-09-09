@@ -4,7 +4,6 @@ import HeaderAV from "@/components/header";
 import Hero from "@/components/hero";
 import { PassengerDataProvider } from "@/state/booking/PassengerContext";
 import FormPassengersData from "@/components/FormPassengersData";
-import { useRouter } from "next/navigation";
 
 export default function Passengers() {
   const [passengers, setPassengers] = useState<number>(0);
