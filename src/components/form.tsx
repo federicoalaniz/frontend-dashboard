@@ -75,11 +75,13 @@ export default function AVForm() {
     if (resObj?.departure?.address === "")
       newErrors.departure.address = "Selecciona un origen";
 
-    if (resObj?.departure?.date === "")
-      newErrors.departure.date = "Selecciona una fecha de salida";
-
     if (resObj?.departure?.time === "")
       newErrors.departure.time = "Selecciona una hora de salida";
+    
+    if (resObj?.departure?.time && new Date(resObj?.departure?.date + 'T' + resObj?.departure?.time).getTime() < Date.now())
+      newErrors.departure.date = "La fecha de salida no puede ser anterior a la fecha actual";
+    if (!resObj?.departure?.time && new Date(resObj?.departure?.date + 'T00:00:00').getTime() < Date.now())
+      newErrors.departure.date = "La fecha de salida no puede ser anterior a la fecha actual";
 
     if (resObj?.return?.address === "")
       newErrors.return.address = "Selecciona un destino";

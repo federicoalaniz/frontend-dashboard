@@ -189,11 +189,11 @@ function QRContent() {
                 </div>
               </div>
               <div className="flex flex-row items-center justify-center mb-10 mt-6">
-                <button className="outline-none border-2 border-orange-500 rounded-md h-[40px] inline-flex items-center px-6 mx-5">
+                <button className="outline-none border-2 border-orange-500 rounded-md h-[40px] inline-flex items-center px-6 mx-5" disabled>
                   Descargar
                   <Image src={download} alt="download" className="ml-2" />
                 </button>
-                <button className="outline-none border-2 border-orange-500 rounded-md h-[40px] inline-flex items-center px-6">
+                <button className="outline-none border-2 border-orange-500 rounded-md h-[40px] inline-flex items-center px-6" disabled>
                   Compartir
                   <Image src={share} alt="share" className="ml-2" />
                 </button>
