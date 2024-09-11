@@ -23,7 +23,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function AVForm() {
   const { trip, setTrip } = useTrip();
-    // useState<google.maps.LatLngBounds | null>(null);
+  // useState<google.maps.LatLngBounds | null>(null);
   const [mapsLoaded, setMapsLoaded] = useState<boolean>(false);
   const roundTrip: boolean = trip.tripType.roundTrip;
   const errorsInitialState: any = {
@@ -77,7 +77,7 @@ export default function AVForm() {
 
     if (resObj?.departure?.time === "")
       newErrors.departure.time = "Selecciona una hora de salida";
-    
+
     if (resObj?.departure?.time && new Date(resObj?.departure?.date + 'T' + resObj?.departure?.time).getTime() < Date.now())
       newErrors.departure.date = "La fecha de salida no puede ser anterior a la fecha actual";
     if (!resObj?.departure?.time && new Date(resObj?.departure?.date + 'T00:00:00').getTime() < Date.now())
@@ -85,7 +85,7 @@ export default function AVForm() {
 
     if (resObj?.return?.address === "")
       newErrors.return.address = "Selecciona un destino";
-    
+
     if (resObj?.return?.address && resObj?.return?.address === resObj?.departure?.address)
       newErrors.return.address = "La dirección de destino no puede ser igual a la de salida";
 
@@ -97,7 +97,7 @@ export default function AVForm() {
 
     if (resObj?.tripType.roundTrip && resObj?.return?.date < resObj?.departure?.date)
       newErrors.return.date = "La fecha de regreso debe ser posterior a la de salida";
-    
+
     if (resObj?.passengers?.adult === 0)
       newErrors.passengers.adult = "Debe haber al menos 1 pasajero adulto";
 
@@ -179,7 +179,7 @@ export default function AVForm() {
   };
 
   if (!mapsLoaded) {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   const submitHandler = (e: any) => {
@@ -188,7 +188,7 @@ export default function AVForm() {
     const persistedData = JSON.stringify(trip);
     updateLocalStorage("form0", persistedData);
     console.log('form valido', isValid(errors, errorsInitialState))
-    console.log({errors}, {errorsInitialState})
+    console.log({ errors }, { errorsInitialState })
     isValid(errors, errorsInitialState)
       ? redirect("/booking/passengers")
       : null;
@@ -205,8 +205,8 @@ export default function AVForm() {
       <form action="#" className="py-8 text-sm text-gray-500 font-bold w-11/12">
         {errors.globals.length > 0
           ? errors.globals.map((err: string, index: number) => (
-              <RedAlert key={index}>{err}</RedAlert>
-            ))
+            <RedAlert key={index}>{err}</RedAlert>
+          ))
           : null}
         <Separator title="Tipo de viaje" />
         <div className="flex items-center">
@@ -315,8 +315,8 @@ export default function AVForm() {
         )}
 
         <Separator title="Salida" />
-        <div className="flex flex-row">
-          <div className="w-1/2 ml-2">
+        <div className="flex flex-row gap-2">
+          <div className="w-1/2">
             <SearchAddresses
               label="Dirección"
               value={trip.departure.address}
@@ -335,7 +335,41 @@ export default function AVForm() {
               }}
             />
           </div>
-          <div className="w-1/4 mx-2">
+          <div className="w-1/4">
+            <LabelInput
+              label=""
+              placeholder="Entre calle..."
+              value={trip.departure.streetBetween1}
+              onChange={(e: any)=> {
+                setTrip({
+                  ...trip,
+                  departure: {
+                    ...trip.departure,
+                    streetBetween1: e.currentTarget.value,
+                  },
+                });
+              }}
+            />
+          </div>
+          <div className="w-1/4">
+            <LabelInput
+              label=""
+              placeholder="Y calle..."
+              value={trip.departure.streetBetween2}
+              onChange={(e: any)=> {
+                setTrip({
+                  ...trip,
+                  departure: {
+                    ...trip.departure,
+                    streetBetween2: e.currentTarget.value,
+                  },
+                });
+              }}
+            />
+          </div>
+        </div>
+        <div className="flex flex-row gap-2">
+          <div className="w-1/4">
             <LabelInput
               label=""
               type="date"
@@ -362,7 +396,7 @@ export default function AVForm() {
               }}
             />
           </div>
-          <div className="w-1/4 ml-2">
+          <div className="w-1/4">
             <LabelInput
               type="time"
               label=""
@@ -390,9 +424,9 @@ export default function AVForm() {
             />
           </div>
         </div>
-        { roundTrip ? <Separator title="Destino y Regreso" /> : <Separator title="Destino" />}
-        <div className="flex flex-row">
-          <div className="w-1/2 ml-2">
+        {roundTrip ? <Separator title="Destino y Regreso" /> : <Separator title="Destino" />}
+        <div className="flex flex-row gap-2">
+          <div className="w-1/2">
             <SearchAddresses
               label="Dirección"
               value={trip.return.address}
@@ -411,10 +445,44 @@ export default function AVForm() {
               }}
             />
           </div>
+          <div className="w-1/4">
+            <LabelInput
+              label=""
+              placeholder="Entre calle..."
+              value={trip.return.streetBetween1}
+              onChange={(e: any)=> {
+                setTrip({
+                  ...trip,
+                  return: {
+                    ...trip.return,
+                    streetBetween1: e.currentTarget.value,
+                  },
+                });
+              }}
+            />
+          </div>
+          <div className="w-1/4">
+            <LabelInput
+              label=""
+              placeholder="Y calle..."
+              value={trip.return.streetBetween2}
+              onChange={(e: any)=> {
+                setTrip({
+                  ...trip,
+                  return: {
+                    ...trip.return,
+                    streetBetween2: e.currentTarget.value,
+                  },
+                });
+              }}
+            />
+          </div>
+        </div>
+        <div className="flex flex-row gap-2">
           {
-            roundTrip && 
+            roundTrip &&
             <>
-              <div className="w-1/4 mx-2">
+              <div className="w-1/4">
                 <LabelInput
                   type="date"
                   label=""
@@ -441,7 +509,7 @@ export default function AVForm() {
                   }}
                 />
               </div>
-              <div className="w-1/4 ml-2">
+              <div className="w-1/4">
                 <LabelInput
                   type="time"
                   label=""

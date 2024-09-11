@@ -6,9 +6,8 @@ export enum Gender {
 
 interface Address {
   street: string;
-  // number: string | number;
-  // city: string;
-  // neighborhood: string;
+  streetBetween1: string;
+  streetBetween2: string;
   other?: string;
   googlePlace: GooglePlace;
 }
