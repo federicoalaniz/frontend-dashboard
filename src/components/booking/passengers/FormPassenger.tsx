@@ -475,8 +475,8 @@ export default function PassengerForm({
       {(isResponsible || !sameAddress) && (
         <div>
           <Separator title="Dirección (por donde pasaremos a buscarte)" />
-          <div className="flex flex-row">
-            <div className="w-1/2 mx-1">
+          <div className="flex flex-row gap-2">
+            <div className="w-1/2">
               <SearchAddresses
                 label="Dirección"
                 errorField={errors.contact.address.street}
@@ -498,7 +498,7 @@ export default function PassengerForm({
                 }}
               />
             </div>
-            <div className=" w-1/2 mx-1">
+            <div className=" w-1/2">
               <LabelInput
                 label=""
                 type="text"
@@ -520,9 +520,46 @@ export default function PassengerForm({
               />
             </div>
           </div>
-          {/* <div className="flex flex-row mt-5">
-            <AlertPassengers />
-          </div> */}
+          <div className="flex flex-row gap-2">
+          <div className="w-1/4">
+            <LabelInput
+              label=""
+              placeholder="Entre calle..."
+              value={passenger.contact.address.streetBetween1}
+              onChange={(e: any) => {
+                setPassenger({
+                  ...passenger,
+                  contact: {
+                    ...passenger.contact,
+                    address: {
+                      ...passenger.contact.address,
+                      streetBetween1: e.target.value,
+                    },
+                  },
+                });
+              }}
+            />
+          </div>
+          <div className="w-1/4">
+            <LabelInput
+              label=""
+              placeholder="Y calle..."
+              value={passenger.contact.address.streetBetween2}
+              onChange={(e: any) => {
+                setPassenger({
+                  ...passenger,
+                  contact: {
+                    ...passenger.contact,
+                    address: {
+                      ...passenger.contact.address,
+                      streetBetween2: e.target.value,
+                    },
+                  },
+                });
+              }}
+            />
+          </div>
+          </div>
         </div>
       )}
     </Accordion>

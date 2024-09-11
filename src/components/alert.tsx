@@ -7,26 +7,31 @@ const inter = Inter({ subsets: ["latin"] });
 export default function Alert() {
     return (
         <div
-        className={`${inter.className} border-1 border-[#FFC806] bg-[#FFECA8] rounded-lg text-[18px] font-normal px-10 py-4 my-5`}
+            className={`${inter.className} border-1 border-[#FFC806] bg-[#FFECA8] rounded-lg text-[18px] font-normal px-10 py-4 my-5`}
         >
-        <p>
-            <span className="font-semibold">Importante: Un adulto</span> quién será
-            responsable administrativo del viaje y, con quién nos comunicaremos para
-            actualizar sobre el estado del mismo, sea o no pasajero del servicio.
-        </p>
+            <p>
+                <span className="font-semibold">Importante: Un adulto</span> quién será
+                responsable administrativo del viaje y, con quién nos comunicaremos para
+                actualizar sobre el estado del mismo, sea o no pasajero del servicio.
+            </p>
         </div>
     );
 }
+// Buena Noticia!Puedes responder los datos del resto de los pasajeros más tarde, si todos partirán desde una misma zona,por ejemplo C.A.B.A., pero deberán estar completos 48hs. antes de la hora de partida del viaje.
 
 export function AlertPassengers() {
     return (
-        <div
-        className={`${inter.className} border-1 border-[#4658DF] bg-[#D9DDF8] rounded-lg text-[18px] font-normal px-10 py-4 my-5`}
-        >
-        <p>
-            Puedes completar los datos de los demás pasajeros más tarde. Tenga en cuenta que dichos datos deberán estar completos 48 hs. antes del viaje
-        </p>
-        </div>
+        <>
+            <div
+                className={`${inter.className} flex flex-row font-normal gap-2 w-full text-[18px] shadow-sm rounded-lg border border-[#4658DF] bg-[#D9DDF8] text-[#10004f] px-4 py-4 my-2  `}
+            >
+                <ExclamationCircleIcon className="size-12 text-[#4658DF] -mt-2" />
+                <div>
+                    <h1 className="text-2xl font-semibold">Buena Noticia!</h1>
+                    <p>Puedes responder los datos del resto de los pasajeros más tarde, si todos partirán desde una misma zona, por ejemplo C.A.B.A., pero <strong>deberán estar completos 48 hs. previos al momento del viaje.</strong></p>
+                </div>
+            </div>
+        </>
     );
 }
 

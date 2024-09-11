@@ -10,6 +10,8 @@ interface GooglePlace {
 
 interface DepartureOrReturn {
   address: string;
+  streetBetween1: string;
+  streetBetween2: string;
   other: string;
   date: string;
   time: string;
