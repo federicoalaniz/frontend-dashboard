@@ -19,7 +19,7 @@ let options = [
     name: "Fiat Cronos",
     seats: 3,
     car_img: "cronos" as IconType,
-    price: 340,
+    price: Number(process.env.NEXT_PUBLIC_PRICE_CRONOS4),
     driverFee: 10,
     quantity: 0,
     nominal_data: {
@@ -30,7 +30,7 @@ let options = [
       name: "Fiat Cronos",
       seats: 3,
       car_img: "cronos" as IconType,
-      price: 340,
+      price: 300,
       driverFee: 10,
       quantity: 0,
     }
@@ -44,7 +44,7 @@ let options = [
     name: "Volkswagen Sharan",
     seats: 6,
     car_img: "sharan" as IconType,
-    price: 360,
+    price: Number(process.env.NEXT_PUBLIC_PRICE_SHARAN7),
     driverFee: 12,
     quantity: 0,
     nominal_data: {
@@ -55,7 +55,7 @@ let options = [
       name: "Volkswagen Sharan",
       seats: 6,
       car_img: "sharan" as IconType,
-      price: 360,
+      price: 400,
       driverFee: 12,
       quantity: 0,
     }
@@ -69,7 +69,7 @@ let options = [
     name: "Mercedes Benz Sprinter",
     seats: 19,
     car_img: "sprinter" as IconType,
-    price: 500,
+    price: Number(process.env.NEXT_PUBLIC_PRICE_SPRINTER19),
     driverFee: 20,
     quantity: 0,
     nominal_data: {
@@ -80,7 +80,7 @@ let options = [
       name: "Mercedes Benz Sprinter",
       seats: 19,
       car_img: "sprinter" as IconType,
-      price: 500,
+      price: 650,
       driverFee: 20,
       quantity: 0,
     }
@@ -94,7 +94,7 @@ let options = [
     name: "Iveco",
     seats: 24,
     car_img: "iveco24" as IconType,
-    price: 520,
+    price: Number(process.env.NEXT_PUBLIC_PRICE_IVECO24),
     driverFee: 22,
     quantity: 0,
     nominal_data: {
@@ -105,7 +105,7 @@ let options = [
       name: "Iveco",
       seats: 24,
       car_img: "iveco24" as IconType,
-      price: 520,
+      price: 900,
       driverFee: 22,
       quantity: 0,
     }
@@ -119,7 +119,7 @@ let options = [
     name: "Bus 45",
     seats: 45,
     car_img: "bus45" as IconType,
-    price: 620,
+    price: Number(process.env.NEXT_PUBLIC_PRICE_BUS45),
     driverFee: 30,
     quantity: 0,
     nominal_data: {
@@ -130,7 +130,7 @@ let options = [
       name: "Bus 45",
       seats: 45,
       car_img: "bus45" as IconType,
-      price: 620,
+      price: 1600,
       driverFee: 30,
       quantity: 0,
     }
@@ -144,7 +144,7 @@ let options = [
     name: "Bus 60",
     seats: 60,
     car_img: "bus60" as IconType,
-    price: 680,
+    price: Number(process.env.NEXT_PUBLIC_PRICE_BUS60),
     driverFee: 35,
     quantity: 0,
     nominal_data: {
@@ -155,7 +155,7 @@ let options = [
       name: "Bus 60",
       seats: 60,
       car_img: "bus60" as IconType,
-      price: 680,
+      price: 1600,
       driverFee: 35,
       quantity: 0,
     }
