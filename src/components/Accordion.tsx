@@ -7,10 +7,11 @@ import Image from 'next/image'
 interface AccordionProps {
     title: string;
     children: React.ReactNode;
+    open: boolean;
 }
 
-const Accordion: React.FC<AccordionProps> = ({ title, children }) => {
-    const [isOpen, setIsOpen] = useState(true);
+const Accordion: React.FC<AccordionProps> = ({ title, children, open }) => {
+    const [isOpen, setIsOpen] = useState(open);
 
     const toggleAccordion = () => {
         setIsOpen(!isOpen);
@@ -25,12 +26,12 @@ const Accordion: React.FC<AccordionProps> = ({ title, children }) => {
             >
                 
                 <h1 className='text-[22px] font-bold text-blue-900 flex items-center'>
-                <Image src={adultIcon} alt="paxbold" className="h-8 w-8 mr-2" />
-                    {title}
-                </h1>
-                <span className="text-2xl">
-                    <ChevronDownIcon className={`size-6 ${isOpen ? 'rotate-180 duration-300 text-orange-500' : 'duration-300'}`} />
-                </span>
+                    <Image src={adultIcon} alt="paxbold" className="h-8 w-8 mr-2" />
+                        {title}
+                    </h1>
+                    <span className="text-2xl">
+                        <ChevronDownIcon className={`size-6 ${isOpen ? 'rotate-180 duration-300 text-orange-500' : 'duration-300'}`} />
+                    </span>
             </div>
             {
                 isOpen && <div className="py-5">{children}</div>

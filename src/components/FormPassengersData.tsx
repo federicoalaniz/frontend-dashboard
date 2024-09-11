@@ -9,6 +9,7 @@ import { Passenger } from "@/state/Passenger.type";
 import { AlertPassengers, RedAlert } from "./alert";
 import { isError } from "./ErrorMessage";
 import { isValid, isValidEmail, updateLocalStorage } from "@/utils/basics";
+import { ArrowLeftIcon } from "@heroicons/react/16/solid";
 
 let errorInitialState = {
   passengers: [] as any[],
@@ -91,7 +92,7 @@ export default function Passengers({
     );
     let initialData = { ...passengerData, passengers };
 
-    
+
 
     errorInitialState = {
       ...errorInitialState,
@@ -136,29 +137,29 @@ export default function Passengers({
       passengers: Array.from(
         { length: amountPassegengers },
         (_) =>
-          ({
-            firstName: "",
-            lastName: "",
-            age: "",
-            gender:"",
-            identification: {
-              type: "",
-              number: "",
-              country: "",
+        ({
+          firstName: "",
+          lastName: "",
+          age: "",
+          gender: "",
+          identification: {
+            type: "",
+            number: "",
+            country: "",
+          },
+          contact: {
+            phoneCode: "",
+            phoneNumber: "",
+            email: "",
+            address: {
+              street: "",
+              googlePlace: {
+                lat: "",
+                lng: "",
+              }
             },
-            contact: {
-              phoneCode: "",
-              phoneNumber: "",
-              email: "",
-              address: {
-                street: "",
-                googlePlace: {
-                  lat: "",
-                  lng: "",
-                }
-              },
-            },
-          }),
+          },
+        }),
       ),
     };
 
@@ -166,10 +167,10 @@ export default function Passengers({
       ...errorInitialState,
       passengers: errorPassengers,
     };
-    
+
     setErrors(initialErrorData as any);
   }, []);
-  
+
   const errorPassengerHandler = (errors: any, passenger: Passenger): any => {
     let temporalError = { ...errors };
     if (passenger.firstName === "") {
@@ -211,8 +212,8 @@ export default function Passengers({
         },
       };
     }
-    console.log('el email is valido',isValidEmail(passenger.contact.email))
-    if ( !isValidEmail(passenger.contact.email) ) {
+    console.log('el email is valido', isValidEmail(passenger.contact.email))
+    if (!isValidEmail(passenger.contact.email)) {
       temporalError = {
         ...temporalError,
         contact: {
@@ -257,7 +258,7 @@ export default function Passengers({
         gender: "Selecciona un género",
       };
     }
-    console.log({temporalError})
+    console.log({ temporalError })
     return temporalError;
   };
 
@@ -283,7 +284,7 @@ export default function Passengers({
   //       return newError;
   //     })
   //   );
-  
+
   //   setErrors({
   //     ...errors,
   //     passengers: passengersErrors,
@@ -301,7 +302,7 @@ export default function Passengers({
         return oldError; // Devolver los errores antiguos para otros pasajeros
       })
     );
-  
+
     setErrors({
       ...errors,
       passengers: passengersErrors,
@@ -310,34 +311,34 @@ export default function Passengers({
 
   const submitHandler = async (e: any) => {
     e.preventDefault();
-    
+
     if (!localStorage.getItem('form0')) {
       redirect('/booking');
     } else {
       await errorHandler(); // Espera a que errorHandler() termine
-      
+
       // Usa una función en setErrors para asegurarte de que el estado se ha actualizado correctamente antes de validar
       setErrors(prevErrors => {
         const persistedData = JSON.stringify(passengerData);
         updateLocalStorage("form1", persistedData);
-  
-        // console.log('validacion', isValid(prevErrors, errorInitialState));
-        // console.log({ prevErrors }, { errorInitialState });
-  
+
+        console.log('validacion', isValid(prevErrors, errorInitialState));
+        console.log({ prevErrors }, { errorInitialState });
+
         // Ahora realiza la validación final con el estado actualizado
         if (isValid(prevErrors, errorInitialState)) {
           redirect("/booking/travel_options");
         }
-  
+
         return prevErrors; // Devuelve el estado sin cambios
       });
     }
   };
-  
+
   useEffect(() => {
     setIsDisabled(!passengerData.agreements.termsCondition);
   }, [passengerData.agreements.termsCondition]);
-  
+
   return (
     <form action="#" className="py-8 text-sm text-gray-500 font-bold w-10/12">
       {errors.globals.map(isError).reduce((x: boolean, y: boolean) => x || y)
@@ -345,7 +346,15 @@ export default function Passengers({
           <RedAlert key={index}>{err}</RedAlert>
         ))
         : null}
-
+      <div
+        className="flex text-orange-500 font-semibold items-center mr-5 cursor-pointer gap-2"
+        onClick={() => redirect("/booking")}
+      >
+        <ArrowLeftIcon className="size-5" /> <p className="text-xl mr-4">Volver</p>
+        <h3 className="font-bold text-[#10004F] text-[32px] my-6 w-10/12">
+          Datos de los pasajeros
+        </h3>
+      </div>
       {errors.passengers.length > 0 &&
         passengerData.passengers.map((passenger, index: number) => {
           return (
@@ -436,6 +445,12 @@ export default function Passengers({
       </div>
 
       <div className="flex my-10 items-center justify-end">
+      <div
+        className="flex text-orange-500 font-semibold items-center mr-5 cursor-pointer gap-2"
+        onClick={() => redirect("/booking")}
+      >
+        <ArrowLeftIcon className="size-5" /> <p className="text-xl mr-4">Volver</p>
+      </div>
         <button
           type="button"
           className="bg-orange-500 text-white text-[18px] px-7 py-4 rounded-md
