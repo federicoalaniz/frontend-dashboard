@@ -17,31 +17,6 @@ export default function Alert() {
         </div>
     );
 }
-// Buena Noticia!Puedes responder los datos del resto de los pasajeros más tarde, si todos partirán desde una misma zona,por ejemplo C.A.B.A., pero deberán estar completos 48hs. antes de la hora de partida del viaje.
-
-export function AlertPassengers() {
-    return (
-        <div className={`${inter.className} font-normal gap-2 w-full text-[18px] shadow-sm rounded-lg border border-[#4658DF] text-[#10004f] px-4 py-4 my-2 mt-5  `}>
-
-            <div className="flex flex-row gap-2">
-
-                <ExclamationCircleIcon className="size-12 text-[#4658DF] -mt-2" />
-                <div>
-                    <h1 className="text-2xl font-semibold">Buena Noticia!</h1>
-                    <p>Puedes responder los datos del resto de los pasajeros más tarde, si todos partirán desde una misma zona, por ejemplo C.A.B.A., pero <strong>deberán estar completos 48 hs. previos al momento del viaje.</strong></p>
-                </div>
-            </div>
-            <div className="flex flex-row justify-end gap-2 mt-5">
-                <button 
-                    className="bg-inherit px-3 text-orange-500 border-orange-500 border-2 focus:bg-orange-500 focus:text-white"
-                    onClick={() => {}}
-                >Completar Ahora</button>
-                <button className="bg-inherit px-3 text-orange-500 border-orange-500 border-2"
-                >En otro momento</button>
-            </div> 
-        </div>
-    );
-}
 
 export function RedAlert({ children, className }: { children: ReactNode, className?: string }): any {
     return (

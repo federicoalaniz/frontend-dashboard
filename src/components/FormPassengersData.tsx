@@ -6,10 +6,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { usePassengerData } from "@/state/booking/PassengerContext";
 import { Passenger } from "@/state/Passenger.type";
-import { AlertPassengers, RedAlert } from "./alert";
+import { RedAlert } from "./alert";
 import { isError } from "./ErrorMessage";
 import { isValid, isValidEmail, updateLocalStorage } from "@/utils/basics";
-import { ArrowLeftIcon } from "@heroicons/react/16/solid";
+import { ArrowLeftIcon, ExclamationCircleIcon } from "@heroicons/react/16/solid";
+import { Inter } from "next/font/google";
+
+const inter = Inter({ subsets: ["latin"] });
 
 let errorInitialState = {
   passengers: [] as any[],
@@ -55,7 +58,9 @@ export default function Passengers({
 
   const { passengerData, setPassengerData } = usePassengerData();
   const [errors, setErrors] = useState(errorInitialState);
-  const [isDisabled, setIsDisabled] = useState(!passengerData.agreements.termsCondition)
+  const [isDisabled, setIsDisabled] = useState(!passengerData.agreements.termsCondition);
+  const [render, setRender] = useState(false);
+
 
   const router = useRouter();
   const redirect = (path: string) => {
@@ -263,33 +268,6 @@ export default function Passengers({
   };
 
 
-  // const errorHandler = () => {
-
-  //   const passengersErrors = errors.passengers.map((oldError, i) => {
-  //     const passenger: Passenger = passengerData.passengers[i];
-  //     const newError: any = errorPassengerHandler(oldError, passenger);
-  //     return newError;
-  //   });
-  //   setErrors({
-  //     ...errors,
-  //     passengers: passengersErrors,
-  //   });
-
-  // };
-  // const errorHandler = async () => {
-  //   const passengersErrors = await Promise.all(
-  //     errors.passengers.map(async (oldError, i) => {
-  //       const passenger: Passenger = passengerData.passengers[i];
-  //       const newError: any = await errorPassengerHandler(oldError, passenger);
-  //       return newError;
-  //     })
-  //   );
-
-  //   setErrors({
-  //     ...errors,
-  //     passengers: passengersErrors,
-  //   });
-  // };
 
   const errorHandler = async () => {
     const passengersErrors = await Promise.all(
@@ -358,6 +336,7 @@ export default function Passengers({
       {errors.passengers.length > 0 &&
         passengerData.passengers.map((passenger, index: number) => {
           return (
+            index === 0 &&
             <div key={index}>
               <FormPassenger
                 errors={errors.passengers[index]}
@@ -389,8 +368,78 @@ export default function Passengers({
                 }}
                 index={index}
                 responsiblePassenger={passengerData.passengers[0]}
+                totalPassengers={passengerData.passengers.length}
               />
-              {errors.passengers.length > 1 && index === 0 ? <AlertPassengers /> : null}
+            </div>
+
+          );
+        })}
+
+
+      {
+        errors.passengers.length > 1 &&
+        <>
+          <div className={`${inter.className} font-normal gap-2 w-full text-[18px] shadow-sm rounded-lg border border-[#4658DF] text-[#10004f] px-4 py-4 my-2 mt-5`}>
+            <div className="flex flex-row gap-2">
+              <ExclamationCircleIcon className="size-12 text-[#4658DF] -mt-2" />
+              <div>
+                <h1 className="text-2xl font-semibold">¡Buena Noticia!</h1>
+                <p>
+                  Puedes responder los datos del resto de los pasajeros más tarde si todos partirán desde una misma zona, pero <strong>deberán estar completos 48 hs. antes del viaje.</strong>
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-row justify-end gap-2 mt-5">
+              <div
+                className="bg-inherit rounded px-3 py-1 shadow-none text-orange-500 hover:ring-orange-500 hover:ring-2 focus:bg-orange-500 focus:text-white duration-200 font-semibold cursor-pointer selection:bg-inherit"
+                onClick={() => {
+                  setRender(!render)
+                }}
+              >
+                {render ? 'En otro momento' : 'Completar Ahora'}
+              </div>
+            </div>
+          </div>
+        </>
+      }
+
+      {(errors.passengers.length > 0 && render) &&
+        passengerData.passengers.map((passenger, index: number) => {
+          return (
+            (index > 0) &&
+            <div key={index}>
+              <FormPassenger
+                errors={errors.passengers[index]}
+                setError={(newError: any) => {
+                  const passengers: any = errors.passengers.map((oldError, i) =>
+                    index === i ? newError : oldError,
+                  );
+                  setErrors({
+                    ...errors,
+                    passengers,
+                  });
+                }}
+                key={index}
+                passenger={passenger}
+                setPassenger={(argP: Passenger | Function) => {
+                  setPassengerData(passengerData => {
+                    let newP = (typeof argP === "function")
+                      ? argP(passengerData.passengers[index])
+                      : argP
+
+                    const passengers = passengerData.passengers.map((oldP, i) =>
+                      index === i ? newP : oldP,
+                    );
+                    return {
+                      ...passengerData,
+                      passengers,
+                    }
+                  });
+                }}
+                index={index}
+                responsiblePassenger={passengerData.passengers[0]}
+                totalPassengers={passengerData.passengers.length}
+              />
             </div>
 
           );
@@ -445,12 +494,12 @@ export default function Passengers({
       </div>
 
       <div className="flex my-10 items-center justify-end">
-      <div
-        className="flex text-orange-500 font-semibold items-center mr-5 cursor-pointer gap-2"
-        onClick={() => redirect("/booking")}
-      >
-        <ArrowLeftIcon className="size-5" /> <p className="text-xl mr-4">Volver</p>
-      </div>
+        <div
+          className="flex text-orange-500 font-semibold items-center mr-5 cursor-pointer gap-2"
+          onClick={() => redirect("/booking")}
+        >
+          <ArrowLeftIcon className="size-5" /> <p className="text-xl mr-4">Volver</p>
+        </div>
         <button
           type="button"
           className="bg-orange-500 text-white text-[18px] px-7 py-4 rounded-md
