@@ -59,7 +59,7 @@ export default function Passengers({
   const { passengerData, setPassengerData } = usePassengerData();
   const [errors, setErrors] = useState(errorInitialState);
   const [isDisabled, setIsDisabled] = useState(!passengerData.agreements.termsCondition);
-  const [render, setRender] = useState(false);
+  const [render, setRender] = useState(true);
 
 
   const router = useRouter();
@@ -396,7 +396,7 @@ export default function Passengers({
                   setRender(!render)
                 }}
               >
-                {render ? 'En otro momento' : 'Completar Ahora'}
+                {render ? 'Completar en otro momento' : 'Completar Ahora'}
               </div>
             </div>
           </div>
