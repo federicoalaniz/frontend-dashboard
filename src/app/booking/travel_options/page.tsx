@@ -8,6 +8,7 @@ import Spinner from "@/components/Spinner";
 import { RenderAdults, RenderBigBags, RenderLittleBags, RenderSpecialLuggage } from "@/components/RenderPaxLuggage";
 import { formatAddress } from "@/utils/basics";
 import { RedAlert } from "@/components/alert";
+import { ArrowLeftIcon } from "@heroicons/react/16/solid";
 
 let options = [
   {
@@ -213,7 +214,7 @@ export default function TravelOptions() {
       setFulltime(form0.fullTime);
       setInitDate(new Date((form0.departure.date + "T" + form0.departure.time + ":00")));
       setEndDate(new Date((form0.return.date + "T" + form0.return.time + ":00")));
-      
+
     }
 
     const fetchDistance = async () => {
@@ -250,7 +251,7 @@ export default function TravelOptions() {
           option.cant_bag += asientosSobrantes;  // Sumar los asientos sobrantes a las bolsas grandes
           option.cant_littleBag += asientosSobrantes * 2;  // Sumar los asientos sobrantes multiplicados por 2 a las bolsas pequeñas
           asientosSobrantes % 2 === 0 ? option.cant_special += asientosSobrantes / 2 : null // Cada equipaje especial requiere de 2 asientos libres
-          
+
         }
       });
 
@@ -314,18 +315,25 @@ export default function TravelOptions() {
           />
           <div className="flex flex-row justify-center h-full bg-gray-200 pb-10 pt-20">
             <div className="flex flex-col items-start">
-              <h1 className="text-[36px] text-black">
-                <strong>Selecciona tipo</strong> y <strong>cantidad</strong>
-              </h1>
-              { (totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0 && specialLuggageNeeded <= 0) 
-                  ? null
-                  : (totalSeatsNeeded === initialSeatsNeeded  && bigBagsNeeded === initialBigBagsNeeded && littleBagsNeeded === initialLittleBagsNeeded && specialLuggageNeeded === initialSpecialLugagggeNeeded)
+              <div
+                className="flex text-orange-500 font-semibold items-center mr-5 cursor-pointer gap-2"
+                onClick={() => redirect("/booking/passengers")}
+              >
+                <ArrowLeftIcon className="size-5" /> <p className="text-xl mr-4">Volver</p>
+                <h1 className="text-[36px] text-black font-normal">
+                  <strong>Selecciona tipo</strong> y <strong>cantidad</strong>
+                </h1>
+              </div>
+
+              {(totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0 && specialLuggageNeeded <= 0)
+                ? null
+                : (totalSeatsNeeded === initialSeatsNeeded && bigBagsNeeded === initialBigBagsNeeded && littleBagsNeeded === initialLittleBagsNeeded && specialLuggageNeeded === initialSpecialLugagggeNeeded)
                   ? null
                   :
                   <RedAlert className="mt-5">
                     Los vehículos seleccionados no son suficientes para la cantidad de pasajeros y equipaje <br />ingresado. <strong>Ajuste el tipo o cantidad de vehículos por favor.</strong>
                   </RedAlert>
-                  
+
               }
               {options.map((option, index) => {
                 return (
@@ -354,11 +362,11 @@ export default function TravelOptions() {
             <div className="ml-10 w-[345px]">
               <h1 className="text-[36px] text-black">Resumen</h1>
               <div className={`flex flex-col bg-white text-gray-500 font-medium justify-end rounded-t-md mt-5 px-5 pb-5 shadow-lg text-xs 
-              ${(totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0) 
-                ? 'bg-green-200 border-green-500 border' 
-                : (totalSeatsNeeded === initialSeatsNeeded  && bigBagsNeeded === initialBigBagsNeeded && littleBagsNeeded === initialLittleBagsNeeded && specialLuggageNeeded === initialSpecialLugagggeNeeded) 
-                ? ''
-                : 'bg-yellow-100 border-orange-400 border'}`}>
+              ${(totalSeatsNeeded <= 0 && bigBagsNeeded <= 0 && littleBagsNeeded <= 0)
+                  ? 'bg-green-200 border-green-500 border'
+                  : (totalSeatsNeeded === initialSeatsNeeded && bigBagsNeeded === initialBigBagsNeeded && littleBagsNeeded === initialLittleBagsNeeded && specialLuggageNeeded === initialSpecialLugagggeNeeded)
+                    ? ''
+                    : 'bg-yellow-100 border-orange-400 border'}`}>
                 <div>
                   <div className="flex gap-2 border-b-[1px] border-gray-300 mt-4 text-[#10004f]">
                     <h1 className="flex font-bold">Pasajeros</h1>
@@ -430,8 +438,8 @@ export default function TravelOptions() {
                   </div>
                   <div className="mt-5 font-semibold text-gray-600">
                     <div>
-                      { 
-                        result.form0.luggage.bag23 > 0 
+                      {
+                        result.form0.luggage.bag23 > 0
                         && <RenderBigBags total={result.form0.luggage.bag23} asignado={result.form0.luggage.bag23 - bigBagsNeeded} />
                       }
                       {

@@ -7,13 +7,14 @@ import FormPassengersData from "@/components/FormPassengersData";
 
 export default function Passengers() {
   const [passengers, setPassengers] = useState<number>(0);
-    
+
+
   useEffect(() => {
     const form0Data = JSON.parse(localStorage.getItem("form0") || "");
     if (form0Data) {
       const ps = form0Data.passengers.adult + form0Data.passengers.kid + form0Data.passengers.baby;
       setPassengers(ps);
-    } 
+    }
   }, []);
 
 
@@ -32,9 +33,6 @@ export default function Passengers() {
               className="bg-white rounded-md shadow-lg flex flex-col items-center 
               -mt-20 mb-10 border border-solid w-3/4"
             >
-              <h3 className="font-bold text-[#10004F] text-[32px] my-6 w-10/12">
-                Datos de los pasajeros
-              </h3>
               <PassengerDataProvider>
                 <FormPassengersData passengers={passengers} />
               </PassengerDataProvider>

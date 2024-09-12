@@ -12,26 +12,9 @@ export default function Alert() {
             <p>
                 <span className="font-semibold">Importante: Un adulto</span> quién será
                 responsable administrativo del viaje y, con quién nos comunicaremos para
-                actualizar sobre el estado del mismo, sea o no pasajero del servicio.
+                actualizar sobre el estado del mismo.
             </p>
         </div>
-    );
-}
-// Buena Noticia!Puedes responder los datos del resto de los pasajeros más tarde, si todos partirán desde una misma zona,por ejemplo C.A.B.A., pero deberán estar completos 48hs. antes de la hora de partida del viaje.
-
-export function AlertPassengers() {
-    return (
-        <>
-            <div
-                className={`${inter.className} flex flex-row font-normal gap-2 w-full text-[18px] shadow-sm rounded-lg border border-[#4658DF] bg-[#D9DDF8] text-[#10004f] px-4 py-4 my-2  `}
-            >
-                <ExclamationCircleIcon className="size-12 text-[#4658DF] -mt-2" />
-                <div>
-                    <h1 className="text-2xl font-semibold">Buena Noticia!</h1>
-                    <p>Puedes responder los datos del resto de los pasajeros más tarde, si todos partirán desde una misma zona, por ejemplo C.A.B.A., pero <strong>deberán estar completos 48 hs. previos al momento del viaje.</strong></p>
-                </div>
-            </div>
-        </>
     );
 }
 

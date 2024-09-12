@@ -7,7 +7,7 @@ import Image from "next/image";
 import adultIcon from "@/ui/icons/adult.svg"
 import { TravelCard, PassengerCard } from "@/components/budget-services/Cards";
 import { formatDateDDMMYYY, idTypeDetail, transferTypeDescription } from "@/utils/basics";
-import { MapIcon, QrCodeIcon } from "@heroicons/react/24/outline";
+import { EnvelopeIcon, MapIcon, QrCodeIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from "react";
@@ -18,6 +18,8 @@ const APIBASE = process.env.NEXT_PUBLIC_APIBASE;
 function DetailsContent() {
     const searchParams = useSearchParams();
     const id = searchParams.get('id');
+
+    let incomplete: boolean = false;
 
     const router = useRouter();
     const redirect = (path: string) => {
@@ -49,6 +51,17 @@ function DetailsContent() {
     const passengersData = data?.form1?.passengers;
     const totalCost = data.form2.totalCost;
     const partiallyPaid = data?.form3.amount;
+
+    passengersData.map( (passenger: any)=> {
+        if (
+            passenger.firstName === "" || 
+            passenger.lastName === "" || 
+            passenger.gender === "" || 
+            passenger.identification.type === "" ||
+            passenger.identification.number === ""
+        ) 
+            incomplete = true;
+    })
     return (
         <>
             <PortalNavBar />
@@ -58,7 +71,7 @@ function DetailsContent() {
                 </div>
                 <div className="flex flex-row mt-10 items-center justify-between">
                     <div className="flex">
-                        <div 
+                        <div
                             className="flex text-orange-500 font-semibold items-center mr-5 cursor-pointer"
                             onClick={() => redirect("/budget-services")}
                         >
@@ -135,7 +148,20 @@ function DetailsContent() {
                     </div>
                 </div>
                 <div className="bg-white mt-5 mb-10 rounded-md p-4 shadow-lg">
-                    <h1 className="text-3xl font-semibold text-[#10004F]">Info pasajeros</h1>
+                    <div className="flex items-center gap-4">
+                        <h1 className="flex text-3xl font-semibold text-[#10004F]">Info pasajeros</h1>
+                        {
+                            incomplete &&
+                            <div className="flex items-center">
+                                <p className="flex bg-red-500 text-white rounded-md px-3 py-1 font-semibold cursor-default">No cargada o incompleta</p>
+                                <div className="flex gap-2 text-orange-500 font-semibold mx-3 cursor-pointer hover:opacity-80 duration-200">
+                                    <EnvelopeIcon className="size-6" />
+                                    <p className="underline">Solicitar via email</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+
                     <div className="flex flex-row mt-10 mb-4 justify-between items-center opacity-30">
                         <div className="flex text-orange-500 font-semibold underline gap-3 ">
                             <Link href={"#"} className="cursor-default">Enviar lista a CNRT</Link>
@@ -150,6 +176,7 @@ function DetailsContent() {
                         </div>
                     </div>
                     {passengersData.map((passenger: any, index: number) => {
+                        
                         return (
                             <PassengerCard
                                 passenger={passengersData[index]}
