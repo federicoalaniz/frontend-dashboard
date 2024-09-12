@@ -328,7 +328,7 @@ export default function Passengers({
         className="flex text-orange-500 font-semibold items-center mr-5 cursor-pointer gap-2"
         onClick={() => redirect("/booking")}
       >
-        <ArrowLeftIcon className="size-5" /> <p className="text-xl mr-4">Volver</p>
+        <ArrowLeftIcon className="size-5" /> <p className="mr-4">Volver</p>
         <h3 className="font-bold text-[#10004F] text-[32px] my-6 w-10/12">
           Datos de los pasajeros
         </h3>
@@ -498,7 +498,7 @@ export default function Passengers({
           className="flex text-orange-500 font-semibold items-center mr-5 cursor-pointer gap-2"
           onClick={() => redirect("/booking")}
         >
-          <ArrowLeftIcon className="size-5" /> <p className="text-xl mr-4">Volver</p>
+          <ArrowLeftIcon className="size-5" /> <p className="mr-4">Volver</p>
         </div>
         <button
           type="button"

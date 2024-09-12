@@ -81,7 +81,11 @@ interface Vehicle {
   cant_littleBag: number
   cant_special: number
   quantity: number
-  price: number
+  price_less_15: number,
+  price_15_to_50: number,
+  price_50_to_100: number,
+  price_100_to_600: number,
+  price_more_600: number,
   nominal_data: any
 }
 
@@ -124,7 +128,11 @@ export default function CardOption(props: {
     cant_handBag,
     cant_bag,
     cant_littleBag,
-    price,
+    price_less_15,
+    price_15_to_50,
+    price_50_to_100,
+    price_100_to_600,
+    price_more_600,
   } = vehicle
   return (
     <>

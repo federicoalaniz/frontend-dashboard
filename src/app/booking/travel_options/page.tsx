@@ -9,6 +9,7 @@ import { RenderAdults, RenderBigBags, RenderLittleBags, RenderSpecialLuggage } f
 import { formatAddress } from "@/utils/basics";
 import { RedAlert } from "@/components/alert";
 import { ArrowLeftIcon } from "@heroicons/react/16/solid";
+import { BackButton } from "@/components/button";
 
 let options = [
   {
@@ -20,20 +21,19 @@ let options = [
     name: "Fiat Cronos",
     seats: 3,
     car_img: "cronos" as IconType,
-    price: Number(process.env.NEXT_PUBLIC_PRICE_CRONOS4),
+    price_less_15: 6000,
+    price_15_to_50: 500,
+    price_50_to_100: 400,
+    price_100_to_600: 350,
+    price_more_600: 350,
     driverFee: 10,
     quantity: 0,
     nominal_data: {
-      id: "cronos4",
       cant_handBag: 4,
       cant_bag: 2,
       cant_littleBag: 3,
       name: "Fiat Cronos",
       seats: 3,
-      car_img: "cronos" as IconType,
-      price: 300,
-      driverFee: 10,
-      quantity: 0,
     }
   },
   {
@@ -45,20 +45,19 @@ let options = [
     name: "Volkswagen Sharan",
     seats: 6,
     car_img: "sharan" as IconType,
-    price: Number(process.env.NEXT_PUBLIC_PRICE_SHARAN7),
+    price_less_15: 14000,
+    price_15_to_50: 600,
+    price_50_to_100: 500,
+    price_100_to_600: 450,
+    price_more_600: 450,
     driverFee: 12,
     quantity: 0,
     nominal_data: {
-      id: "sharan7",
       cant_handBag: 7,
       cant_bag: 3,
       cant_littleBag: 6,
       name: "Volkswagen Sharan",
       seats: 6,
-      car_img: "sharan" as IconType,
-      price: 400,
-      driverFee: 12,
-      quantity: 0,
     }
   },
   {
@@ -70,20 +69,19 @@ let options = [
     name: "Mercedes Benz Sprinter",
     seats: 19,
     car_img: "sprinter" as IconType,
-    price: Number(process.env.NEXT_PUBLIC_PRICE_SPRINTER19),
+    price_less_15: 60000,
+    price_15_to_50: 2200,
+    price_50_to_100: 1300,
+    price_100_to_600: 1200,
+    price_more_600: 1200,
     driverFee: 20,
     quantity: 0,
     nominal_data: {
-      id: "sprinter19",
       cant_handBag: 19,
       cant_bag: 15,
       cant_littleBag: 15,
       name: "Mercedes Benz Sprinter",
       seats: 19,
-      car_img: "sprinter" as IconType,
-      price: 650,
-      driverFee: 20,
-      quantity: 0,
     }
   },
   {
@@ -95,20 +93,19 @@ let options = [
     name: "Iveco",
     seats: 24,
     car_img: "iveco24" as IconType,
-    price: Number(process.env.NEXT_PUBLIC_PRICE_IVECO24),
+    price_less_15: 80000,
+    price_15_to_50: 3000,
+    price_50_to_100: 2000,
+    price_100_to_600: 1800,
+    price_more_600: 1800,
     driverFee: 22,
     quantity: 0,
     nominal_data: {
-      id: "iveco24",
       cant_handBag: 24,
       cant_bag: 15,
       cant_littleBag: 24,
       name: "Iveco",
       seats: 24,
-      car_img: "iveco24" as IconType,
-      price: 900,
-      driverFee: 22,
-      quantity: 0,
     }
   },
   {
@@ -120,20 +117,19 @@ let options = [
     name: "Bus 45",
     seats: 45,
     car_img: "bus45" as IconType,
-    price: Number(process.env.NEXT_PUBLIC_PRICE_BUS45),
+    price_less_15: 180000,
+    price_15_to_50: 5000,
+    price_50_to_100: 3200,
+    price_100_to_600: 2900,
+    price_more_600: 2900,
     driverFee: 30,
     quantity: 0,
     nominal_data: {
-      id: "bus45",
       cant_handBag: 45,
       cant_bag: 45,
       cant_littleBag: 90,
       name: "Bus 45",
       seats: 45,
-      car_img: "bus45" as IconType,
-      price: 1600,
-      driverFee: 30,
-      quantity: 0,
     }
   },
   {
@@ -145,20 +141,19 @@ let options = [
     name: "Bus 60",
     seats: 60,
     car_img: "bus60" as IconType,
-    price: Number(process.env.NEXT_PUBLIC_PRICE_BUS60),
+    price_less_15: 240000,
+    price_15_to_50: 6000,
+    price_50_to_100: 4000,
+    price_100_to_600: 3600,
+    price_more_600: 3600,
     driverFee: 35,
     quantity: 0,
     nominal_data: {
-      id: "bus60",
       cant_handBag: 60,
       cant_bag: 60,
       cant_littleBag: 120,
       name: "Bus 60",
       seats: 60,
-      car_img: "bus60" as IconType,
-      price: 1600,
-      driverFee: 35,
-      quantity: 0,
     }
   },
 ];
@@ -275,7 +270,26 @@ export default function TravelOptions() {
   const distanciaTotal = distanciaIda + distanciaVuelta;
 
   const vehiclesCost = vehicles.map(
-    ({ price, quantity }) => price * distanciaTotal * quantity,
+    ({ price_less_15, price_15_to_50, price_50_to_100, price_100_to_600, price_more_600, quantity }) => {
+      if (distanciaTotal < 15 ){
+        // console.log({price_less_15})
+        return price_less_15 * distanciaTotal * quantity
+      }
+      if (distanciaTotal >= 15 && distanciaTotal < 50){
+        // console.log({price_15_to_50})
+        return price_15_to_50 * distanciaTotal * quantity
+      }
+      if (distanciaTotal >= 50 && distanciaTotal < 100){
+        // console.log({price_50_to_100})
+        return price_50_to_100 * distanciaTotal * quantity
+      }
+      if (distanciaTotal >= 100 && distanciaTotal < 600){
+        // console.log({price_100_to_600})
+        return price_100_to_600 * distanciaTotal * quantity
+      }
+      // console.log({price_more_600})
+      return price_more_600 * distanciaTotal * quantity
+    }
   );
 
 
@@ -319,7 +333,7 @@ export default function TravelOptions() {
                 className="flex text-orange-500 font-semibold items-center mr-5 cursor-pointer gap-2"
                 onClick={() => redirect("/booking/passengers")}
               >
-                <ArrowLeftIcon className="size-5" /> <p className="text-xl mr-4">Volver</p>
+                <ArrowLeftIcon className="size-5" /> <p className="mr-4">Volver</p>
                 <h1 className="text-[36px] text-black font-normal">
                   <strong>Selecciona tipo</strong> y <strong>cantidad</strong>
                 </h1>
