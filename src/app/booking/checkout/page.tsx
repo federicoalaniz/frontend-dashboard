@@ -10,6 +10,7 @@ import axios from "axios";
 import Spinner from "@/components/Spinner";
 
 const MP_SERVER = process.env.NEXT_PUBLIC_MP_SERVER;
+const COEFICIENTE_PRUEBA: number = Number(process.env.NEXT_PUBLIC_TEST_COEF);
 
 const ruda = Ruda({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default function PartialPay() {
   const [result, setResult] = useState<any>();
   const [preferenceId, setPreferenceId] = useState(null);
 
+  console.log(COEFICIENTE_PRUEBA)
   useEffect(() => {
     const form0 = JSON.parse(localStorage.getItem("form0") || "");
     const form2 = JSON.parse(localStorage.getItem("form2") || "");
@@ -37,8 +39,9 @@ export default function PartialPay() {
       setCheckout({
         ...checkout,
         totalCost: form2.totalCost,
-        amount: form2.totalCost * (parseInt(checkout.percentage) / 100),
+        amount: (form2.totalCost * (parseInt(checkout.percentage) / 100))/COEFICIENTE_PRUEBA
       });
+      console.log('amount',( form2.totalCost * (parseInt(checkout.percentage) / 100))/COEFICIENTE_PRUEBA)
     }
   }, []);
 
