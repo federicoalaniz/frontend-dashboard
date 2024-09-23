@@ -184,7 +184,7 @@ export default function PartialPay() {
                       Monto a pagar como reserva
                     </p>
                     <p className="font-bold text-[26px] text-right my-6 text-gray-500">
-                      {checkout.amount.toLocaleString("es-AR", {
+                      { (COEFICIENTE_PRUEBA * checkout.amount).toLocaleString("es-AR", {
                         style: "currency",
                         currency: "ARS",
                       })}
