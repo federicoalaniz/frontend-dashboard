@@ -15,7 +15,9 @@ interface DepartureOrReturn {
   other: string;
   date: string;
   time: string;
-  googlePlace?: GooglePlace; 
+  googlePlace?: GooglePlace;
+  onePoint: boolean;
+  stops: number | string; 
 }
 
 interface Pets {

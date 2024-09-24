@@ -217,7 +217,6 @@ export default function Passengers({
         },
       };
     }
-    console.log('el email is valido', isValidEmail(passenger.contact.email))
     if (!isValidEmail(passenger.contact.email)) {
       temporalError = {
         ...temporalError,

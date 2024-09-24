@@ -37,11 +37,13 @@ export default function AVForm() {
       address: "",
       date: "",
       time: "",
+      stops: "",
     },
     return: {
       address: "",
       date: "",
       time: "",
+      stops: "",
     },
     passengers: {
       adult: "",
@@ -75,11 +77,15 @@ export default function AVForm() {
     if (resObj?.departure?.address === "")
       newErrors.departure.address = "Selecciona un origen";
 
+    if (!resObj?.departure?.onePoint && resObj?.departure?.stops < 2)
+      newErrors.departure.stops = "No puede haber menos de 2 puntos";
+
     if (resObj?.departure?.time === "")
       newErrors.departure.time = "Selecciona una hora de salida";
 
     if (resObj?.departure?.time && new Date(resObj?.departure?.date + 'T' + resObj?.departure?.time).getTime() < Date.now())
       newErrors.departure.date = "La fecha de salida no puede ser anterior a la fecha actual";
+
     if (!resObj?.departure?.time && new Date(resObj?.departure?.date + 'T00:00:00').getTime() < Date.now())
       newErrors.departure.date = "La fecha de salida no puede ser anterior a la fecha actual";
 
@@ -340,7 +346,7 @@ export default function AVForm() {
               label=""
               placeholder="Entre calle..."
               value={trip.departure.streetBetween1}
-              onChange={(e: any)=> {
+              onChange={(e: any) => {
                 setTrip({
                   ...trip,
                   departure: {
@@ -356,7 +362,7 @@ export default function AVForm() {
               label=""
               placeholder="Y calle..."
               value={trip.departure.streetBetween2}
-              onChange={(e: any)=> {
+              onChange={(e: any) => {
                 setTrip({
                   ...trip,
                   departure: {
@@ -424,6 +430,69 @@ export default function AVForm() {
             />
           </div>
         </div>
+        <div className="flex flex-row my-5 -ml-3 gap-5 items-center">
+          <RadioButtonComponent
+            name="stops"
+            label="Partimos todos desde un lugar"
+            checked={trip.departure.onePoint}
+            value="true"
+            onChange={() => {
+              setTrip({
+                ...trip,
+                departure: {
+                  ...trip.departure,
+                  onePoint: true,
+                  stops: 1,
+                }
+              })
+            }}
+          />
+          <RadioButtonComponent
+            name="stops"
+            label="Recogeremos en más de un punto"
+            value="false"
+            checked={!trip.departure.onePoint}
+            onChange={() => {
+              setTrip({
+                ...trip,
+                departure: {
+                  ...trip.departure,
+                  onePoint: false,
+                  stops: 2,
+                }
+              })
+            }}
+          />
+          {
+            // !trip.departure.onePoint &&
+            <LabelInput
+              // type="number"
+              label="Puntos"
+              placeholder="Puntos"
+              value={trip.departure.stops}
+              errorField={errors.departure.stops}
+              disabled={trip.departure.onePoint}
+              onChange={(e: any) => {
+                const value = e.target.value;
+                const numericValue = value.replace(/\D/g, '');
+                setErrors({
+                  ...errors,
+                  departure: {
+                    ...errors.departure,
+                    stops: "",
+                  }
+                })
+                setTrip({
+                  ...trip,
+                  departure: {
+                    ...trip.departure,
+                    stops: numericValue,
+                  }
+                })
+              }}
+            />
+          }
+        </div>
         {roundTrip ? <Separator title="Destino y Regreso" /> : <Separator title="Destino" />}
         <div className="flex flex-row gap-2">
           <div className="w-1/2">
@@ -450,7 +519,7 @@ export default function AVForm() {
               label=""
               placeholder="Entre calle..."
               value={trip.return.streetBetween1}
-              onChange={(e: any)=> {
+              onChange={(e: any) => {
                 setTrip({
                   ...trip,
                   return: {
@@ -466,7 +535,7 @@ export default function AVForm() {
               label=""
               placeholder="Y calle..."
               value={trip.return.streetBetween2}
-              onChange={(e: any)=> {
+              onChange={(e: any) => {
                 setTrip({
                   ...trip,
                   return: {
