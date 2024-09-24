@@ -26,7 +26,7 @@ const LabelInput: React.FC<Props> = (props) => {
             className={`absolute left-0 top-3 text-opacity-80 bg-white mx-3 px-2
             peer-focus:text-gray-500 duration-200 text-[16px]
             peer-focus:text-xs peer-focus:-translate-y-5 
-            peer-valid:text-xs peer-valid:-translate-y-5 peer-disabled:-translate-y-5 peer-disabled:bg-inherit peer-disabled:text-xs peer-disabled:opacity-60 ${
+            peer-valid:text-xs peer-valid:-translate-y-5 peer-disabled:-translate-y-5 peer-disabled:bg-inherit peer-disabled:text-xs peer-disabled:opacity-60 peer-disabled:bg-white ${
               isError(errorField) ? "text-red-500" : ""
             }`}
           >

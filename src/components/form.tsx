@@ -69,6 +69,7 @@ export default function AVForm() {
   function errorChecker(resObj: any) {
     const INCOMPLETE_FORM = "Hay datos incompletos en el formulario";
     const NO_ADULTS = "Debe haber al menos 1 pasajero adulto";
+    const passengersQuantity = resObj?.passengers?.adult + resObj?.passengers?.kid + resObj?.passengers?.baby;
     const newErrors = { ...errors };
 
     if (resObj?.tripType?.transferType === "")
@@ -79,6 +80,9 @@ export default function AVForm() {
 
     if (!resObj?.departure?.onePoint && resObj?.departure?.stops < 2)
       newErrors.departure.stops = "No puede haber menos de 2 puntos";
+    
+    if (!resObj?.departure?.onePoint && resObj?.departure?.stops > passengersQuantity)
+      newErrors.departure.stops = "Hay más puntos que pasajeros";
 
     if (resObj?.departure?.time === "")
       newErrors.departure.time = "Selecciona una hora de salida";
