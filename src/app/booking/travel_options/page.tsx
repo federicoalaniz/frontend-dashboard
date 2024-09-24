@@ -314,7 +314,7 @@ export default function TravelOptions() {
 
   const totalCost = vehiclesCost.concat(driversCost).reduce((a, b) => a + b);
 
-  const vehicleTravelDuration = travelTime;
+  const vehicleTravelDuration = travelTime + (result.form0.departure.stops -1) * 60 * 10; // cada parada adicional agrega una demora de 10 minutos - (60 seg * 10 minutos)
 
   return (
     <>

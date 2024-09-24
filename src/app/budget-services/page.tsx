@@ -30,7 +30,7 @@ const ruda = Ruda({ subsets: ["latin"] });
 
 const APIBASE = process.env.NEXT_PUBLIC_APIBASE;
 
-let totalPages:number;
+let totalPages: number;
 
 function Budget() {
   const router = useRouter();
@@ -49,7 +49,7 @@ function Budget() {
         },
       });
       const json = await result.json();
-      totalPages=json.pagination.total
+      totalPages = json.pagination.total
       console.log(totalPages)
       setData(json.data.filter((x: any) => x.form0));
     };
@@ -212,13 +212,17 @@ function Budget() {
                       {
                         !sale?.form0.tripType.roundTrip
                           ?
-                          <td rowSpan={2} className="border-b-gray-400">
+                          <td rowSpan={2} className="border-b-gray-400 relative">
                             <span className="underline">
                               {`
                           ${formatAddress(sale?.form0.departure.address)} -
                           ${formatAddress(sale?.form0.return.address)}
                         `}
                             </span>
+                            {
+                              (sale?.form0.departure.onePoint !== undefined && !sale?.form0.departure.onePoint) &&
+                              <span className="bg-yellow-300 p-1 rounded absolute right-3 bottom-4">{`${sale?.form0.departure.stops} par`}</span>
+                            }
                           </td>
                           :
                           <td>
@@ -228,6 +232,10 @@ function Budget() {
                           ${formatAddress(sale?.form0.return.address)}
                         `}
                             </span>
+                            {
+                              (sale?.form0.departure.onePoint !== undefined && !sale?.form0.departure.onePoint) &&
+                              <span className="bg-yellow-300 p-1 rounded absolute right-3 bottom-4">{`${sale?.form0.departure.stops} par`}</span>
+                            }
                           </td>
                       }
                       <td rowSpan={2} className="border-b-gray-400">
@@ -303,7 +311,7 @@ function range(n: number): number[] {
 
 const PaginationButtons = ({ total, setData, data, actualPage, setActualPage }: { total: number, setData: Function, data: any, actualPage: number, setActualPage: Function }) => {
   const fetchData = async (page: number) => {
-    const result = await fetch(`${APIBASE}/api/products/?page=${page+1}`, {
+    const result = await fetch(`${APIBASE}/api/products/?page=${page + 1}`, {
       headers: {
         "Content-type": "application/json",
         Authorization: "Bearer zxcvbnm",
@@ -314,7 +322,7 @@ const PaginationButtons = ({ total, setData, data, actualPage, setActualPage }: 
     setActualPage(page)
   };
 
-  
+
 
   if (!data) {
     return <Spinner />;
@@ -322,30 +330,30 @@ const PaginationButtons = ({ total, setData, data, actualPage, setActualPage }: 
 
   return (
     <>
-      <button 
+      <button
         className={`bg-inherit text-gray-500 mx-5 shadow-none disabled:opacity-30 disabled:bg-inherit disabled:shadow-none disabled:cursor-default px-3 font-semibold`}
         disabled={actualPage === 0}
-        onClick={() => fetchData(actualPage-1)}
+        onClick={() => fetchData(actualPage - 1)}
       >
-        <ArrowLeftIcon className="size-5 mr-2"/> Anterior
+        <ArrowLeftIcon className="size-5 mr-2" /> Anterior
       </button>
       {range(total).map((page, index) => (
         <div key={index}>
-          
+
           <button
             className={`px-2 bg-inherit text-gray-500 shadow-none size-12 hover:ring-2  hover:ring-orange-500 active:bg-orange-500 active:text-white selection:bg-orange-500 selection:text-white ${actualPage === page ? 'bg-orange-500 text-white shadow-md' : null}`}
-            onClick={() => fetchData(page)} 
+            onClick={() => fetchData(page)}
           >
             {page + 1}
           </button>
         </div>
       ))}
-      <button 
+      <button
         className="bg-inherit text-gray-500 mx-5 shadow-none disabled:opacity-30 disabled:bg-inherit disabled:shadow-none disabled:cursor-default px-3 font-semibold"
-        disabled={actualPage===(totalPages-1)}
-        onClick={() => fetchData(actualPage+1)}
-      > 
-        Siguiente <ArrowRightIcon className="size-5 ml-2"/>
+        disabled={actualPage === (totalPages - 1)}
+        onClick={() => fetchData(actualPage + 1)}
+      >
+        Siguiente <ArrowRightIcon className="size-5 ml-2" />
       </button>
     </>
   );
