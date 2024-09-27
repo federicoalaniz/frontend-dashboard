@@ -155,7 +155,7 @@ export default function PartialPay() {
                       ¿Qué porcentaje del viaje abonarás ahora para señar el
                       viaje?
                     </p>
-                    <div className="relative font-semibold">
+                    <div className="relative font-semibold mt-5">
                       <Select
                         label="Porcentaje de pago"
                         name="percentage_pay"

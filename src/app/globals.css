@@ -21,7 +21,7 @@
     @apply block w-full rounded-md shadow-sm border border-gray-300 font-normal
     text-[16px] hover:shadow-md focus:shadow-md focus:border-orange-400
     disabled:bg-gray-200 focus:ring-1 focus:ring-orange-500
-    px-4 py-3 mt-5 mb-1 duration-200 outline-none
+    px-4 py-3 duration-200 outline-none
     bg-inherit
   }
   textarea {

@@ -64,7 +64,7 @@ function DetailsContent() {
     })
     return (
         <>
-            <PortalNavBar />
+            <PortalNavBar src="/budget-services/details"/>
             <div className="px-10 py-3 bg-gray-100">
                 <div className="flex flex-row">
                     <p className="font-semibold"><span className="text-orange-500 underline">Viajes exclusivos</span> {" > "} {`VE${data._id.substring(0, 6)}`}</p>
