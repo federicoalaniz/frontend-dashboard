@@ -65,7 +65,7 @@ function Budget() {
 
   return (
     <>
-      <PortalNavBar />
+      <PortalNavBar src="/budget-services" />
       <div className="w-full px-10">
         <div className="flex flex-row items-center justify-between my-10">
           <h1 className="font-bold text-[36px]">Presupuestos y servicios</h1>

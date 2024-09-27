@@ -50,32 +50,34 @@ export default function LoginComp() {
       </h2>
       <form action="#">
         {errors.global !== "" ? <RedAlert>{errors.global}</RedAlert> : null}
-        <LabelInput
-          label=""
-          placeholder="Usuario"
-          type="text"
-          errorField={errors.username}
-          value={credentials.username}
-          onChange={(e) => {
-            setCredentials({
-              ...credentials,
-              username: e.currentTarget.value,
-            });
-          }}
-        />
-        <LabelInput
-          label=""
-          placeholder="Contraseña"
-          type="password"
-          errorField={errors.password}
-          value={credentials.password}
-          onChange={(e) => {
-            setCredentials({
-              ...credentials,
-              password: e.currentTarget.value,
-            });
-          }}
-        />
+        <div className="grid grid-rows-2 gap-5">
+          <LabelInput
+            label=""
+            placeholder="Usuario"
+            type="text"
+            errorField={errors.username}
+            value={credentials.username}
+            onChange={(e) => {
+              setCredentials({
+                ...credentials,
+                username: e.currentTarget.value,
+              });
+            }}
+          />
+          <LabelInput
+            label=""
+            placeholder="Contraseña"
+            type="password"
+            errorField={errors.password}
+            value={credentials.password}
+            onChange={(e) => {
+              setCredentials({
+                ...credentials,
+                password: e.currentTarget.value,
+              });
+            }}
+          />
+        </div>
         <div className="mb-6 flex flex-wrap justify-between items-center">
           <Link href="#" className="text-blue-500 hover:underline">
             Olvidé mi contraseña

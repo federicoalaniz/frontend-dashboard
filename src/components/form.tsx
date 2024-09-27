@@ -80,7 +80,7 @@ export default function AVForm() {
 
     if (!resObj?.departure?.onePoint && resObj?.departure?.stops < 2)
       newErrors.departure.stops = "No puede haber menos de 2 puntos";
-    
+
     if (!resObj?.departure?.onePoint && resObj?.departure?.stops > passengersQuantity)
       newErrors.departure.stops = "Hay más puntos que pasajeros";
 
@@ -219,41 +219,39 @@ export default function AVForm() {
           ))
           : null}
         <Separator title="Tipo de viaje" />
-        <div className="flex items-center">
-          <div className="w-1/2">
-            <Select
-              errorField={errors.tripType.transferType}
-              label="Tipo de traslado"
-              value={trip.tripType.transferType}
-              onChange={(e: any) => {
-                if (isError(errors.tripType.transferType)) {
-                  setErrors({
-                    ...errors,
-                    tripType: {
-                      ...errors.tripType,
-                      transferType: "",
-                    },
-                  });
-                }
-                setTrip({
-                  ...trip,
+        <div className="grid grid-cols-2 grid-rows-1 gap-2 mt-5">
+          <Select
+            errorField={errors.tripType.transferType}
+            label="Tipo de traslado"
+            value={trip.tripType.transferType}
+            onChange={(e: any) => {
+              if (isError(errors.tripType.transferType)) {
+                setErrors({
+                  ...errors,
                   tripType: {
-                    ...trip.tripType,
-                    transferType: e.currentTarget.value,
+                    ...errors.tripType,
+                    transferType: "",
                   },
                 });
-              }}
-            >
-              <option value="" defaultValue="" disabled>
-                Selecciona una opción
-              </option>
-              <option value="particular">Traslado Particular</option>
-              <option value="corporative">Traslado Corporativo</option>
-              <option value="nat_airport">Aeroportuario Nacional</option>
-              <option value="int_airport">Aeroportuario Internacional</option>
-            </Select>
-          </div>
-          <div className="flex">
+              }
+              setTrip({
+                ...trip,
+                tripType: {
+                  ...trip.tripType,
+                  transferType: e.currentTarget.value,
+                },
+              });
+            }}
+          >
+            <option value="" defaultValue="" disabled>
+              Selecciona una opción
+            </option>
+            <option value="particular">Traslado Particular</option>
+            <option value="corporative">Traslado Corporativo</option>
+            <option value="nat_airport">Aeroportuario Nacional</option>
+            <option value="int_airport">Aeroportuario Internacional</option>
+          </Select>
+          <div className="grid grid-cols-3">
             <RadioButtonComponent
               name="type"
               label="Ida y vuelta"
@@ -291,33 +289,31 @@ export default function AVForm() {
           <>
             <div>
               <Separator title="Disponibilidad de vehículos" />
-              <div className="py-6">
-                <div className="flex">
-                  <RadioButtonComponent
-                    name="disp"
-                    label="Solo durante los tramos de ida y/o vuelta"
-                    value="false"
-                    checked={!trip.fullTime}
-                    onChange={() => {
-                      setTrip({
-                        ...trip,
-                        fullTime: false,
-                      });
-                    }}
-                  />
-                  <RadioButtonComponent
-                    name="disp"
-                    label="Quiero disponer del vehículo el 100% del tiempo (incluso durante mi estadía)"
-                    value="true"
-                    checked={trip.fullTime}
-                    onChange={() => {
-                      setTrip({
-                        ...trip,
-                        fullTime: true,
-                      });
-                    }}
-                  />
-                </div>
+              <div className="grid grid-cols-2 gap-5 mt-5">
+                <RadioButtonComponent
+                  name="disp"
+                  label="Solo durante los tramos de ida y/o vuelta"
+                  value="false"
+                  checked={!trip.fullTime}
+                  onChange={() => {
+                    setTrip({
+                      ...trip,
+                      fullTime: false,
+                    });
+                  }}
+                />
+                <RadioButtonComponent
+                  name="disp"
+                  label="Quiero disponer del vehículo el 100% del tiempo (incluso durante mi estadía)"
+                  value="true"
+                  checked={trip.fullTime}
+                  onChange={() => {
+                    setTrip({
+                      ...trip,
+                      fullTime: true,
+                    });
+                  }}
+                />
               </div>
               {trip.fullTime && <FullTimeMessage />}
             </div>
@@ -325,27 +321,25 @@ export default function AVForm() {
         )}
 
         <Separator title="Salida" />
-        <div className="flex flex-row gap-2">
-          <div className="w-1/2">
-            <SearchAddresses
-              label="Dirección"
-              value={trip.departure.address}
-              errorField={errors.departure.address}
-              onPlaceSelected={handleDepartureAddressSelected}
-              onChange={(e: any) => {
-                if (isError(errors.departure.address)) {
-                  setErrors((errors: any) => ({
-                    ...errors,
-                    departure: {
-                      ...errors.departure,
-                      address: "",
-                    },
-                  }));
-                }
-              }}
-            />
-          </div>
-          <div className="w-1/4">
+        <div className="grid grid-cols-2 grid-rows-2 gap-x-2 gap-y-5 mt-5">
+          <SearchAddresses
+            label="Dirección"
+            value={trip.departure.address}
+            errorField={errors.departure.address}
+            onPlaceSelected={handleDepartureAddressSelected}
+            onChange={(e: any) => {
+              if (isError(errors.departure.address)) {
+                setErrors((errors: any) => ({
+                  ...errors,
+                  departure: {
+                    ...errors.departure,
+                    address: "",
+                  },
+                }));
+              }
+            }}
+          />
+          <div className="grid grid-cols-2 gap-x-2 gap-y-5">
             <LabelInput
               label=""
               placeholder="Entre calle..."
@@ -360,8 +354,6 @@ export default function AVForm() {
                 });
               }}
             />
-          </div>
-          <div className="w-1/4">
             <LabelInput
               label=""
               placeholder="Y calle..."
@@ -377,9 +369,8 @@ export default function AVForm() {
               }}
             />
           </div>
-        </div>
-        <div className="flex flex-row gap-2">
-          <div className="w-1/4">
+          <div className="grid grid-cols-2 gap-2">
+
             <LabelInput
               label=""
               type="date"
@@ -405,8 +396,6 @@ export default function AVForm() {
                 });
               }}
             />
-          </div>
-          <div className="w-1/4">
             <LabelInput
               type="time"
               label=""
@@ -434,7 +423,7 @@ export default function AVForm() {
             />
           </div>
         </div>
-        <div className="flex flex-row my-5 -ml-3 gap-5 items-center">
+        <div className="grid grid-cols-3 mt-5">
           <RadioButtonComponent
             name="stops"
             label="Partimos todos desde un lugar"
@@ -498,8 +487,7 @@ export default function AVForm() {
           }
         </div>
         {roundTrip ? <Separator title="Destino y Regreso" /> : <Separator title="Destino" />}
-        <div className="flex flex-row gap-2">
-          <div className="w-1/2">
+        <div className="grid grid-cols-2 grid-rows-2 gap-x-2 gap-y-5 mt-5">
             <SearchAddresses
               label="Dirección"
               value={trip.return.address}
@@ -517,8 +505,7 @@ export default function AVForm() {
                 }
               }}
             />
-          </div>
-          <div className="w-1/4">
+          <div className="grid grid-cols-2 gap-x-2">
             <LabelInput
               label=""
               placeholder="Entre calle..."
@@ -533,8 +520,6 @@ export default function AVForm() {
                 });
               }}
             />
-          </div>
-          <div className="w-1/4">
             <LabelInput
               label=""
               placeholder="Y calle..."
@@ -550,12 +535,9 @@ export default function AVForm() {
               }}
             />
           </div>
-        </div>
-        <div className="flex flex-row gap-2">
           {
             roundTrip &&
-            <>
-              <div className="w-1/4">
+            <div className="grid grid-cols-2 gap-x-2">
                 <LabelInput
                   type="date"
                   label=""
@@ -581,8 +563,6 @@ export default function AVForm() {
                     });
                   }}
                 />
-              </div>
-              <div className="w-1/4">
                 <LabelInput
                   type="time"
                   label=""
@@ -608,8 +588,7 @@ export default function AVForm() {
                     });
                   }}
                 />
-              </div>
-            </>
+            </div>
           }
         </div>
         <Separator title="Pasajeros" />
